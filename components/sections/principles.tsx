@@ -45,7 +45,7 @@ function heldLine(phase: number): Field {
   return (_, fy) => {
     const above = LINE_Y - fy
     if (above <= 0 && above > -0.035) return 1 // the line
-    if (above <= 0) return 0.22 // the calm side
+    if (above <= 0) return 0.36 // the calm side: a sparse, still texture that never moves
     if (above < 0.025) return 0 // a hairline of paper, so the line reads apart from the waves on it
     const pressure = 1 - Math.min(1, above * 1.3) // strongest against the line
     return 0.5 + 0.5 * Math.sin(Math.sqrt(above) * 38 - phase * 3) * (0.35 + 0.65 * pressure)
