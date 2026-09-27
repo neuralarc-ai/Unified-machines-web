@@ -144,7 +144,14 @@ export function Runner({ onScore }: GameProps) {
       kick.current()
     })
     io.observe(canvasRef.current!)
+    // a maximised or resized window: re-fit the pixels and draw a fresh frame
+    const ro = new ResizeObserver(() => {
+      setup()
+      kick.current()
+    })
+    ro.observe(canvasRef.current!)
     return () => {
+      ro.disconnect()
       cancelAnimationFrame(raf)
       io.disconnect()
     }
@@ -162,7 +169,7 @@ export function Runner({ onScore }: GameProps) {
   return (
     <GameCanvas
       canvasRef={canvasRef}
-      w={W}
+      ratio={W / H}
       label="Runner. Press space or tap to jump over the machines; hold for a higher jump to reach the hearts."
       status={status}
       onPress={() => act(press)}

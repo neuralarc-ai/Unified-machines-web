@@ -169,7 +169,14 @@ export function Snake({ onScore }: GameProps) {
       kick.current()
     })
     io.observe(canvasRef.current!)
+    // a maximised or resized window: re-fit the pixels and draw a fresh frame
+    const ro = new ResizeObserver(() => {
+      setup()
+      kick.current()
+    })
+    ro.observe(canvasRef.current!)
     return () => {
+      ro.disconnect()
       cancelAnimationFrame(raf)
       io.disconnect()
     }
@@ -187,7 +194,7 @@ export function Snake({ onScore }: GameProps) {
   return (
     <GameCanvas
       canvasRef={canvasRef}
-      w={W}
+      ratio={W / H}
       label="Snake. Use the arrow keys, WASD or swipe to steer toward the hearts."
       status={status}
       onKey={(key) => {

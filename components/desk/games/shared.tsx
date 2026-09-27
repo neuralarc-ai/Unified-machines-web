@@ -78,16 +78,22 @@ export function drawGlyph(
   )
 }
 
-/** A crisp, DPR-aware canvas of fixed CSS size. `setup()` returns its 2D context. */
+/**
+ * A game canvas drawn in fixed `w`×`h` coordinates at whatever size it's shown.
+ * `setup()` sizes the backing store to the displayed box (× device pixels) so
+ * it stays crisp when a window is maximised; call it again on resize, then redraw.
+ */
 export function useGameCanvas(w: number, h: number) {
   const ref = useRef<HTMLCanvasElement>(null)
   const setup = useCallback(() => {
     const canvas = ref.current!
-    const dpr = Math.min(devicePixelRatio || 1, 2)
-    canvas.width = w * dpr
-    canvas.height = h * dpr
+    const fit = Math.min(canvas.clientWidth / w, canvas.clientHeight / h) || 1
+    // ponytail: capped at 6× backing pixels, enough for a maximised window on a retina screen
+    const scale = Math.min(6, Math.max(1, fit) * Math.min(devicePixelRatio || 1, 2))
+    canvas.width = Math.round(w * scale)
+    canvas.height = Math.round(h * scale)
     const ctx = canvas.getContext("2d")!
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.setTransform(scale, 0, 0, scale, 0, 0)
     ctx.imageSmoothingEnabled = false
     return ctx
   }, [w, h])
@@ -107,7 +113,7 @@ const SWIPE_PX = 24
  */
 export function GameCanvas({
   canvasRef,
-  w,
+  ratio,
   label,
   status,
   onPress,
@@ -117,7 +123,8 @@ export function GameCanvas({
   onSwipe,
 }: {
   canvasRef: RefObject<HTMLCanvasElement | null>
-  w: number
+  /** Width ÷ height of the game's coordinate space. */
+  ratio: number
   label: string
   status: GameStatus
   onPress: () => void
@@ -137,7 +144,7 @@ export function GameCanvas({
       aria-label={label}
       data-status={status}
       className={cn(
-        "outline-none select-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-pink-deep",
+        "flex size-full items-center justify-center outline-none select-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-pink-deep",
         onSwipe ? "touch-none" : "touch-manipulation"
       )}
       onKeyDown={(e) => {
@@ -175,7 +182,8 @@ export function GameCanvas({
         onRelease?.()
       }}
     >
-      <canvas ref={canvasRef} style={{ width: w }} className="block h-auto max-w-full [image-rendering:pixelated]" />
+      {/* fills its window and keeps the game's proportions; `setup()` matches the pixels to the box */}
+      <canvas ref={canvasRef} style={{ aspectRatio: ratio }} className="block size-full object-contain" />
     </div>
   )
 }
