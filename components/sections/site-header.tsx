@@ -3,8 +3,9 @@
 import Link from "next/link"
 import { motion, useScroll, useSpring } from "framer-motion"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowUpRight01Icon, Menu02Icon } from "@hugeicons/core-free-icons"
+import { Menu02Icon } from "@hugeicons/core-free-icons"
 import { BrandMarks } from "@/components/brand/symbols"
+import { SplitButton } from "@/components/site/split-button"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { EASE } from "@/components/motion/reveal"
@@ -43,14 +44,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button
-            size="cta"
-            className="hidden md:inline-flex"
-            nativeButton={false}
-            render={<a href={MORSE_URL} target="_blank" rel="noopener noreferrer" />}
-          >
-            Visit Morse <HugeiconsIcon icon={ArrowUpRight01Icon} strokeWidth={1.5} />
-          </Button>
+          <SplitButton href={MORSE_URL} external size="sm" className="hidden md:inline-flex">
+            Visit Morse
+          </SplitButton>
 
           <Sheet>
             <SheetTrigger render={<Button variant="ghost" size="icon-lg" className="md:hidden" aria-label="Open navigation" />}>
@@ -77,15 +73,9 @@ export function SiteHeader() {
                   </SheetClose>
                 ))}
               </nav>
-              <Button
-                size="cta"
-                variant="accent"
-                className="mt-6 self-start"
-                nativeButton={false}
-                render={<a href={MORSE_URL} target="_blank" rel="noopener noreferrer" />}
-              >
-                Visit Morse <HugeiconsIcon icon={ArrowUpRight01Icon} strokeWidth={1.5} />
-              </Button>
+              <SplitButton href={MORSE_URL} external className="mt-6 self-start">
+                Visit Morse
+              </SplitButton>
             </SheetContent>
           </Sheet>
         </div>

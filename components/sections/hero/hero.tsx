@@ -1,8 +1,7 @@
 import Link from "next/link"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight02Icon } from "@hugeicons/core-free-icons"
 import { Frame, Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { Badge } from "@/components/ui/badge"
+import { SplitButton } from "@/components/site/split-button"
 import { Button } from "@/components/ui/button"
 import { Desk } from "@/components/desk/desk"
 
@@ -32,9 +31,7 @@ export function Hero() {
             domains businesses run on.
           </StaggerItem>
           <StaggerItem className="mt-7.5 flex flex-wrap gap-2.5">
-            <Button size="cta" variant="accent" nativeButton={false} render={<Link href="#products" />}>
-              See our products <HugeiconsIcon icon={ArrowRight02Icon} strokeWidth={1.5} />
-            </Button>
+            <SplitButton href="#products">See our products</SplitButton>
             <Button size="cta" variant="outline" nativeButton={false} render={<Link href="#thinking" />}>
               How we think
             </Button>

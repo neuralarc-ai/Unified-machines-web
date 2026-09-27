@@ -40,7 +40,7 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
-            <Button className="h-7.5 gap-2 rounded-none border border-border bg-lime px-2.5 font-mono text-[13px] font-semibold text-ink shadow-[2px_2px_0_var(--border)] transition-[translate,box-shadow] hover:-translate-px hover:bg-lime hover:shadow-[3px_3px_0_var(--border)] data-popup-open:translate-px data-popup-open:shadow-none" />
+            <Button variant="accent" className="h-7.5 gap-2 rounded-none px-2.5 font-mono text-[13px]" />
           }
         >
           <BrandMarks glyphClassName="size-[11px]" />
@@ -80,7 +80,8 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
               onClick={() => wm.toggleTask(task.id)}
               className={cn(
                 "h-7.5 shrink-0 rounded-none bg-card px-3 font-mono text-[13px] font-medium",
-                front && "bg-ink text-paper hover:bg-ink hover:text-paper",
+                // the front window's task sits pressed in, like a real taskbar
+                front && "translate-px bg-ink text-paper shadow-none hover:bg-ink hover:text-paper",
                 minimized && "border-dashed text-muted-foreground"
               )}
             >

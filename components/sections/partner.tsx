@@ -1,9 +1,7 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons"
 import { FrLogo } from "@/components/brand/symbols"
 import { Frame, Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { MonoLabel } from "@/components/site/section-head"
-import { Button } from "@/components/ui/button"
+import { SplitButton } from "@/components/site/split-button"
 import { FR_URL, numbers } from "@/lib/content"
 
 export function Partner() {
@@ -30,15 +28,9 @@ export function Partner() {
               inside its products. Small models, fitted to each job, ours to keep running for years.
             </p>
           </div>
-          <Button
-            size="cta"
-            variant="paper"
-            className="col-start-2 justify-self-start lg:col-start-3"
-            nativeButton={false}
-            render={<a href={FR_URL} target="_blank" rel="noopener noreferrer" />}
-          >
-            Fahrenheit Research <HugeiconsIcon icon={ArrowUpRight01Icon} strokeWidth={1.5} />
-          </Button>
+          <SplitButton href={FR_URL} external tone="ink" className="col-start-2 justify-self-start lg:col-start-3">
+            Fahrenheit Research
+          </SplitButton>
         </Reveal>
       </section>
 

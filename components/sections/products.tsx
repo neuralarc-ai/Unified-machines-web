@@ -6,7 +6,7 @@ import { bodyLg, displaySm, MonoLabel, SectionHead } from "@/components/site/sec
 import { Signal } from "@/components/site/signal"
 import { WindowFrame } from "@/components/site/window-frame"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { SplitButton } from "@/components/site/split-button"
 import { MORSE_URL, morseFlow, roadmap } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
@@ -127,15 +127,9 @@ export function Products() {
             and what everyone needs to remember afterwards, in one connected experience. Less switching. More presence.
           </p>
           <p className={cn(bodyLg, "mb-3.5 max-w-130")}>Morse is being built now. Follow along at onmorse.com.</p>
-          <Button
-            size="cta"
-            variant="accent"
-            className="mt-2.5"
-            nativeButton={false}
-            render={<a href={MORSE_URL} {...external} />}
-          >
-            Explore Morse <HugeiconsIcon icon={ArrowUpRight01Icon} strokeWidth={1.5} />
-          </Button>
+          <SplitButton href={MORSE_URL} external className="mt-2.5">
+            Explore Morse
+          </SplitButton>
         </StaggerItem>
       </Stagger>
 
