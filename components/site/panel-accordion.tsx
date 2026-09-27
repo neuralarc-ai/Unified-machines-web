@@ -60,7 +60,7 @@ export function PanelAccordionItem({
             </span>
           </span>
         ) : (
-          title
+          <span className="text-base md:text-lg">{title}</span>
         )}
       </AccordionTrigger>
       <AccordionContent>

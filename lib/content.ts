@@ -24,9 +24,9 @@ export const desk = {
     task: "Weekly sync",
     rec: "REC",
     people: [
-      { initials: "PS", bg: "/morse/bg-ember.webp" },
-      { initials: "JM", bg: "/morse/bg-fjord.webp" },
-      { initials: "DK", bg: "/morse/bg-lagoon.webp" },
+      { initials: "PS", avatar: "/avatars/ember.webp" },
+      { initials: "JM", avatar: "/avatars/fjord.webp" },
+      { initials: "DK", avatar: "/avatars/lagoon.webp" },
     ],
     who: "Priya",
     said: "Can we get the launch brief ready for Friday?",
@@ -213,12 +213,6 @@ export const roadmap = [
   { name: "Next domain", status: "In research", live: false },
   { name: "Next domain", status: "In research", live: false },
   { name: "Next domain", status: "In research", live: false },
-]
-
-export const numbers = [
-  { value: "1", label: "Product being built now. Morse." },
-  { value: "1", label: "Exclusive model partner. Fahrenheit Research." },
-  { value: "0", label: "Products shipped without a reason to last." },
 ]
 
 export const faqs = [

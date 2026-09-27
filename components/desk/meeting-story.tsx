@@ -64,8 +64,8 @@ export function CallBody() {
               phase === 1 && i === 0 && "outline-lime"
             )}
           >
-            <Image src={p.bg} alt="" fill sizes="(min-width: 1024px) 160px, 33vw" className="-z-10 object-cover" />
-            <span className="font-mono text-[14.5px] text-white">{p.initials}</span>
+            <Image src={p.avatar} alt="" fill sizes="(min-width: 1024px) 160px, 33vw" className="object-cover" />
+            <span className="absolute bottom-1.5 left-1.5 bg-ink/65 px-1.5 font-mono text-xs text-white">{p.initials}</span>
           </div>
         ))}
       </div>
