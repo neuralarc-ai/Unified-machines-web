@@ -7,6 +7,38 @@ import { cn } from "@/lib/utils"
 
 export const COLORS = { ink: "#101010", lime: "#caeb6b", pink: "#ff6fb0", paper: "#fcfcfb" }
 export const HUD_FONT = "500 13px ui-monospace, monospace"
+export const TITLE_FONT = "600 18px ui-monospace, monospace"
+export const PARTICLE: Record<"ink" | "pink" | "lime", string> = { ink: COLORS.ink, pink: COLORS.pink, lime: COLORS.lime }
+
+const HUD_ROW = 34 // the HI/score row occupies the canvas above this line
+const pad = (n: number) => String(n).padStart(5, "0")
+
+/** Centered lines of text on a soft paper card, below the HUD row, so they read over the scene. */
+export function banner(ctx: CanvasRenderingContext2D, width: number, lines: [text: string, font: string][]) {
+  const h = lines.length * 22 + 14
+  ctx.fillStyle = "rgba(252,252,251,.88)"
+  ctx.fillRect(width / 2 - 170, HUD_ROW, 340, h)
+  ctx.fillStyle = COLORS.ink
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  lines.forEach(([text, font], i) => {
+    ctx.font = font
+    ctx.fillText(text, width / 2, HUD_ROW + 18 + i * 22)
+  })
+}
+
+/** Best and score, top right, blinking while `flash` runs. Draw it last so nothing covers it. */
+export function hud(ctx: CanvasRenderingContext2D, width: number, score: number, best: number, flash: number) {
+  ctx.font = HUD_FONT
+  ctx.textAlign = "right"
+  ctx.textBaseline = "alphabetic"
+  ctx.fillStyle = "rgba(16,16,16,.45)"
+  ctx.fillText(`HI ${pad(Math.max(best, score))}`, width - 76, 22)
+  if (!((flash >> 2) & 1)) {
+    ctx.fillStyle = COLORS.ink
+    ctx.fillText(pad(score), width - 16, 22)
+  }
+}
 
 export type GameStatus = "ready" | "run" | "paused" | "over"
 export type GameProps = { onScore: (label: string) => void }
@@ -66,9 +98,12 @@ type Direction = [number, number]
 
 const ACTION_KEYS = [" ", "Enter", "ArrowUp"]
 
+const SWIPE_PX = 24
+
 /**
  * Focusable canvas host: space/enter/↑/tap to act. Without swipes, a tap acts
- * on press (instant, like a key); with swipes it waits for release to tell the two apart.
+ * on press (instant, like a key). With swipes, a drag turns as soon as it
+ * travels 24px and keeps steering without lifting; a tap acts on release.
  */
 export function GameCanvas({
   canvasRef,
@@ -92,7 +127,8 @@ export function GameCanvas({
   onKey?: (key: string) => boolean
   onSwipe?: (dir: Direction) => void
 }) {
-  const start = useRef<[number, number] | null>(null)
+  // where the current drag was last measured from, and whether it has steered yet
+  const drag = useRef<{ x: number; y: number; swiped: boolean } | null>(null)
 
   return (
     <div
@@ -115,24 +151,29 @@ export function GameCanvas({
       onBlur={onBlur}
       onPointerDown={(e) => {
         e.currentTarget.focus({ preventScroll: true })
-        start.current = [e.clientX, e.clientY]
-        if (!onSwipe) onPress()
+        if (!onSwipe) return onPress()
+        e.currentTarget.setPointerCapture(e.pointerId)
+        drag.current = { x: e.clientX, y: e.clientY, swiped: false }
       }}
-      onPointerUp={(e) => {
-        const s = start.current
-        start.current = null
+      onPointerMove={(e) => {
+        const d = drag.current
+        if (!d || !onSwipe) return
+        const dx = e.clientX - d.x
+        const dy = e.clientY - d.y
+        if (Math.max(Math.abs(dx), Math.abs(dy)) < SWIPE_PX) return
+        onSwipe(Math.abs(dx) > Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)])
+        drag.current = { x: e.clientX, y: e.clientY, swiped: true }
+      }}
+      onPointerUp={() => {
+        const d = drag.current
+        drag.current = null
         onRelease?.()
-        if (!onSwipe) return
-        if (s) {
-          const dx = e.clientX - s[0]
-          const dy = e.clientY - s[1]
-          if (Math.max(Math.abs(dx), Math.abs(dy)) > 24) {
-            return onSwipe(Math.abs(dx) > Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)])
-          }
-        }
-        onPress()
+        if (d && !d.swiped) onPress()
       }}
-      onPointerCancel={() => onRelease?.()}
+      onPointerCancel={() => {
+        drag.current = null
+        onRelease?.()
+      }}
     >
       <canvas ref={canvasRef} style={{ width: w }} className="block h-auto max-w-full [image-rendering:pixelated]" />
     </div>

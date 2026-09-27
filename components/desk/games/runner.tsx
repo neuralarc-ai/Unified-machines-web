@@ -2,7 +2,7 @@
 
 import { useEffect, useEffectEvent, useRef, useState } from "react"
 import { useMotionState } from "@/components/motion/motion-provider"
-import { best, COLORS, drawGlyph, GameCanvas, HUD_FONT, useGameCanvas, type GameProps } from "./shared"
+import { banner, best, COLORS, drawGlyph, GameCanvas, hud, HUD_FONT, PARTICLE, TITLE_FONT, useGameCanvas, type GameProps } from "./shared"
 import {
   createWorld,
   FLOOR,
@@ -21,38 +21,6 @@ import {
   type World,
 } from "./runner-sim"
 
-const TITLE_FONT = "600 18px ui-monospace, monospace"
-const PARTICLE: Record<string, string> = { ink: COLORS.ink, pink: COLORS.pink, lime: COLORS.lime }
-const pad = (n: number) => String(n).padStart(5, "0")
-
-const HUD_ROW = 34 // the HI/score row occupies the canvas above this line
-
-/** Centered lines of text on a soft paper card, below the HUD row, so they read over the scene. */
-function banner(ctx: CanvasRenderingContext2D, lines: [text: string, font: string][]) {
-  const h = lines.length * 22 + 14
-  ctx.fillStyle = "rgba(252,252,251,.88)"
-  ctx.fillRect(W / 2 - 170, HUD_ROW, 340, h)
-  ctx.fillStyle = COLORS.ink
-  ctx.textAlign = "center"
-  ctx.textBaseline = "middle"
-  lines.forEach(([text, font], i) => {
-    ctx.font = font
-    ctx.fillText(text, W / 2, HUD_ROW + 18 + i * 22)
-  })
-}
-
-/** Best and score, top right, blinking for a moment at every hundred. Drawn last so nothing covers it. */
-function hud(ctx: CanvasRenderingContext2D, w: World) {
-  ctx.font = HUD_FONT
-  ctx.textAlign = "right"
-  ctx.textBaseline = "alphabetic"
-  ctx.fillStyle = "rgba(16,16,16,.45)"
-  ctx.fillText(`HI ${pad(Math.max(w.best, w.score))}`, W - 76, 22)
-  if (!((w.flash >> 2) & 1)) {
-    ctx.fillStyle = COLORS.ink
-    ctx.fillText(pad(w.score), W - 16, 22)
-  }
-}
 
 function render(ctx: CanvasRenderingContext2D, w: World) {
   ctx.save()
@@ -107,22 +75,22 @@ function render(ctx: CanvasRenderingContext2D, w: World) {
   ctx.restore()
 
   if (w.status === "ready")
-    banner(ctx, [
+    banner(ctx, W, [
       ["RUNNER", TITLE_FONT],
       ["SPACE / TAP TO JUMP · HOLD FOR HIGHER", HUD_FONT],
     ])
   if (w.status === "paused")
-    banner(ctx, [
+    banner(ctx, W, [
       ["PAUSED", TITLE_FONT],
       ["SPACE / TAP TO RESUME", HUD_FONT],
     ])
   if (w.status === "over")
-    banner(ctx, [
+    banner(ctx, W, [
       ["GAME OVER", TITLE_FONT],
       [w.newBest ? `${w.score} · NEW BEST` : `${w.score}`, HUD_FONT],
       ...(w.deadFor > LOCKOUT ? ([["SPACE / TAP TO RETRY", HUD_FONT]] as [string, string][]) : []),
     ])
-  hud(ctx, w)
+  hud(ctx, W, w.score, w.best, w.flash)
 }
 
 /** human.sym jumps the machines and collects hearts. */
