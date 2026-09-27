@@ -11,43 +11,55 @@ export const navLinks = [
 
 export type SymbolKey = "human" | "machine" | "heart"
 
-export const symbolWindows: {
-  key: SymbolKey
-  file: string
-  caption: string
-  x: string
-  y: string
-  title: string
-  text: string
-}[] = [
-  {
-    key: "human",
-    file: "human.sym",
-    caption: "Human ambition",
-    x: "6%",
-    y: "14%",
-    title: "Human ambition.",
-    text: "Every product starts with a real human need. The face is the person on the other side of the screen: the one with a Tuesday to get through and better things to do than fight their tools.",
+/** UM.OS: a meeting and its follow-through, the job Morse is being built for. */
+export const desk = {
+  label: "UM.OS",
+  readme: {
+    file: "readme.txt",
+    title: "One job, done whole.",
+    text: "This desktop is a meeting and everything around it, the job Morse is being built for. Press a symbol to read what it stands for.",
   },
-  {
-    key: "machine",
-    file: "machine.sym",
-    caption: "Machine intelligence",
-    x: "40%",
-    y: "8%",
-    title: "Machine intelligence.",
-    text: "The cross is the machine. Intelligence belongs in the foundation, so we design around what a model makes possible instead of adding a feature at the end.",
+  call: {
+    file: "morse · Weekly sync",
+    task: "Weekly sync",
+    rec: "REC",
+    people: [
+      { initials: "PS", bg: "/morse/bg-ember.webp" },
+      { initials: "JM", bg: "/morse/bg-fjord.webp" },
+      { initials: "DK", bg: "/morse/bg-lagoon.webp" },
+    ],
+    who: "Priya",
+    said: "Can we get the launch brief ready for Friday?",
   },
-  {
-    key: "heart",
-    file: "heart.sym",
-    caption: "Meaningful progress",
-    x: "70%",
-    y: "20%",
-    title: "Meaningful progress.",
-    text: "The heart is what happens when the two work as one. Less friction. More freedom. Products useful enough to become second nature.",
+  notes: {
+    file: "notes.md",
+    heading: "Action items",
+    items: ["Share Q3 numbers · Dan · Wed"],
+    added: "Launch brief · Jamie · Fri",
   },
-]
+  cal: { file: "calendar", days: ["Mon", "Tue", "Wed", "Thu", "Fri"], standup: "Standup", booked: "Follow-up", time: "14:00" },
+  clock: "clock",
+  icons: [
+    {
+      key: "human",
+      label: "human.sym",
+      title: "Human ambition.",
+      text: "Every product starts with a real need: the person on the other side of the screen, with a Tuesday to get through.",
+    },
+    {
+      key: "machine",
+      label: "machine.sym",
+      title: "Machine intelligence.",
+      text: "Intelligence in the foundation, doing the heavy lifting: here, writing the notes and booking the follow-up.",
+    },
+    {
+      key: "heart",
+      label: "heart.sym",
+      title: "Meaningful progress.",
+      text: "What the two make together: a meeting that ends with everyone knowing what happens next.",
+    },
+  ] satisfies { key: SymbolKey; label: string; title: string; text: string }[],
+}
 
 export const equation: { key: SymbolKey; label: string; text: string }[] = [
   {

@@ -11,6 +11,13 @@ const glyphPaths: Record<SymbolKey, { d: string; fillRule?: "evenodd" }> = {
   heart: { d: "M0 0h20v10h10V0h20v30H40v10H30v10H20V40H10V30H0z" },
 }
 
+/** The same marks as filled cells on their 5×5 grid, for pixel drawing ("1" = ink). */
+export const glyphCells: Record<SymbolKey, string[]> = {
+  human: ["11111", "10101", "11111", "11111", "11111"],
+  machine: ["11011", "11111", "01110", "11111", "11011"],
+  heart: ["11011", "11111", "11111", "01110", "00100"],
+}
+
 export function Glyph({ symbol, className, ...props }: SvgProps & { symbol: SymbolKey }) {
   const { d, fillRule } = glyphPaths[symbol]
   return (

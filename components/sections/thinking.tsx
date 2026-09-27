@@ -1,13 +1,10 @@
+import { glyphCells } from "@/components/brand/symbols"
 import { Frame, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal"
 import { bodyLg, display, MonoLabel } from "@/components/site/section-head"
 import { cn } from "@/lib/utils"
 
 // The three brand symbols as 5×5 bit grids, then streamed as a ribbon of bits.
-const GRIDS = [
-  ["11111", "10101", "11111", "11111", "11111"],
-  ["11011", "11111", "01110", "11111", "11011"],
-  ["11011", "11111", "11111", "01110", "00100"],
-]
+const GRIDS = [glyphCells.human, glyphCells.machine, glyphCells.heart]
 const stream = GRIDS.map((g) => g.join("")).join("").repeat(2)
 const BITS = [
   ...GRIDS[0].map((_, r) => GRIDS.map((g) => g[r]).join("  ")),

@@ -53,6 +53,12 @@
   --shadow-hard-xl: 8px 8px 0 var(--ink);
 
   --animate-signal: signal 1.6s ease-in-out infinite;
+  --animate-blink: blink 1s steps(1) infinite;
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
   @keyframes signal {
     0%,
     100% {

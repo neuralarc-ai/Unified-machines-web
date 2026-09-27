@@ -4,7 +4,7 @@ import { ArrowRight02Icon } from "@hugeicons/core-free-icons"
 import { Frame, Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Desktop } from "./desktop"
+import { Desk } from "@/components/desk/desk"
 
 export function Hero() {
   return (
@@ -42,8 +42,8 @@ export function Hero() {
         </Stagger>
       </Frame>
 
-      <Reveal className="container-page" delay={0.3}>
-        <Desktop />
+      <Reveal className="container-page mt-3" delay={0.3}>
+        <Desk />
       </Reveal>
     </section>
   )
