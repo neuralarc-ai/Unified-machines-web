@@ -13,7 +13,7 @@ export function Control() {
             <br />
             Your decision, every time.
           </h2>
-          <p className="mt-4.5 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-[1.45]">
+          <p className="mt-4.5 max-w-130 text-[clamp(19px,1.57vw,22.5px)] leading-[1.45]">
             Sovereignty is the setting we design toward. Every product ships with these five in your hands, and we say
             so plainly when a trade-off remains.
           </p>
@@ -36,7 +36,7 @@ export function Control() {
                   }}
                 />
               </span>
-              <strong className="text-[clamp(20px,1.8vw,26px)] leading-[1.2] font-medium tracking-[-0.03em]">
+              <strong className="text-[clamp(22.5px,2.02vw,29px)] leading-[1.2] font-medium tracking-[-0.03em]">
                 {c.title}
               </strong>
               <span className="leading-[1.45] text-ink-soft">{c.body}</span>

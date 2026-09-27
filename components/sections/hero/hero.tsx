@@ -14,7 +14,7 @@ export function Hero() {
             <Badge variant="tag">UM.OS 1.0</Badge>
             <span>Unified Machines</span>
           </StaggerItem>
-          <h1 id="hero-title" className="max-w-[1100px] text-[clamp(44px,6.4vw,92px)]">
+          <h1 id="hero-title" className="max-w-[1100px] text-[clamp(49.5px,7.2vw,103.5px)]">
             <StaggerItem as="span" className="block">
               AI products built to last.
             </StaggerItem>
@@ -24,7 +24,7 @@ export function Hero() {
           </h1>
           <StaggerItem
             as="p"
-            className="mt-6.5 max-w-160 text-[clamp(17px,1.5vw,20px)] leading-normal text-ink-soft"
+            className="mt-6.5 max-w-160 text-[clamp(19px,1.69vw,22.5px)] leading-normal text-ink-soft"
           >
             Unified Machines builds innovative AI products for companies, designed to stay useful for years rather
             than quarters. Morse, for meetings and everything around them, is the first. More are coming across the

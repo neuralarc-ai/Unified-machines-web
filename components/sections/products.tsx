@@ -1,39 +1,48 @@
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons"
-import { MorseMark } from "@/components/brand/symbols"
+import {
+  AiChat02Icon,
+  ArrowUpRight01Icon,
+  CalendarAdd01Icon,
+  NoteEditIcon,
+  RecordIcon,
+  SubtitleIcon,
+  Video01Icon,
+  WhiteboardIcon,
+} from "@hugeicons/core-free-icons"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { bodyLg, displaySm, MonoLabel, SectionHead } from "@/components/site/section-head"
-import { Signal } from "@/components/site/signal"
-import { WindowFrame } from "@/components/site/window-frame"
 import { Badge } from "@/components/ui/badge"
 import { SplitButton } from "@/components/site/split-button"
-import { MORSE_URL, morseFlow, roadmap } from "@/lib/content"
+import { MorseDemo } from "./morse-demo"
+import { MORSE_URL, morse, roadmap } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const
 
-const tossIn = (i: number) => ({
-  hidden: { opacity: 0, y: 24, rotate: -4 },
-  show: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring" as const, stiffness: 260, damping: 18, delay: i * 0.12 } },
-})
+/** An icon that shows each tool Morse replaces, by its name in `morse.jobs`. */
+const JOB_ICONS: Record<string, typeof Video01Icon> = {
+  "Video call": Video01Icon,
+  Notetaker: NoteEditIcon,
+  Recordings: RecordIcon,
+  Transcripts: SubtitleIcon,
+  "In-call assistant": AiChat02Icon,
+  Whiteboard: WhiteboardIcon,
+  "Booking link": CalendarAdd01Icon,
+}
 
-/** The three tools a meeting needs today, stacked like overlapping windows. */
-const miniWindows = [
-  {
-    title: "Video call",
-    body: Array.from({ length: 4 }, (_, i) => <span key={i} className="size-5.5 rounded-full bg-ink" />),
-  },
-  {
-    title: "Scheduling link",
-    body: Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={cn("h-5 w-6.5 border border-ink", i === 2 && "bg-lime")} />
-    )),
-  },
-  {
-    title: "Notetaker bot",
-    body: ["w-full", "w-3/5", "w-full"].map((w, i) => <span key={i} className={cn("h-1.5 bg-ink", w)} />),
-  },
-]
+const popIn = {
+  hidden: { opacity: 0, scale: 0.8, y: 8 },
+  show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 380, damping: 20 } },
+}
+
+/** Panel side labels sit on a paper chip, so the dot grid never runs through the words. */
+function SideLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="mb-4 inline-block border border-ink bg-paper px-1.5 py-px font-mono text-xs leading-normal">
+      {children}
+    </span>
+  )
+}
 
 function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -52,61 +61,61 @@ export function Products() {
         Morse is the first.
       </SectionHead>
 
-      <Reveal className="dot-grid relative rounded-[10px] border border-ink bg-lime-tint px-4 pt-14 pb-6 md:px-10 md:pt-16 md:pb-8">
-        <Badge variant="tag" className="absolute top-2.5 left-3">
+      <Reveal className="dot-grid relative overflow-hidden rounded-[10px] border border-ink bg-lime-tint">
+        <Badge variant="tag" className="absolute top-2.5 left-3 max-w-[calc(100%-1.5rem)] whitespace-normal">
           01 / Meetings and the ecosystem around them
         </Badge>
 
-        <div className="grid min-h-90 items-stretch gap-12 lg:grid-cols-[1fr_1.2fr]">
-          <Stagger aria-label="The way meetings work today" className="relative min-h-70 md:min-h-80">
-            {miniWindows.map((w, i) => (
-              <StaggerItem
-                key={w.title}
-                variants={tossIn(i)}
-                className="absolute w-[64%] md:w-[56%]"
-                style={{ left: `${i * 18}%`, top: `${i * 24}%` }}
+        <div className="grid grid-cols-1 items-center gap-10 px-4 pt-14 pb-10 md:px-10 md:pt-16 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.3fr)] lg:gap-8">
+          <div>
+            <SideLabel>Today</SideLabel>
+            {/* the number says how many, the dock says which */}
+            <div className="grid grid-cols-1 items-center gap-x-7 gap-y-5 sm:grid-cols-[auto_minmax(0,1fr)]">
+              <Reveal
+                aria-hidden
+                className="text-[clamp(120px,14vw,180px)] leading-[0.82] font-medium tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_var(--ink)]"
               >
-                <WindowFrame title={w.title} className="shadow-hard" bodyClassName="min-h-17.5 flex-row flex-wrap gap-1.5">
-                  {w.body}
-                </WindowFrame>
-              </StaggerItem>
-            ))}
-          </Stagger>
-
-          <Reveal delay={0.35}>
-            <WindowFrame
-              aria-label="Morse brings meeting, scheduling and memory into one place"
-              title={
-                <>
-                  <MorseMark className="size-3.5" />
-                  Morse
-                </>
-              }
-              className="bg-chalk"
-              bodyClassName="p-5.5"
-            >
-              <Stagger gap={0.15} delay={0.5} className="grid gap-3 md:grid-cols-3 md:gap-4.5">
-                {morseFlow.map((step, i) => (
-                  <StaggerItem key={step.title} className="flex flex-col gap-1.5 border-t-[1.5px] border-ink pt-2.5">
-                    <span className="font-mono text-xs">{String(i + 1).padStart(2, "0")}</span>
-                    <strong className="text-[22px] font-medium tracking-[-0.03em]">{step.title}</strong>
-                    <span className="text-sm text-muted-foreground">{step.body}</span>
+                {morse.jobs.length}
+              </Reveal>
+              <Stagger as="ul" gap={0.06} delay={0.2} className="grid grid-cols-3 gap-x-2.5 gap-y-4.5 sm:grid-cols-4">
+                {morse.jobs.map((job) => (
+                  <StaggerItem key={job} as="li" variants={popIn} className="group flex flex-col items-center gap-2 text-center">
+                    <span className="grid size-16 place-items-center border-[1.5px] border-ink bg-chalk shadow-hard-sm transition-[translate,box-shadow,background-color] duration-150 group-hover:-translate-px group-hover:bg-lime group-hover:shadow-hard motion-reduce:transition-none">
+                      <HugeiconsIcon icon={JOB_ICONS[job]} strokeWidth={1.5} className="size-7.5" />
+                    </span>
+                    <span className="font-mono text-[12.5px] leading-tight">{job}</span>
                   </StaggerItem>
                 ))}
               </Stagger>
-              <Signal bars={60} scale={1.7} className="mt-4.5 h-16 gap-[3px]" barClassName="w-1.5" />
-            </WindowFrame>
+              <p className="border-t border-ink pt-2.5 text-[17px] text-ink-soft sm:col-span-2">
+                <span className="sr-only">{morse.jobs.length} </span>
+                tools, logins and bills for one meeting.
+              </p>
+            </div>
+          </div>
+
+          <Reveal delay={0.6} className="flex justify-center">
+            <Badge variant="tag" className="px-2 py-1 text-[14.5px]">
+              {morse.jobs.length} &rarr; 1
+            </Badge>
           </Reveal>
+
+          <div>
+            <SideLabel>With Morse · one app</SideLabel>
+            <Reveal delay={0.35}>
+              <MorseDemo />
+            </Reveal>
+          </div>
         </div>
 
-        <div className="mt-10 grid items-end gap-4.5 md:gap-8 lg:grid-cols-[1fr_1fr_auto]">
+        <div className="grid items-end gap-4.5 border-t border-ink bg-chalk px-4 py-5 md:gap-8 md:px-10 lg:grid-cols-[1fr_1fr_auto]">
           <div>
             <MonoLabel className="mb-1.5">Today</MonoLabel>
-            <span className="text-[15px]">Three tools. Three tabs. Three bills.</span>
+            <span className="text-[17px]">Seven tools. Seven logins. Seven bills.</span>
           </div>
           <div>
             <MonoLabel className="mb-1.5">With Morse</MonoLabel>
-            <span className="text-[15px]">The calendar, the call and the memory in one place.</span>
+            <span className="text-[17px]">The call, the notes and the follow-up in one place.</span>
           </div>
           <ExternalLink href={MORSE_URL}>onmorse.com</ExternalLink>
         </div>

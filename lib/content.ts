@@ -81,37 +81,42 @@ export const equation: { key: SymbolKey; label: string; text: string }[] = [
 export const equationDefault =
   "Start with a real human need. Add intelligence at the foundation. Ship something people are glad to use for years."
 
-export type DiagramMode = "rings" | "grid" | "shield" | "block"
+export type DiagramMode = "rings" | "grid" | "line" | "squares"
 
 export const principles: {
   key: string
+  n: string
   title: string
   body: string
   diagram: { symbol: SymbolKey; file: string; caption: string; code: string; mode: DiagramMode }
 }[] = [
   {
     key: "intelligence",
-    title: "01 / Intelligent by nature",
+    n: "01",
+    title: "Intelligent by nature",
     body: "AI belongs in a product's foundation. We start with what intelligence makes possible, then design the whole experience around it. The result feels less like software with a feature bolted on and more like a tool with a mind of its own.",
     diagram: { symbol: "machine", file: "core.dgm", caption: "Intelligence, from the inside out.", code: "UM / CORE", mode: "rings" },
   },
   {
     key: "useful",
-    title: "02 / Useful before anything",
+    n: "02",
+    title: "Useful before anything",
     body: "We focus on the things people already need. The work they do every day. The friction they have learned to accept. The possibilities hiding in plain sight. We measure an idea by the difference it makes to someone's Tuesday.",
     diagram: { symbol: "human", file: "need.dgm", caption: "Human needs. The starting point.", code: "UM / PURPOSE", mode: "grid" },
   },
   {
     key: "sovereign",
-    title: "03 / As sovereign as possible",
+    n: "03",
+    title: "As sovereign as possible",
     body: "Progress should bring greater independence. We build toward as much sovereignty as possible, with meaningful choice and control guiding every decision about where your data lives and who gets to see it.",
-    diagram: { symbol: "heart", file: "own.dgm", caption: "Progress, on your own terms.", code: "UM / SOVEREIGN", mode: "shield" },
+    diagram: { symbol: "heart", file: "own.dgm", caption: "Progress, on your own terms.", code: "UM / SOVEREIGN", mode: "line" },
   },
   {
     key: "whole",
-    title: "04 / Built to last",
+    n: "04",
+    title: "Built to last",
     body: "Models will change. The job will not. We design each product around the job, keep the intelligence swappable underneath, and would rather build one thing well than three things loosely connected.",
-    diagram: { symbol: "machine", file: "whole.dgm", caption: "One thing, done whole.", code: "UM / WHOLE", mode: "block" },
+    diagram: { symbol: "machine", file: "whole.dgm", caption: "One thing, done whole.", code: "UM / WHOLE", mode: "squares" },
   },
 ]
 
@@ -169,11 +174,39 @@ export const commitments = [
   { title: "Audit.", body: "What the machine did and why, always on the record." },
 ]
 
-export const morseFlow = [
-  { title: "Meet", body: "A moment to connect." },
-  { title: "Schedule", body: "Time that finds itself." },
-  { title: "Remember", body: "Clarity for what comes next." },
-]
+/**
+ * Morse, in its own words (checked against morse-landing's content): the
+ * seven jobs it replaces, and one meeting played through the three things it
+ * does in it.
+ */
+export const morse = {
+  meeting: "Weekly product sync",
+  startSeconds: 12 * 60 + 4,
+  jobs: ["Video call", "Notetaker", "Recordings", "Transcripts", "In-call assistant", "Whiteboard", "Booking link"],
+  scenes: [
+    {
+      id: "notes",
+      label: "Notes",
+      speaker: "Priya",
+      said: "Can we get the launch brief ready for Friday?",
+      result: { lead: "Action item", text: "Launch brief · Jamie · Fri" },
+    },
+    {
+      id: "teleprompter",
+      label: "Teleprompter",
+      speaker: "Daniel",
+      said: "What did we agree with Acme on pricing?",
+      result: { lead: "From Acme renewal notes", text: "This year’s rate, fixed until March, with two extra seats." },
+    },
+    {
+      id: "follow-up",
+      label: "Follow-up",
+      speaker: "Priya",
+      said: "Let’s pick this up Thursday at two.",
+      result: { lead: "Book a follow-up?", text: "Thu, 2:00 – 2:30 pm", done: "Booked. Invites sent." },
+    },
+  ],
+}
 
 export const roadmap = [
   { name: "Morse", status: "Being built", live: true },

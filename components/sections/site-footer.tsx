@@ -35,7 +35,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[#2c2c2a] bg-ink py-5.5 text-sm text-paper">
       <div className="container-page flex flex-col gap-5.5">
-        <a href={FR_URL} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3.5 text-[15px]">
+        <a href={FR_URL} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3.5 text-[17px]">
           <FrLogo className="w-9 transition-colors duration-300 group-hover:text-lime" />
           <span>
             Exclusive partner for Fahrenheit Research homegrown, tuned AI models.

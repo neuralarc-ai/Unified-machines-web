@@ -33,7 +33,7 @@ export function Faq() {
 
         <Reveal delay={0.2} aria-hidden className="hidden flex-col gap-5 self-end text-[#a8a8a4] lg:flex">
           <MonoLabel className="text-paper">[B.64]</MonoLabel>
-          <pre className="font-mono text-[10px] leading-[1.35] break-all whitespace-pre-wrap">{B64}</pre>
+          <pre className="font-mono text-[11px] leading-[1.35] break-all whitespace-pre-wrap">{B64}</pre>
           <Frame tone="paper" className="flex justify-center p-8 md:p-8">
             <Glyph symbol="heart" className="size-12 text-paper" />
           </Frame>

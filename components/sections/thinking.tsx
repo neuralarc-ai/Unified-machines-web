@@ -46,7 +46,7 @@ export function Thinking() {
         </StaggerItem>
         <StaggerItem aria-hidden className={cn(column, "hidden lg:block")}>
           <MonoLabel className="mb-5.5">[SYM.BIN]</MonoLabel>
-          <pre className="font-mono text-[10.5px] leading-[1.35] text-ink-soft">{BITS}</pre>
+          <pre className="font-mono text-[12px] leading-[1.35] text-ink-soft">{BITS}</pre>
         </StaggerItem>
       </Stagger>
     </>

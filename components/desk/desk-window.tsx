@@ -90,7 +90,7 @@ export function DeskWindow({ id, title, x, y, width, wm, floating, bounds, meta,
         onPointerDown={(e) => draggable && controls.start(e)}
         onDoubleClick={() => floating && wm.toggleMax(id)}
         className={cn(
-          "flex h-7.5 shrink-0 items-center justify-between gap-2.5 bg-ink px-2.5 font-mono text-[13px] leading-none font-medium text-paper select-none",
+          "flex h-7.5 shrink-0 items-center justify-between gap-2.5 bg-ink px-2.5 font-mono text-[14.5px] leading-none font-medium text-paper select-none",
           draggable && "cursor-grab touch-none active:cursor-grabbing"
         )}
       >

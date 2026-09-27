@@ -22,7 +22,7 @@ export function Problems() {
             className="group grid grid-cols-[40px_1fr] items-baseline gap-x-3.5 gap-y-2 border-b border-line py-5.5 transition-[padding] duration-300 outline-none hover:bg-[linear-gradient(90deg,var(--lime-soft),transparent_60%)] hover:pl-2 focus-visible:bg-[linear-gradient(90deg,var(--lime-soft),transparent_60%)] focus-visible:pl-2 lg:grid-cols-[48px_1fr_1fr] lg:gap-6"
           >
             <span className="font-mono text-xs">{String(i + 1).padStart(2, "0")}</span>
-            <span className="text-[clamp(18px,1.6vw,24px)] leading-[1.3] font-[450] tracking-[-0.02em] transition-colors duration-300 group-hover:text-pink-deep group-focus-visible:text-pink-deep">
+            <span className="text-[clamp(20px,1.8vw,27px)] leading-[1.3] font-[450] tracking-[-0.02em] transition-colors duration-300 group-hover:text-pink-deep group-focus-visible:text-pink-deep">
               {p.problem}
             </span>
             <span

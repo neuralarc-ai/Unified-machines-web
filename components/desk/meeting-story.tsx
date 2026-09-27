@@ -65,11 +65,11 @@ export function CallBody() {
             )}
           >
             <Image src={p.bg} alt="" fill sizes="(min-width: 1024px) 160px, 33vw" className="-z-10 object-cover" />
-            <span className="font-mono text-[13px] text-white">{p.initials}</span>
+            <span className="font-mono text-[14.5px] text-white">{p.initials}</span>
           </div>
         ))}
       </div>
-      <p className="min-h-16 border-t border-border px-3 py-2.5 font-mono text-[13px] leading-[1.45]">
+      <p className="min-h-16 border-t border-border px-3 py-2.5 font-mono text-[14.5px] leading-[1.45]">
         <span className="text-muted-foreground">{desk.call.who}: </span>
         {said.slice(0, typed)}
         {phase === 1 && <i aria-hidden className="ml-0.5 inline-block h-3.5 w-[7px] animate-blink bg-foreground align-[-2px]" />}
@@ -86,7 +86,7 @@ export function NotesBody() {
   const { phase } = use(StoryContext)
   return (
     <div className="p-3">
-      <p className="font-mono text-[13px] text-muted-foreground uppercase">{desk.notes.heading}</p>
+      <p className="font-mono text-[14.5px] text-muted-foreground uppercase">{desk.notes.heading}</p>
       <ul className="mt-2 space-y-1.5 text-sm">
         {desk.notes.items.map((item) => (
           <li key={item} className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export function NotesBody() {
   )
 }
 
-const event = "block border border-border px-1.5 py-1 font-mono text-[13px] leading-tight font-medium whitespace-nowrap"
+const event = "block border border-border px-1.5 py-1 font-mono text-[14.5px] leading-tight font-medium whitespace-nowrap"
 
 export function CalendarBody() {
   const { phase } = use(StoryContext)
@@ -120,7 +120,7 @@ export function CalendarBody() {
     <div className="grid grid-cols-5 gap-px bg-border p-px">
       {desk.cal.days.map((day, i) => (
         <div key={day} className="bg-card px-2 pt-2 pb-3">
-          <p className="font-mono text-[13px] text-muted-foreground">{day}</p>
+          <p className="font-mono text-[14.5px] text-muted-foreground">{day}</p>
           <div className="mt-2 h-14">
             {i === 1 && <span className={cn(event, "bg-card")}>{desk.cal.standup}</span>}
             {i === 3 && (

@@ -41,7 +41,7 @@ export function Process() {
               {String(i + 1).padStart(2, "0")}
             </span>
             <MonoLabel className="mb-3.5 text-pink-deep">{phase.label}</MonoLabel>
-            <h3 className="mb-3 text-[clamp(22px,2vw,28px)] tracking-[-0.03em]">{phase.title}</h3>
+            <h3 className="mb-3 text-[clamp(25px,2.25vw,31.5px)] tracking-[-0.03em]">{phase.title}</h3>
             <p className="leading-normal text-ink-soft">{phase.body}</p>
           </StaggerItem>
         ))}

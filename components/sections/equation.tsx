@@ -39,7 +39,7 @@ export function Equation() {
                 <Glyph symbol={e.key} className="size-[44%]" />
                 <Badge variant="tag">{e.label}</Badge>
               </ToggleGroupItem>
-              {OPERATORS[i] && <span className="font-mono text-xl md:text-[28px]">{OPERATORS[i]}</span>}
+              {OPERATORS[i] && <span className="font-mono text-xl md:text-[31.5px]">{OPERATORS[i]}</span>}
             </Fragment>
           ))}
         </ToggleGroup>

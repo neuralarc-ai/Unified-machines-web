@@ -58,7 +58,7 @@ export function Consolidate() {
               <StaggerItem
                 key={tool}
                 as="li"
-                className="border border-ink bg-paper px-2.5 py-1.5 text-[13px] md:px-3.5 md:py-2 md:text-[15px]"
+                className="border border-ink bg-paper px-2.5 py-1.5 text-[14.5px] md:px-3.5 md:py-2 md:text-[17px]"
                 variants={{
                   hidden: { opacity: 0, y: -18, rotate: 0 },
                   show: { opacity: 1, y: 0, rotate: tilt(i + 1), transition: { type: "spring", stiffness: 380, damping: 18 } },
@@ -68,7 +68,7 @@ export function Consolidate() {
               </StaggerItem>
             ))}
           </Stagger>
-          <p className="max-w-115 text-[clamp(16px,1.3vw,19px)] leading-[1.4] md:max-w-[46%]">
+          <p className="max-w-115 text-[clamp(18px,1.46vw,21.5px)] leading-[1.4] md:max-w-[46%]">
             Twelve logins. Twelve bills. Twelve places the answer might be.
           </p>
         </div>
@@ -83,10 +83,10 @@ export function Consolidate() {
           </Badge>
           <div aria-hidden className="flex flex-col items-end gap-3">
             <BrandMarks glyphClassName="size-7" />
-            <span className="text-[clamp(34px,4vw,56px)] leading-none font-medium tracking-[-0.04em]">One product.</span>
+            <span className="text-[clamp(38px,4.5vw,63px)] leading-none font-medium tracking-[-0.04em]">One product.</span>
             <span className="font-mono text-xs">Meet · Schedule · Remember · Decide · Find</span>
           </div>
-          <p className="max-w-105 text-[clamp(16px,1.3vw,19px)] leading-[1.4]">
+          <p className="max-w-105 text-[clamp(18px,1.46vw,21.5px)] leading-[1.4]">
             One surface with intelligence inside, and the data in one place your organisation owns.
           </p>
         </div>

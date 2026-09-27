@@ -25,7 +25,7 @@ const WINDOWS: { id: WindowId; label: string }[] = [
   { id: "readme", label: desk.readme.file },
 ]
 
-const menuItem = "gap-2.5 rounded-none px-2.5 py-2 text-[15px] focus:bg-lime focus:text-ink"
+const menuItem = "gap-2.5 rounded-none px-2.5 py-2 text-[17px] focus:bg-lime focus:text-ink"
 
 function TrayClock() {
   const now = useNow(10_000)
@@ -40,7 +40,7 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
-            <Button variant="accent" className="h-7.5 gap-2 rounded-none px-2.5 font-mono text-[13px]" />
+            <Button variant="accent" className="h-7.5 gap-2 rounded-none px-2.5 font-mono text-[14.5px]" />
           }
         >
           <BrandMarks glyphClassName="size-[11px]" />
@@ -57,7 +57,7 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-2.5 font-mono text-[13px] font-medium uppercase">Games</DropdownMenuLabel>
+            <DropdownMenuLabel className="px-2.5 font-mono text-[14.5px] font-medium uppercase">Games</DropdownMenuLabel>
             {GAMES.map((game) => (
               <DropdownMenuItem key={game.id} className={menuItem} onClick={() => wm.openGame(game.id)}>
                 <GameIcon cells={game.icon} className="size-4" />
@@ -79,7 +79,7 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
               aria-current={front || undefined}
               onClick={() => wm.toggleTask(task.id)}
               className={cn(
-                "h-7.5 shrink-0 rounded-none bg-card px-3 font-mono text-[13px] font-medium",
+                "h-7.5 shrink-0 rounded-none bg-card px-3 font-mono text-[14.5px] font-medium",
                 // the front window's task sits pressed in, like a real taskbar
                 front && "translate-px bg-ink text-paper shadow-none hover:bg-ink hover:text-paper",
                 minimized && "border-dashed text-muted-foreground"
@@ -91,7 +91,7 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
         })}
       </nav>
 
-      <span className="flex h-7.5 items-center border-l border-line px-2 font-mono text-[13px] tabular-nums">
+      <span className="flex h-7.5 items-center border-l border-line px-2 font-mono text-[14.5px] tabular-nums">
         <TrayClock />
       </span>
     </div>

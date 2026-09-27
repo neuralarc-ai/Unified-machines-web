@@ -9,12 +9,17 @@ import { SplitButton } from "@/components/site/split-button"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { EASE } from "@/components/motion/reveal"
+import { useActiveSection } from "@/hooks/use-active-section"
 import { MORSE_URL, navLinks } from "@/lib/content"
+import { cn } from "@/lib/utils"
 
 export const underlineLink =
   "relative after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-250 hover:after:scale-x-100"
 
+const SECTION_IDS = navLinks.map((l) => l.href.slice(1))
+
 export function SiteHeader() {
+  const active = useActiveSection(SECTION_IDS)
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 32 })
 
@@ -29,18 +34,35 @@ export function SiteHeader() {
         <Link
           href="#main"
           aria-label="Unified Machines home"
-          className="group/brand flex items-center gap-3 text-[17px] font-medium tracking-[-0.4px] whitespace-nowrap"
+          className="group/brand flex items-center gap-3.5 text-[22px] font-medium tracking-[-0.5px] whitespace-nowrap"
         >
-          <BrandMarks glyphClassName="transition-transform duration-400 ease-[cubic-bezier(.2,.7,.2,1)] nth-2:group-hover/brand:rotate-90 nth-3:group-hover/brand:-translate-y-0.5" />
+          <BrandMarks className="gap-1.5" glyphClassName="size-5.5 transition-transform duration-400 ease-[cubic-bezier(.2,.7,.2,1)] nth-2:group-hover/brand:rotate-90 nth-3:group-hover/brand:-translate-y-0.5" />
           <span>Unified Machines</span>
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden gap-7 text-sm md:flex">
-          {navLinks.map((l) => (
-            <Link key={l.href} href={l.href} className={underlineLink}>
-              {l.label}
-            </Link>
-          ))}
+        <nav aria-label="Main navigation" className="hidden gap-7 text-sm lg:flex">
+          {navLinks.map((l) => {
+            const current = active === l.href.slice(1)
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={current ? "location" : undefined}
+                className={cn(underlineLink, "transition-colors", active && !current && "text-ink/60 hover:text-ink")}
+              >
+                {l.label}
+                {/* the marker slides from link to link as the page scrolls */}
+                {current && (
+                  <motion.span
+                    layoutId="nav-active"
+                    aria-hidden
+                    className="absolute inset-x-0 -bottom-1 h-0.5 bg-ink"
+                    transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                  />
+                )}
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -49,7 +71,7 @@ export function SiteHeader() {
           </SplitButton>
 
           <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon-lg" className="md:hidden" aria-label="Open navigation" />}>
+            <SheetTrigger render={<Button variant="ghost" size="icon-lg" className="lg:hidden" aria-label="Open navigation" />}>
               <HugeiconsIcon icon={Menu02Icon} strokeWidth={1.5} className="size-6" />
             </SheetTrigger>
             <SheetContent side="top" className="gap-0 border-ink bg-paper px-5 pt-16 pb-6">
@@ -67,9 +89,11 @@ export function SiteHeader() {
                         transition={{ delay: 0.05 * i, ease: EASE }}
                       />
                     }
-                    className="border-b border-line py-3 text-lg"
+                    aria-current={active === l.href.slice(1) ? "location" : undefined}
+                    className="flex items-center justify-between border-b border-line py-3 text-lg aria-[current]:font-medium"
                   >
                     {l.label}
+                    {active === l.href.slice(1) && <span aria-hidden className="size-2 bg-lime ring-1 ring-ink" />}
                   </SheetClose>
                 ))}
               </nav>

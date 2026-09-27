@@ -164,7 +164,7 @@ export function Match({ onScore }: GameProps) {
         {won && !reduced && <Confetti key={s.round} />}
       </div>
 
-      <div className="mt-3 flex items-center justify-between gap-3 font-mono text-[13px]">
+      <div className="mt-3 flex items-center justify-between gap-3 font-mono text-[14.5px]">
         <span className="flex items-center gap-2">
           {won ? `Solved · ${moves}` : `${s.matched.length}/${PAIRS} pairs`}
           {won && s.newBest && (
@@ -179,7 +179,7 @@ export function Match({ onScore }: GameProps) {
           variant={won ? "accent" : "outline"}
           size="sm"
           onClick={redeal}
-          className="rounded-none font-mono text-[13px] font-medium uppercase"
+          className="rounded-none font-mono text-[14.5px] font-medium uppercase"
         >
           Deal again
         </Button>

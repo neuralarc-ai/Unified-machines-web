@@ -20,17 +20,17 @@ import { useWindowManager, type WindowManager } from "./use-window-manager"
 const deskIcon =
   "group/icon h-auto w-21 flex-col gap-1.5 rounded-(--radius) px-0 py-1.5 hover:bg-transparent aria-pressed:bg-transparent"
 const deskIconLabel =
-  "rounded-[3px] px-1.25 py-px font-mono text-[13px] leading-[1.3] font-medium group-aria-pressed/icon:bg-secondary"
+  "rounded-[3px] px-1.25 py-px font-mono text-[14.5px] leading-[1.3] font-medium group-aria-pressed/icon:bg-secondary"
 const iconHover = "size-10 transition-transform duration-300 group-hover/icon:-translate-y-0.5"
 
 function DeskClock() {
   const now = useNow()
   return (
     <div className="px-3 py-2.5 font-mono">
-      <p className="text-[13px] text-muted-foreground">
+      <p className="text-[14.5px] text-muted-foreground">
         {now?.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) ?? " "}
       </p>
-      <p className="text-[26px] leading-none tabular-nums">{now?.toLocaleTimeString("en-GB") ?? "--:--:--"}</p>
+      <p className="text-[29px] leading-none tabular-nums">{now?.toLocaleTimeString("en-GB") ?? "--:--:--"}</p>
     </div>
   )
 }
@@ -94,7 +94,7 @@ export function Desk() {
       className="relative isolate flex flex-col gap-3 overflow-hidden rounded-(--radius) border border-border bg-background bg-[radial-gradient(rgba(16,16,16,.22)_.7px,transparent_.8px)] bg-size-[12px_12px] px-3 pt-12 lg:block lg:h-[clamp(620px,54vw,820px)] lg:p-0"
     >
       <PointerGlow host={box} />
-      <Badge variant="tag" className="absolute top-2.5 left-3 z-[2] px-[7px] py-0.5 text-[13px] font-medium">
+      <Badge variant="tag" className="absolute top-2.5 left-3 z-[2] px-[7px] py-0.5 text-[14.5px] font-medium">
         {desk.label}
       </Badge>
 
@@ -123,7 +123,7 @@ export function Desk() {
         <DeskWindow id="notes" title={desk.notes.file} x="62%" y="32%" width="clamp(280px,28%,380px)" wm={wm} floating={floating} bounds={box}>
           <NotesBody />
         </DeskWindow>
-        <DeskWindow id="cal" title={desk.cal.file} x="38%" y="60%" width="clamp(400px,44%,600px)" wm={wm} floating={floating} bounds={box}>
+        <DeskWindow id="cal" title={desk.cal.file} x="38%" y="60%" width="clamp(440px,44%,620px)" wm={wm} floating={floating} bounds={box}>
           <CalendarBody />
         </DeskWindow>
       </MeetingStory>

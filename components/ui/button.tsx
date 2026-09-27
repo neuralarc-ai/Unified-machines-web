@@ -6,8 +6,7 @@ import { cn } from "cn"
  * Brutalist controls, ported from um-landing's BRUT/UI button: a 1px ink
  * border and a hard 2px offset shadow; hover lifts 1px out of the shadow,
  * press (or an open popup) sinks into it. The shadow colour is
- * `--btn-shadow` (ink by default), so a button on a dark band can swap it
- * (see SplitButton's ink tone).
+ * `--btn-shadow` (ink by default), so a button on a dark band can swap it.
  */
 const control =
   "border-ink font-semibold shadow-[2px_2px_0_var(--btn-shadow,var(--ink))] transition-[translate,box-shadow,background-color,color] duration-120 ease-out hover:not-disabled:-translate-px hover:not-disabled:shadow-[3px_3px_0_var(--btn-shadow,var(--ink))] active:not-disabled:translate-px active:not-disabled:shadow-none data-pressed:translate-px data-pressed:shadow-none data-popup-open:translate-px data-popup-open:shadow-none"
@@ -29,7 +28,7 @@ const buttonVariants = cva(
       size: {
         default: "h-9 gap-2 px-3 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5",
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.9rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-11 gap-2 px-5 text-base has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
         icon: "size-9",
         "icon-xs":

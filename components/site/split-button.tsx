@@ -25,15 +25,12 @@ export function SplitButton({
   href,
   children,
   external = false,
-  tone = "paper",
   size = "md",
   className,
 }: {
   href: string
   children: string
   external?: boolean
-  /** `ink` for dark bands. */
-  tone?: "paper" | "ink"
   size?: "sm" | "md"
   className?: string
 }) {
@@ -50,17 +47,15 @@ export function SplitButton({
       render={external ? <a href={href} target="_blank" rel="noopener noreferrer" /> : <Link href={href} />}
       className={cn(
         "group/split gap-0 overflow-hidden bg-card p-0 font-mono tracking-[-0.02em] uppercase hover:bg-card",
-        sm ? "h-9 text-[13px]" : "h-11 text-sm",
-        tone === "ink" && "border-paper bg-ink text-paper [--btn-shadow:var(--paper)] hover:bg-ink",
+        sm ? "h-9 text-[14.5px]" : "h-11 text-sm",
         className
       )}
     >
       <span
         aria-hidden
         className={cn(
-          "relative grid h-full shrink-0 place-items-center overflow-hidden border-r bg-lime text-ink",
-          sm ? "w-9" : "w-11",
-          tone === "ink" ? "border-paper" : "border-ink"
+          "relative grid h-full shrink-0 place-items-center overflow-hidden border-r border-ink bg-lime text-ink",
+          sm ? "w-9" : "w-11"
         )}
       >
         <PixelArrow className={cn("absolute size-3.5 transition-transform duration-450", ease, slideOut)} />
@@ -71,8 +66,7 @@ export function SplitButton({
         className={cn(
           "flex h-full items-center transition-colors duration-300 group-hover/split:bg-lime group-focus-visible/split:bg-lime",
           sm ? "px-3" : "px-4",
-          ease,
-          tone === "ink" && "group-hover/split:text-ink group-focus-visible/split:text-ink"
+          ease
         )}
       >
         <span className="sr-only">{children}</span>
