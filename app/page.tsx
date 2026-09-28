@@ -1,4 +1,3 @@
-import { Closer } from "@/components/sections/closer"
 import { Consolidate } from "@/components/sections/consolidate"
 import { Control } from "@/components/sections/control"
 import { Equation } from "@/components/sections/equation"
@@ -35,7 +34,6 @@ export default function Home() {
         <Products />
         <Partner />
         <Faq />
-        <Closer />
       </main>
       <SiteFooter />
     </>

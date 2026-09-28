@@ -1,37 +1,45 @@
-import { Frame, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal"
-import { bodyLg, display, MonoLabel } from "@/components/site/section-head"
-import { cn } from "@/lib/utils"
+import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal"
+import { bodyLg, display } from "@/components/site/section-head"
+import { WindowFrame } from "@/components/site/window-frame"
 
-const column = "border-l border-ink pl-5"
-
+/**
+ * Our thinking (option 4, chosen 2026-09-28): the statement, then its two
+ * notes opened as UM.OS files, carrying the desk's language down the page.
+ */
 export function Thinking() {
   return (
-    // the top margin keeps the frame's corners clear of the desk above; they must never touch it
-    <section id="thinking" aria-labelledby="statement-title" className="mt-12 md:mt-18">
-      <Frame className="container-page py-18 md:pt-20 md:pb-27.5">
-        <WordReveal id="statement-title" className={display}>
-          We build for the everyday, then build it to last.
-        </WordReveal>
-      </Frame>
+    <section id="thinking" aria-labelledby="statement-title" className="container-page py-20 md:py-30">
+      <WordReveal id="statement-title" className={display}>
+        We build for the everyday, then build it to last.
+      </WordReveal>
 
-      <Stagger className="container-page grid gap-8 pb-18 md:grid-cols-2 md:gap-12 md:pb-27.5">
-        <StaggerItem className={column}>
-          <MonoLabel className="mb-5.5">Our thinking</MonoLabel>
-          <p className={bodyLg}>
-            Most software is built for the next quarter. The tools companies depend on every day deserve better:
-            products with intelligence in the foundation, designed to stay useful as models change, teams grow and the
-            work moves on. That is the foundation of Unified Machines.
-          </p>
+      <Stagger className="mx-auto mt-14 grid max-w-[1120px] gap-8 md:mt-20 md:grid-cols-2 md:gap-10">
+        <StaggerItem>
+          <WindowFrame title="our-thinking.txt" bodyClassName="p-6 md:p-7" className="h-full">
+            <p className={bodyLg}>
+              Most software is built for the next quarter. The tools companies depend on every day deserve better:
+              products with intelligence in the foundation, designed to stay useful as models change, teams grow and
+              the work moves on. That is the foundation of Unified Machines.
+            </p>
+          </WindowFrame>
         </StaggerItem>
-        <StaggerItem className={column}>
-          <MonoLabel className="mb-5.5">The name</MonoLabel>
-          <p className={cn(bodyLg, "mb-3.5")}>
-            Unified is the point. Human ambition and machine intelligence, working toward one outcome: products people
-            are glad to use for years. Less friction. More freedom. Something useful enough to become second nature.
-          </p>
-          <p className={cn(bodyLg, "font-medium")}>Everyday problems. Uncommon possibilities.</p>
+        {/* set a step lower, like a second window opened after the first */}
+        <StaggerItem className="md:translate-y-10">
+          <WindowFrame title="the-name.txt" bodyClassName="p-6 md:p-7" className="h-full">
+            <p className={bodyLg}>
+              Unified is the point. Human ambition and machine intelligence, working toward one outcome: products
+              people are glad to use for years. Less friction. More freedom. Something useful enough to become second
+              nature.
+            </p>
+          </WindowFrame>
         </StaggerItem>
       </Stagger>
+
+      <Reveal className="mt-16 flex justify-center md:mt-24">
+        <p className="border-[1.5px] border-ink bg-lime px-4 py-2 font-mono text-sm shadow-hard-sm">
+          Everyday problems. Uncommon possibilities.
+        </p>
+      </Reveal>
     </section>
   )
 }

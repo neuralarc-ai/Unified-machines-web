@@ -130,6 +130,20 @@
   background-position: 4px 4px;
 }
 
+/* faint 80px ruled grid, from um-landing: on paper, and on ink */
+@utility grid-ground {
+  background-image:
+    linear-gradient(to right, rgb(16 16 16 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(16 16 16 / 0.07) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+@utility grid-ground-ink {
+  background-image:
+    linear-gradient(to right, rgb(241 240 238 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(241 240 238 / 0.07) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
 @utility container-page {
   width: calc(100% - 40px);
   max-width: 1280px;
