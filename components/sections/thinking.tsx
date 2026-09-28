@@ -6,8 +6,9 @@ const column = "border-l border-ink pl-5"
 
 export function Thinking() {
   return (
-    <section id="thinking" aria-labelledby="statement-title">
-      <Frame className="container-page py-18 md:pt-30 md:pb-27.5">
+    // the top margin keeps the frame's corners clear of the desk above; they must never touch it
+    <section id="thinking" aria-labelledby="statement-title" className="mt-12 md:mt-18">
+      <Frame className="container-page py-18 md:pt-20 md:pb-27.5">
         <WordReveal id="statement-title" className={display}>
           We build for the everyday, then build it to last.
         </WordReveal>
