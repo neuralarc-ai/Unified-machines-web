@@ -8,7 +8,7 @@ import { WindowFrame } from "@/components/site/window-frame"
  */
 export function Thinking() {
   return (
-    <section id="thinking" aria-labelledby="statement-title" className="container-page py-20 md:py-30">
+    <section id="thinking" aria-labelledby="statement-title" className="container-page pt-4 pb-20 md:pt-14 md:pb-30">
       <WordReveal id="statement-title" className={display}>
         We build for the everyday, then build it to last.
       </WordReveal>

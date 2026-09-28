@@ -8,15 +8,24 @@ import { Button } from "@/components/ui/button"
 /**
  * Centred hero (option B, chosen 2026-09-28): headline, a two-line sub-copy
  * and both actions on one axis over the ruled grid from um-landing. Stepped
- * colour blocks rise at either edge and run on down behind the desk, which
- * sits over them.
+ * colour blocks rise at either edge and run down behind the desk; the grid
+ * ends on the same line, about halfway down the desk, fading out rather than
+ * stopping. The desk floats over both on a soft shadow.
  */
+
+// where the grid and blocks end: this far below the copy, so about the desk's middle
+const reach = "-bottom-80"
+
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="grid-ground relative overflow-hidden">
+    <section aria-labelledby="hero-title" className="relative overflow-hidden">
       <div className="relative pt-16 pb-16 md:pt-24 md:pb-20">
-        {/* the blocks keep their first size (62% and 74% of this copy block) but sit 160px lower, tucked behind the desk */}
-        <div aria-hidden className="absolute inset-x-0 -bottom-40 h-[74%] max-md:hidden">
+        <div
+          aria-hidden
+          className={`grid-ground absolute inset-x-0 top-0 ${reach} [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]`}
+        />
+        {/* the blocks keep their first size (62% and 74% of the copy block), set low so they end with the grid */}
+        <div aria-hidden className={`absolute inset-x-0 h-[74%] max-md:hidden ${reach}`}>
           <PixelSteps
             corner="bl"
             className="h-[84%] w-[18%]"
@@ -62,8 +71,11 @@ export function Hero() {
         </Stagger>
       </div>
 
-      <Reveal className="container-page relative z-[1]" delay={0.3}>
-        <Desk />
+      {/* bottom padding leaves room for the shadow, which overflow-hidden would otherwise clip */}
+      <Reveal className="container-page relative z-[1] pb-16" delay={0.3}>
+        <div className="rounded-(--radius) shadow-[0_2px_4px_rgb(16_16_16/0.04),0_12px_24px_-6px_rgb(16_16_16/0.10),0_40px_80px_-24px_rgb(16_16_16/0.22)]">
+          <Desk />
+        </div>
       </Reveal>
     </section>
   )
