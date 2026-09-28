@@ -2,7 +2,7 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal"
 import { SectionHead } from "@/components/site/section-head"
 import { problems } from "@/lib/content"
 
-const lit = "group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-ink group-focus-visible:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:text-ink"
+const lit = "group-hover:translate-x-0 group-hover:text-ink group-focus-visible:translate-x-0 group-focus-visible:text-ink"
 
 export function Problems() {
   return (
@@ -26,7 +26,7 @@ export function Problems() {
               {p.problem}
             </span>
             <span
-              className={`col-start-2 leading-[1.45] text-muted-foreground transition-[opacity,translate,color] duration-350 lg:col-start-3 lg:translate-x-2 lg:opacity-55 ${lit}`}
+              className={`col-start-2 leading-[1.45] text-muted-foreground transition-[translate,color] duration-350 lg:col-start-3 lg:translate-x-2 ${lit}`}
             >
               {p.outcome}
             </span>

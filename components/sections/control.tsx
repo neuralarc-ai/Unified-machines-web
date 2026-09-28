@@ -14,8 +14,8 @@ export function Control() {
             Your decision, every time.
           </h2>
           <p className="mt-4.5 max-w-130 text-[clamp(19px,1.57vw,22.5px)] leading-[1.45]">
-            Sovereignty is the setting we design toward. Every product ships with these five in your hands, and we say
-            so plainly when a trade-off remains.
+            Sovereignty is the setting we design toward. These are the five we hold every product to, and where one is
+            not there yet, we say so plainly.
           </p>
         </Reveal>
 

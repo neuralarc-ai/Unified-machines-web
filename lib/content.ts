@@ -238,7 +238,7 @@ export const faqs = [
   },
   {
     q: "What does “sovereign” mean here?",
-    a: "As much control as possible over your data, your models and your dependencies. Five commitments ship with every product: data residency, model choice, access, exit and audit.",
+    a: "As much control as possible over your data, your models and your dependencies. We hold every product to five aims: data residency, model choice, access, exit and audit, and we say plainly where one is not met yet.",
   },
   {
     q: "What do the three symbols mean?",

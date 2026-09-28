@@ -10,19 +10,20 @@ const subscribe = (onChange: () => void) => {
 }
 
 /**
- * The id of the last section (from `ids`, in page order) whose top has crossed
- * a line `offset` of the way down the viewport; null above the first one.
+ * The id of the section (from `ids`) spanning a line `offset` of the way down
+ * the viewport; null when that line is in a section outside the nav, so a link
+ * never stays lit over the sections that follow it.
  */
 export function useActiveSection(ids: readonly string[], offset = 0.35) {
   return useSyncExternalStore(
     subscribe,
     () => {
-      let active: string | null = null
+      const line = innerHeight * offset
       for (const id of ids) {
-        const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top <= innerHeight * offset) active = id
+        const r = document.getElementById(id)?.getBoundingClientRect()
+        if (r && r.top <= line && r.bottom > line) return id
       }
-      return active
+      return null
     },
     () => null
   )

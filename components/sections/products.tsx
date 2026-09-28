@@ -89,7 +89,7 @@ export function Products() {
               </Stagger>
               <p className="border-t border-ink pt-2.5 text-[17px] text-ink-soft sm:col-span-2">
                 <span className="sr-only">{morse.jobs.length} </span>
-                tools, logins and bills for one meeting.
+                Tools, logins and bills for one meeting.
               </p>
             </div>
           </div>
