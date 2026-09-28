@@ -4,42 +4,42 @@ import { PixelSteps } from "@/components/brand/pixel-steps"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 /**
  * Centred hero (option B, chosen 2026-09-28): headline, a two-line sub-copy
- * and both actions on one axis, the desk given room below. `ground` lays the
- * ruled grid and stepped colour blocks from um-landing behind it (on review).
+ * and both actions on one axis over the ruled grid from um-landing. Stepped
+ * colour blocks rise at either edge and run on down behind the desk, which
+ * sits over them.
  */
-export function Hero({ ground = false }: { ground?: boolean }) {
+export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className={cn("relative", ground && "grid-ground overflow-hidden")}>
+    <section aria-labelledby="hero-title" className="grid-ground relative overflow-hidden">
       <div className="relative pt-16 pb-16 md:pt-24 md:pb-20">
-        {ground && (
-          <>
-            <PixelSteps
-              corner="bl"
-              className="h-[62%] w-[18%] max-md:hidden"
-              steps={[
-                [100, 46],
-                [56, 100],
-              ]}
-              from="#caeb6b"
-              to="#99ebfa"
-            />
-            <PixelSteps
-              corner="br"
-              className="h-[74%] w-[22%] max-md:hidden"
-              steps={[
-                [100, 34],
-                [72, 68],
-                [40, 100],
-              ]}
-              from="#f5c36b"
-              to="#ff6fb0"
-            />
-          </>
-        )}
+        {/* anchored low: the blocks start beside the copy and end 300px into the desk */}
+        <div aria-hidden className="absolute inset-x-0 top-[38%] -bottom-75 max-md:hidden">
+          <PixelSteps
+            corner="bl"
+            className="h-full w-[18%]"
+            steps={[
+              [100, 52],
+              [56, 100],
+            ]}
+            from="#caeb6b"
+            to="#99ebfa"
+          />
+          <PixelSteps
+            corner="br"
+            className="h-full w-[22%]"
+            steps={[
+              [100, 40],
+              [72, 72],
+              [40, 100],
+            ]}
+            from="#f5c36b"
+            to="#ff6fb0"
+          />
+        </div>
+
         <Stagger gap={0.12} className="container-page relative flex flex-col items-center text-center">
           <h1 id="hero-title" className="text-[clamp(46px,6.6vw,92px)] text-balance">
             <StaggerItem as="span" className="block">
@@ -62,7 +62,7 @@ export function Hero({ ground = false }: { ground?: boolean }) {
         </Stagger>
       </div>
 
-      <Reveal className="container-page relative" delay={0.3}>
+      <Reveal className="container-page relative z-[1]" delay={0.3}>
         <Desk />
       </Reveal>
     </section>
