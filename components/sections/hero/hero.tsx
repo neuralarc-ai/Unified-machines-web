@@ -15,13 +15,13 @@ export function Hero() {
   return (
     <section aria-labelledby="hero-title" className="grid-ground relative overflow-hidden">
       <div className="relative pt-16 pb-16 md:pt-24 md:pb-20">
-        {/* anchored low: the blocks start beside the copy and end 300px into the desk */}
-        <div aria-hidden className="absolute inset-x-0 top-[38%] -bottom-75 max-md:hidden">
+        {/* the blocks keep their first size (62% and 74% of this copy block) but sit 160px lower, tucked behind the desk */}
+        <div aria-hidden className="absolute inset-x-0 -bottom-40 h-[74%] max-md:hidden">
           <PixelSteps
             corner="bl"
-            className="h-full w-[18%]"
+            className="h-[84%] w-[18%]"
             steps={[
-              [100, 52],
+              [100, 46],
               [56, 100],
             ]}
             from="#caeb6b"
@@ -31,8 +31,8 @@ export function Hero() {
             corner="br"
             className="h-full w-[22%]"
             steps={[
-              [100, 40],
-              [72, 72],
+              [100, 34],
+              [72, 68],
               [40, 100],
             ]}
             from="#f5c36b"
