@@ -17,7 +17,8 @@ export function Equation() {
   const text = equation.find((e) => e.key === value[0])?.text ?? equationDefault
 
   return (
-    <section aria-labelledby="eq-title">
+    // with principles' own pt-10, the frame's corners clear the next section by the page rhythm (72 / 120)
+    <section aria-labelledby="eq-title" className="pb-8 md:pb-20">
       <Frame className="container-page pt-12 pb-16 text-center md:pt-20 md:pb-25">
         <WordReveal id="eq-title" className={display}>
           Human ambition <span className="font-normal text-pink-deep">×</span> machine intelligence.

@@ -1,4 +1,4 @@
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import type { GameId } from "./games/registry"
 
 export type WindowId = "call" | "notes" | "cal" | "clock" | "readme" | GameId
@@ -52,9 +52,21 @@ const initial: State = {
   games: [],
 }
 
-/** Window stacking, minimise, maximise and open games for UM.OS. */
-export function useWindowManager() {
+/**
+ * Window stacking, minimise, maximise and open games for UM.OS. `compact`
+ * windows start minimised below the desk breakpoint, where windows stack in a
+ * column: the taskbar still lists them, so they are one tap away.
+ */
+export function useWindowManager(compact: WindowId[] = []) {
   const [state, dispatch] = useReducer(reducer, initial)
+
+  // decided once, in the browser: the server can't know the screen
+  useEffect(() => {
+    if (matchMedia("(min-width: 1024px)").matches) return
+    const t = setTimeout(() => compact.forEach((id) => dispatch({ type: "minimize", id })))
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- first screen only
+  }, [])
   const front = state.order.findLast((id) => !state.minimized.includes(id))
 
   return {

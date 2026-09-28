@@ -74,7 +74,7 @@ function GameWindow({
  */
 export function Desk() {
   const box = useRef<HTMLDivElement>(null)
-  const wm = useWindowManager()
+  const wm = useWindowManager(["clock", "cal"])
   const [picked, setPicked] = useState<SymbolKey | null>(null)
   const inView = useInView(box, { amount: 0.3 })
   const { stopped, reduced } = useMotionState()

@@ -10,7 +10,7 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 export const metadata: Metadata = {
   title: "Unified Machines | AI products built to last.",
   description:
-    "Unified Machines builds innovative AI products for companies, designed to stay useful for years. Morse, for meetings, is the first. More are coming across the domains businesses run on.",
+    "Unified Machines builds AI products for companies, designed to stay useful for years. Morse, for meetings, is the first. More are coming across the domains businesses run on.",
   icons: { icon: "/favicon.svg" },
 }
 

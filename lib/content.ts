@@ -168,7 +168,7 @@ export const tools = [
 
 export const commitments = [
   { title: "Data residency.", body: "Your records live where you decide." },
-  { title: "Model choice.", body: "You pick which intelligence runs, including homegrown models." },
+  { title: "Model choice.", body: "Which intelligence runs is yours to choose, homegrown models included." },
   { title: "Access.", body: "Who sees what is set by your rules, at the level you set them." },
   { title: "Exit.", body: "Take everything with you, any time, in a form you can use." },
   { title: "Audit.", body: "What the machine did and why, always on the record." },
@@ -210,15 +210,13 @@ export const morse = {
 
 export const roadmap = [
   { name: "Morse", status: "Being built", live: true },
-  { name: "Next domain", status: "In research", live: false },
-  { name: "Next domain", status: "In research", live: false },
-  { name: "Next domain", status: "In research", live: false },
+  { name: "More products, across other domains", status: "In research", live: false },
 ]
 
 export const faqs = [
   {
     q: "What does Unified Machines build?",
-    a: "Innovative AI products for companies, designed to last. Morse, for the calendar and everything around meetings, is the first. More are coming across the different areas and domains a business runs on.",
+    a: "AI products for companies, designed to last. Morse, for the calendar and everything around meetings, is the first. More are coming across the different areas and domains a business runs on.",
   },
   {
     q: "What does “built to last” mean for an AI product?",

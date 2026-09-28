@@ -26,7 +26,7 @@ export function Hero() {
             as="p"
             className="mt-6.5 max-w-160 text-[clamp(19px,1.69vw,22.5px)] leading-normal text-ink-soft"
           >
-            Unified Machines builds innovative AI products for companies, designed to stay useful for years rather
+            Unified Machines builds AI products for companies, designed to stay useful for years rather
             than quarters. Morse, for meetings and everything around them, is the first. More are coming across the
             domains businesses run on.
           </StaggerItem>
