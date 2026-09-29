@@ -122,16 +122,19 @@ function MorseWindow() {
 
 export function Consolidate() {
   return (
-    <section id="consolidate" aria-labelledby="cons-title" className="mb-18 bg-ink text-paper md:mb-30">
-      {/* the ruled part is sized in whole grid cells, so every line lands on a border */}
-      <div className="grid-ground-ink">
-        <div className="container-page border-x border-paper/10">
-          <div className="flex h-(--cell) items-center justify-between gap-6 border-b border-paper/10 px-4 md:px-8">
+    <section id="consolidate" aria-labelledby="cons-title" className="grid-ground-ink mb-18 bg-ink text-paper md:mb-30">
+      {/*
+        One grid runs under the whole band. The strip and headline are whole cells tall, so the grid's own lines
+        frame them; no borders are drawn on top, which would double those lines.
+      */}
+      <div>
+        <div className="container-page">
+          <div className="flex h-(--cell) items-center justify-between gap-6 px-4 md:px-8">
             <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
             <p className={cn(tag, "hidden md:block")}>Meet · Schedule · Remember · Decide · Find</p>
           </div>
 
-          <Reveal className="grid h-[calc(var(--cell)*6)] content-end items-end gap-6 border-b border-paper/10 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
+          <Reveal className="grid h-[calc(var(--cell)*6)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
             <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
               Twelve tools.
               <br />
@@ -144,8 +147,9 @@ export function Consolidate() {
         </div>
       </div>
 
-      <div className="container-page border-x border-paper/10">
-        <Stagger gap={0.12} className="grid gap-px bg-paper/10 lg:grid-cols-3">
+      <div className="container-page">
+        {/* dividers in the grid lines' own colour (8% paper on ink), opaque so nothing stacks under them */}
+        <Stagger gap={0.12} className="grid gap-px bg-[#222222] lg:grid-cols-3">
           {/* 1 · the idea */}
           <StaggerItem className={cn(col, "justify-between gap-40 overflow-hidden")}>
             <p className={tag}>1 · The idea</p>

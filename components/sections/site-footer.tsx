@@ -76,26 +76,27 @@ const cellVars = { "--e": "calc((100cqw - var(--cols) * var(--cell)) / 2)" } as 
 const c = (n: number) => `calc(var(--cell) * ${n})`
 
 function Steps() {
+  // tall and narrow: each reaches only a few cells in from the page edge and climbs 5 / 6 cells
   return (
     <>
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 [--l:2] md:[--l:5]"
+        className="pointer-events-none absolute bottom-0 left-0 [--l:2] md:[--l:3]"
         style={{
           width: "calc(var(--e) + var(--cell) * var(--l))",
-          height: c(3),
-          clipPath: `polygon(0 100%, 100% 100%, 100% ${c(2)}, calc(100% - ${c(2)}) ${c(2)}, calc(100% - ${c(2)}) 0, 0 0)`,
-          background: "linear-gradient(45deg, #99ebfa, #b9b3ff)",
+          height: c(5),
+          clipPath: `polygon(0 100%, 100% 100%, 100% ${c(3)}, calc(100% - var(--cell)) ${c(3)}, calc(100% - var(--cell)) ${c(1)}, calc(100% - ${c(2)}) ${c(1)}, calc(100% - ${c(2)}) 0, 0 0)`,
+          background: "linear-gradient(20deg, #99ebfa, #b9b3ff)",
         }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute right-0 bottom-0 [--r:3] md:[--r:7]"
+        className="pointer-events-none absolute right-0 bottom-0 [--r:3] md:[--r:4]"
         style={{
           width: "calc(var(--e) + var(--cell) * var(--r))",
-          height: c(4),
-          clipPath: `polygon(100% 100%, 0 100%, 0 ${c(3)}, ${c(2)} ${c(3)}, ${c(2)} ${c(2)}, ${c(4)} ${c(2)}, ${c(4)} 0, 100% 0)`,
-          background: "linear-gradient(315deg, #caeb6b, #ff6fb0)",
+          height: c(6),
+          clipPath: `polygon(100% 100%, 0 100%, 0 ${c(4)}, var(--cell) ${c(4)}, var(--cell) ${c(2)}, ${c(2)} ${c(2)}, ${c(2)} 0, 100% 0)`,
+          background: "linear-gradient(340deg, #caeb6b, #ff6fb0)",
         }}
       />
     </>
@@ -107,8 +108,8 @@ export function SiteFooter() {
     <footer className="grid-ground-ink relative overflow-hidden bg-ink text-paper" style={cellVars}>
       <Steps />
 
-      {/* rows are whole cells tall: meta 1, gap 1, main 6, gap 1, closing 1, then 4 for the blocks */}
-      <div className="container-page relative pb-[calc(var(--cell)*4)]">
+      {/* rows are whole cells tall: meta 1, gap 1, main 6, gap 1, closing 1, then 6 for the blocks */}
+      <div className="container-page relative pb-[calc(var(--cell)*6)]">
         <div className="flex h-(--cell) items-center justify-between gap-6 font-mono text-xs tracking-[0.02em] text-paper/50 uppercase">
           {META.map((m, i) => (
             <span key={m} className={i ? "hidden md:inline" : undefined}>

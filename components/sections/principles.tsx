@@ -5,17 +5,15 @@ import { AnimatePresence, motion, useInView } from "framer-motion"
 import { Glyph } from "@/components/brand/symbols"
 import { useMotionState } from "@/components/motion/motion-provider"
 import { Reveal } from "@/components/motion/reveal"
-import { PanelAccordionItem } from "@/components/site/panel-accordion"
-import { SectionHead } from "@/components/site/section-head"
+import { bodyLg, SectionHead } from "@/components/site/section-head"
 import { WindowFrame } from "@/components/site/window-frame"
-import { Accordion } from "@/components/ui/accordion"
 import { useInterval } from "@/hooks/use-interval"
 import { fitCanvas, INK, paintDither } from "@/lib/dither"
 import { principles, type DiagramMode } from "@/lib/content"
+import { cn } from "@/lib/utils"
 
 const PIXEL = 6
 const DISSOLVE_MS = 450
-const ADVANCE_S = 6
 
 type Field = (fx: number, fy: number, r: number) => number
 
@@ -127,7 +125,7 @@ function DiagramCanvas({ mode }: { mode: DiagramMode }) {
       diagram.current.phase += 0.12
       drawDiagram(ref.current, diagram.current)
     },
-    inView && !stopped ? 120 : null
+    inView && !stopped ? 120 : null,
   )
 
   return <canvas ref={ref} aria-hidden className="block aspect-[5/4] w-full bg-paper [image-rendering:pixelated]" />
@@ -178,75 +176,70 @@ export function PrinciplesWindow({ active }: { active: string }) {
   )
 }
 
+/**
+ * How we build (option B, chosen 2026-09-29): the four principles as one
+ * strip of tabs; the chosen one is told in full beside the diagram window.
+ */
 export function Principles() {
-  const section = useRef<HTMLElement>(null)
-  const [open, setOpen] = useState<string[]>([principles[0].key])
-  const [active, setActive] = useState(principles[0].key)
-  // tours the principles on its own until the visitor picks one
-  const [touring, setTouring] = useState(true)
-  const inView = useInView(section, { amount: 0.4 })
-  const { stopped } = useMotionState()
-  const showProgress = touring && inView && !stopped
-
-  const advance = () => {
-    const next = principles[(principles.findIndex((p) => p.key === active) + 1) % principles.length].key
-    setOpen([next])
-    setActive(next)
-  }
-
+  const [i, setI] = useState(0)
+  const p = principles[i]
+  const next = principles[(i + 1) % principles.length]
   return (
-    <section
-      ref={section}
-      id="principles"
-      aria-labelledby="principles-title"
-      className="container-page pt-10 pb-18 md:pb-30"
-    >
+    <section id="principles" aria-labelledby="principles-title" className="container-page pt-10 pb-18 md:pb-30">
       <SectionHead id="principles-title" label="How we build">
         A few strong beliefs.
         <br />A different kind of company.
       </SectionHead>
 
-      <div className="grid items-start gap-12 lg:grid-cols-[5fr_7fr]">
-        <Reveal>
-          <PrinciplesWindow active={active} />
-        </Reveal>
-
-        <Reveal delay={0.1} className="lg:pt-1">
-          <Accordion
-            value={open}
-            onValueChange={(v) => {
-              // any choice by the visitor ends the tour for good
-              setTouring(false)
-              setOpen(v as string[])
-              if (v[0]) setActive(v[0] as string)
-            }}
+      <Reveal
+        role="tablist"
+        aria-label="Principles"
+        className="mb-10 grid border-[1.5px] border-ink bg-chalk shadow-hard-sm sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {principles.map((q, k) => (
+          <button
+            key={q.key}
+            id={`principle-tab-${q.key}`}
+            role="tab"
+            aria-selected={k === i}
+            aria-controls="principle-panel"
+            onClick={() => setI(k)}
+            className={cn(
+              "flex items-baseline gap-3 border-ink px-5 py-4 text-left transition-colors not-last:border-b sm:nth-[odd]:border-r lg:border-b-0 lg:not-last:border-r",
+              k === i ? "bg-ink text-paper" : "hover:bg-lime-soft",
+            )}
           >
-            {principles.map((p) => (
-              <PanelAccordionItem
-                key={p.key}
-                value={p.key}
-                number={p.n}
-                title={p.title}
-                indicator={
-                  showProgress &&
-                  p.key === active && (
-                    <motion.span
-                      key={active}
-                      aria-hidden
-                      className="absolute inset-y-0 -left-px w-0.5 origin-top bg-lime-deep"
-                      initial={{ scaleY: 0 }}
-                      animate={{ scaleY: 1 }}
-                      transition={{ duration: ADVANCE_S, ease: "linear" }}
-                      onAnimationComplete={advance}
-                    />
-                  )
-                }
-              >
-                {p.body}
-              </PanelAccordionItem>
-            ))}
-          </Accordion>
+            <span className={cn("font-mono text-xs", k === i ? "text-lime" : "text-muted-foreground")}>{q.n}</span>
+            <span className="text-lg font-medium tracking-[-0.02em]">{q.title}</span>
+          </button>
+        ))}
+      </Reveal>
+
+      <div className="grid items-center gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
+        <Reveal>
+          <PrinciplesWindow active={p.key} />
         </Reveal>
+        <div id="principle-panel" role="tabpanel" aria-labelledby={`principle-tab-${p.key}`} aria-live="polite">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={p.key}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              <p className="font-mono text-xs text-muted-foreground">{p.n} / 04</p>
+              <h3 className="mt-4 text-[clamp(38px,3.6vw,56px)]">{p.title}</h3>
+              <p className={cn(bodyLg, "mt-6 max-w-[46ch] text-ink-soft")}>{p.body}</p>
+            </motion.div>
+          </AnimatePresence>
+          <button
+            onClick={() => setI((i + 1) % principles.length)}
+            className="mt-10 inline-flex h-11 items-center gap-3 border-[1.5px] border-ink bg-chalk px-4 font-mono text-sm shadow-hard-sm transition-[translate,box-shadow] hover:-translate-px hover:shadow-hard"
+          >
+            Next: {next.title} →
+          </button>
+        </div>
       </div>
     </section>
   )
