@@ -11,7 +11,7 @@ import { faqs } from "@/lib/content"
  */
 export function Faq() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="bg-ink py-20 text-paper md:py-30">
+    <section id="faq" aria-labelledby="faq-title" className="grid-ground-ink py-20 text-paper md:py-30">
       <div className="container-page grid items-start gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <Reveal className="flex flex-col gap-5 lg:sticky lg:top-32">
           <MonoLabel className="text-lime">FAQ</MonoLabel>
