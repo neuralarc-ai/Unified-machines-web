@@ -1,6 +1,7 @@
 import { Consolidate } from "@/components/sections/consolidate"
 import { Equation } from "@/components/sections/equation"
 import { Faq } from "@/components/sections/faq"
+import { Friday } from "@/components/sections/friday"
 import { Hero } from "@/components/sections/hero/hero"
 import { Partner } from "@/components/sections/partner"
 import { Principles } from "@/components/sections/principles"
@@ -24,6 +25,7 @@ export default function Home() {
         <Equation />
         <Principles />
         <Consolidate />
+        <Friday />
         <Partner />
         <Faq />
       </main>

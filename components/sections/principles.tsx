@@ -125,7 +125,7 @@ function DiagramCanvas({ mode }: { mode: DiagramMode }) {
       diagram.current.phase += 0.12
       drawDiagram(ref.current, diagram.current)
     },
-    inView && !stopped ? 120 : null,
+    inView && !stopped ? 120 : null
   )
 
   return <canvas ref={ref} aria-hidden className="block aspect-[5/4] w-full bg-paper [image-rendering:pixelated]" />
@@ -206,7 +206,7 @@ export function Principles() {
             onClick={() => setI(k)}
             className={cn(
               "flex items-baseline gap-3 border-ink px-5 py-4 text-left transition-colors not-last:border-b sm:nth-[odd]:border-r lg:border-b-0 lg:not-last:border-r",
-              k === i ? "bg-ink text-paper" : "hover:bg-lime-soft",
+              k === i ? "bg-ink text-paper" : "hover:bg-lime-soft"
             )}
           >
             <span className={cn("font-mono text-xs", k === i ? "text-lime" : "text-muted-foreground")}>{q.n}</span>

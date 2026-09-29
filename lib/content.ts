@@ -1,5 +1,6 @@
 export const MORSE_URL = "https://onmorse.com"
 export const FR_URL = "https://f-r.co"
+export const FRIDAY_URL = "https://www.fridayapp.fun"
 
 export const navLinks = [
   { href: "#thinking", label: "Our thinking" },
