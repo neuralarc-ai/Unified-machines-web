@@ -149,22 +149,20 @@
   }
 }
 
-/* faint ruled grid from um-landing, on paper and on ink; use on a full-width element */
+/*
+ * Film grain (2026-09-29, replacing the ruled grid): fine noise, dark on
+ * paper and light on ink. Still sets the cell vars, which blocks use to size
+ * themselves in whole cells. Use on a full-width element.
+ */
 @utility grid-ground {
   @apply cells;
-  background-image:
-    linear-gradient(to right, rgb(16 16 16 / 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(16 16 16 / 0.07) 1px, transparent 1px);
-  background-size: var(--cell) var(--cell);
-  background-position: calc(50cqw - var(--cols) * var(--cell) / 2) 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.06  0 0 0 0 0.06  0 0 0 0 0.06  0 0 0 0.11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
 }
 @utility grid-ground-ink {
   @apply cells;
-  background-image:
-    linear-gradient(to right, rgb(241 240 238 / 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(241 240 238 / 0.08) 1px, transparent 1px);
-  background-size: var(--cell) var(--cell);
-  background-position: calc(50cqw - var(--cols) * var(--cell) / 2) 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
 }
 
 /* content width: 1440px at most (was 1280), 20px / 48px gutters below that */
