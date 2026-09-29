@@ -10,16 +10,15 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { EASE } from "@/components/motion/reveal"
 import { useActiveSection } from "@/hooks/use-active-section"
+import { NavSignals } from "@/components/site/nav-signals"
 import { MORSE_URL, navLinks } from "@/lib/content"
-import { cn } from "@/lib/utils"
 
 export const underlineLink =
   "relative after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-250 hover:after:scale-x-100"
 
 const SECTION_IDS = navLinks.map((l) => l.href.slice(1))
 
-/** `center` swaps the middle nav for a design under review (see nav-centers.tsx). */
-export function SiteHeader({ center }: { center?: (active: string | null) => React.ReactNode } = {}) {
+export function SiteHeader() {
   const active = useActiveSection(SECTION_IDS)
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 32 })
@@ -40,34 +39,7 @@ export function SiteHeader({ center }: { center?: (active: string | null) => Rea
           <span>Unified Machines</span>
         </Link>
 
-        {center ? (
-          center(active)
-        ) : (
-          <nav aria-label="Main navigation" className="hidden gap-7 text-sm lg:flex">
-            {navLinks.map((l) => {
-              const current = active === l.href.slice(1)
-              return (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  aria-current={current ? "location" : undefined}
-                  className={cn(underlineLink, "transition-colors", active && !current && "text-ink/60 hover:text-ink")}
-                >
-                  {l.label}
-                  {/* the marker slides from link to link as the page scrolls */}
-                  {current && (
-                    <motion.span
-                      layoutId="nav-active"
-                      aria-hidden
-                      className="absolute inset-x-0 -bottom-1 h-0.5 bg-ink"
-                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
-                    />
-                  )}
-                </Link>
-              )
-            })}
-          </nav>
-        )}
+        <NavSignals active={active} />
 
         <div className="flex items-center gap-3">
           <SplitButton href={MORSE_URL} external size="sm" className="hidden md:inline-flex">
@@ -99,7 +71,7 @@ export function SiteHeader({ center }: { center?: (active: string | null) => Rea
                     className="flex items-center justify-between border-b border-line py-3 text-lg aria-[current]:font-medium"
                   >
                     {l.label}
-                    {active === l.href.slice(1) && <span aria-hidden className="size-2 bg-lime ring-1 ring-ink" />}
+                    {active === l.href.slice(1) && <span aria-hidden className="size-2 bg-pink ring-1 ring-ink" />}
                   </SheetClose>
                 ))}
               </nav>
