@@ -3,7 +3,7 @@
 import { Fragment, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Glyph } from "@/components/brand/symbols"
-import { Frame, WordReveal } from "@/components/motion/reveal"
+import { WordReveal } from "@/components/motion/reveal"
 import { bodyLg, display } from "@/components/site/section-head"
 import { Badge } from "@/components/ui/badge"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
@@ -17,9 +17,8 @@ export function Equation() {
   const text = equation.find((e) => e.key === value[0])?.text ?? equationDefault
 
   return (
-    // with principles' own pt-10, the frame's corners clear the next section by the page rhythm (72 / 120)
     <section aria-labelledby="eq-title" className="pb-8 md:pb-20">
-      <Frame className="container-page pt-12 pb-16 text-center md:pt-20 md:pb-25">
+      <div className="container-page pt-12 pb-16 text-center md:pt-20 md:pb-25">
         <WordReveal id="eq-title" className={display}>
           Human ambition <span className="font-normal text-pink-deep">×</span> machine intelligence.
         </WordReveal>
@@ -59,7 +58,7 @@ export function Equation() {
             </motion.span>
           </AnimatePresence>
         </p>
-      </Frame>
+      </div>
     </section>
   )
 }

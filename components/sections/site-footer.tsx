@@ -1,10 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import type { CSSProperties, ReactNode } from "react"
+import type { ReactNode } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowUp02Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons"
 import { FrLogo, MorseMark } from "@/components/brand/symbols"
+import { PixelSteps } from "@/components/brand/pixel-steps"
 import { useMotionState } from "@/components/motion/motion-provider"
 import { Reveal } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
@@ -14,10 +15,10 @@ import { FR_URL, MORSE_URL } from "@/lib/content"
  * The footer from the um-landing redesign (2026-09-28), in this site's type:
  * a dark ruled band with stepped colour blocks in the lower corners, a
  * bracketed meta line, "Build what lasts." with the Morse action, and two
- * link cards (Morse, Fahrenheit Research). Back to top and pause motion sit in
- * the closing row with the copyright. Everything is laid on the page grid in
- * whole cells, so no border ever sits beside a ruled line. The redesign's
- * pixel type and highlight boxes were left behind on purpose.
+ * link cards (Morse, Fahrenheit Research). Back to top and pause motion sit
+ * under the cards; the copyright sits centred between the colour blocks, which
+ * are the redesign's own. Its pixel type and highlight boxes were left behind
+ * on purpose.
  */
 
 const META = ["Unified Machines", "AI products built to last", "Morse · being built"]
@@ -28,7 +29,7 @@ function LinkCard({ href, name, role, children }: { href: string; name: string; 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group -ml-px flex h-[calc(var(--cell)*2)] min-h-36 flex-col justify-between border border-paper/15 bg-[#161616] p-5 transition-colors first:ml-0 duration-200 hover:border-paper hover:bg-paper hover:text-ink focus-visible:border-paper"
+      className="group -ml-px flex min-h-40 flex-col justify-between border border-paper/15 bg-[#161616] p-5 transition-colors first:ml-0 duration-200 hover:border-paper hover:bg-paper hover:text-ink focus-visible:border-paper"
     >
       <span className="flex items-start justify-between">
         {children}
@@ -67,50 +68,34 @@ function MotionToggle() {
   )
 }
 
-/*
- * The colour blocks, drawn in grid cells so every edge lands on a ruled line.
- * `--e` is the margin outside the content; each block reaches that far plus
- * a whole number of cells, and climbs in whole cells.
- */
-const cellVars = { "--e": "calc((100cqw - var(--cols) * var(--cell)) / 2)" } as CSSProperties
-const c = (n: number) => `calc(var(--cell) * ${n})`
-
-function Steps() {
-  // tall and narrow: each reaches only a few cells in from the page edge and climbs 5 / 6 cells
-  return (
-    <>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 [--l:2] md:[--l:3]"
-        style={{
-          width: "calc(var(--e) + var(--cell) * var(--l))",
-          height: c(5),
-          clipPath: `polygon(0 100%, 100% 100%, 100% ${c(3)}, calc(100% - var(--cell)) ${c(3)}, calc(100% - var(--cell)) ${c(1)}, calc(100% - ${c(2)}) ${c(1)}, calc(100% - ${c(2)}) 0, 0 0)`,
-          background: "linear-gradient(20deg, #99ebfa, #b9b3ff)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-0 bottom-0 [--r:3] md:[--r:4]"
-        style={{
-          width: "calc(var(--e) + var(--cell) * var(--r))",
-          height: c(6),
-          clipPath: `polygon(100% 100%, 0 100%, 0 ${c(4)}, var(--cell) ${c(4)}, var(--cell) ${c(2)}, ${c(2)} ${c(2)}, ${c(2)} 0, 100% 0)`,
-          background: "linear-gradient(340deg, #caeb6b, #ff6fb0)",
-        }}
-      />
-    </>
-  )
-}
-
 export function SiteFooter() {
   return (
-    <footer className="grid-ground-ink relative overflow-hidden bg-ink text-paper" style={cellVars}>
-      <Steps />
+    <footer className="grid-ground-ink relative overflow-hidden bg-ink text-paper">
+      {/* the redesign's blocks, exactly: same shapes, sizes and colours; smaller on phones so they stay clear of the text */}
+      <PixelSteps
+        corner="bl"
+        className="h-20 w-[34%] md:h-[34%] md:w-[22%]"
+        steps={[
+          [100, 44],
+          [60, 100],
+        ]}
+        from="#99ebfa"
+        to="#b9b3ff"
+      />
+      <PixelSteps
+        corner="br"
+        className="h-24 w-[46%] md:h-[38%] md:w-[30%]"
+        steps={[
+          [100, 30],
+          [80, 70],
+          [60, 100],
+        ]}
+        from="#caeb6b"
+        to="#ff6fb0"
+      />
 
-      {/* rows are whole cells tall: meta 1, gap 1, main 6, gap 1, closing 1, then 6 for the blocks */}
-      <div className="container-page relative pb-[calc(var(--cell)*6)]">
-        <div className="flex h-(--cell) items-center justify-between gap-6 font-mono text-xs tracking-[0.02em] text-paper/50 uppercase">
+      <div className="container-page relative pt-20 pb-28 md:pb-16">
+        <div className="flex items-center justify-between gap-6 font-mono text-xs tracking-[0.02em] text-paper/50 uppercase">
           {META.map((m, i) => (
             <span key={m} className={i ? "hidden md:inline" : undefined}>
               [ {m} ]
@@ -118,7 +103,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <Reveal className="mt-(--cell) grid items-end gap-12 lg:h-[calc(var(--cell)*6)] lg:grid-cols-[minmax(0,1fr)_calc(var(--cell)*6)] lg:gap-0">
+        <Reveal className="mt-24 grid items-end gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-20">
           <div>
             <p className="font-mono text-sm tracking-[0.02em] text-lime">#UNIFIEDMACHINES</p>
             <p className="mt-4 text-[clamp(56px,8vw,124px)] leading-[0.95] font-medium tracking-[-0.05em]">
@@ -143,23 +128,24 @@ export function SiteFooter() {
                 <FrLogo className="h-5 w-auto" />
               </LinkCard>
             </div>
+            <div className="mt-3 flex items-center gap-2">
+              <MotionToggle />
+              <Link href="#main" className={`group ${solidBtn}`}>
+                Back to top
+                <HugeiconsIcon
+                  icon={ArrowUp02Icon}
+                  strokeWidth={1.5}
+                  className="size-3.5 transition-transform group-hover:-translate-y-0.5"
+                />
+              </Link>
+            </div>
           </div>
         </Reveal>
 
-        <div className="mt-(--cell) flex flex-col-reverse gap-5 text-sm text-paper/55 md:h-(--cell) md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Unified Machines. All rights reserved.</p>
-          <div className="flex items-center gap-2 text-paper">
-            <MotionToggle />
-            <Link href="#main" className={`group ${solidBtn}`}>
-              Back to top
-              <HugeiconsIcon
-                icon={ArrowUp02Icon}
-                strokeWidth={1.5}
-                className="size-3.5 transition-transform group-hover:-translate-y-0.5"
-              />
-            </Link>
-          </div>
-        </div>
+        {/* centred between the blocks, as in the redesign */}
+        <p className="mt-32 text-center text-sm text-paper/50 md:mt-80">
+          © {new Date().getFullYear()} Unified Machines. All rights reserved.
+        </p>
       </div>
     </footer>
   )
