@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Tick02Icon } from "@hugeicons/core-free-icons"
+import { Contours } from "@/components/brand/contours"
 import { PixelSteps } from "@/components/brand/pixel-steps"
 import { useMotionState } from "@/components/motion/motion-provider"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
@@ -182,8 +183,29 @@ function FridayWindow() {
 
 export function Friday() {
   return (
-    <section id="friday" aria-labelledby="friday-title" className="grid-ground-ink mb-18 bg-ink text-paper md:mb-30">
-      <div className="container-page">
+    <section
+      id="friday"
+      aria-labelledby="friday-title"
+      className="grid-ground-ink mb-18 bg-ink text-paper md:mb-30 relative overflow-hidden"
+    >
+      {/* contour lines around stepped shapes in the top corners, behind everything */}
+      <Contours
+        corner="tl"
+        steps={[
+          [0.2, 0.14],
+          [0.1, 0.44],
+        ]}
+        className="text-paper/[0.09] max-md:hidden"
+      />
+      <Contours
+        corner="tr"
+        steps={[
+          [0.1, 0.3],
+          [0.05, 0.72],
+        ]}
+        className="text-paper/[0.09] max-md:hidden"
+      />
+      <div className="container-page relative">
         <div className="flex h-(--cell) items-center justify-between gap-6 px-4 md:px-8">
           <p className={cn(tag, "uppercase")}>[ Friday ] · Screen recordings for Mac</p>
           <p className={cn(tag, "hidden md:block")}>Record · Polish · Ship</p>
@@ -201,7 +223,7 @@ export function Friday() {
         </Reveal>
       </div>
 
-      <div className="container-page">
+      <div className="container-page relative">
         <Stagger gap={0.12} className="grid gap-px bg-[#222222] lg:grid-cols-3">
           {/* 1 · the idea */}
           <StaggerItem className={cn(col, "justify-between gap-40 overflow-hidden")}>

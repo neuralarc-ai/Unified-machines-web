@@ -1,6 +1,7 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight02Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { MorseMark } from "@/components/brand/symbols"
+import { Contours } from "@/components/brand/contours"
 import { PixelSteps } from "@/components/brand/pixel-steps"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
@@ -122,13 +123,35 @@ function MorseWindow() {
 
 export function Consolidate() {
   return (
-    <section id="consolidate" aria-labelledby="cons-title" className="grid-ground-ink bg-ink text-paper">
+    <section
+      id="consolidate"
+      aria-labelledby="cons-title"
+      className="grid-ground-ink bg-ink text-paper relative overflow-hidden"
+    >
+      {/* contour lines around stepped shapes in the top corners, behind everything */}
+      <Contours
+        corner="tl"
+        steps={[
+          [0.12, 0.22],
+          [0.06, 0.62],
+        ]}
+        className="text-paper/[0.09] max-md:hidden"
+      />
+      <Contours
+        corner="tr"
+        steps={[
+          [0.2, 0.16],
+          [0.11, 0.46],
+          [0.05, 0.86],
+        ]}
+        className="text-paper/[0.09] max-md:hidden"
+      />
       {/*
         One grid runs under the whole band. The strip and headline are whole cells tall, so the grid's own lines
         frame them; no borders are drawn on top, which would double those lines.
       */}
       <div>
-        <div className="container-page">
+        <div className="container-page relative">
           <div className="flex h-(--cell) items-center justify-between gap-6 px-4 md:px-8">
             <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
             <p className={cn(tag, "hidden md:block")}>Meet · Schedule · Remember · Decide · Find</p>
@@ -147,7 +170,7 @@ export function Consolidate() {
         </div>
       </div>
 
-      <div className="container-page">
+      <div className="container-page relative">
         {/* dividers in the grid lines' own colour (8% paper on ink), opaque so nothing stacks under them */}
         <Stagger gap={0.12} className="grid gap-px bg-[#222222] lg:grid-cols-3">
           {/* 1 · the idea */}
