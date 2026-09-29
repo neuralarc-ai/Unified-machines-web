@@ -5,14 +5,16 @@ import { cn } from "@/lib/utils"
 
 /**
  * The contour system (2026-09-29): bundles of 8 ultra-thin parallel lines,
- * 20px apart, that enter from off-canvas, run straight, take large smooth 90°
- * turns and leave again. Each bundle is one centre path with rounded corners;
- * every line is its exact parallel offset (arcs of radius R ± offset), so the
- * spacing never pinches in a curve.
+ * 20px apart, that come in from the side edge, run flat, take large smooth
+ * 90° turns down the margin and slide under the content. Each bundle is one
+ * centre path with rounded corners; every line is its exact parallel offset
+ * (arcs of radius R ± offset), so the spacing never pinches in a curve. Every
+ * line stays on screen.
  *
  * One geometry for the whole page: bundles leave one band where the next band
  * picks them up (Morse → Friday, FAQ → footer), so it reads as one system.
  * Opaque content (the column cards, the footer blocks) simply covers them.
+ * Hidden on phones, where there is no margin for it to live in.
  */
 
 type Pt = [number, number]
@@ -22,83 +24,67 @@ type Variant = "morse" | "friday" | "faq" | "footer"
 const LINES = 8
 const GAP = 20
 const RADIUS = 130 // centre-line corner radius: inner line 60, outer 200
-const OUT = 120 // how far bundles run past the band's edges
+const OUT = 160 // how far bundles start beyond the band's edges
 
 /**
- * Centre paths per band, in px. `e` is the gutter outside the content
- * column; `k` scales the geometry down on narrow screens. Right-hand bundles
- * are written from the right edge and mirrored.
+ * Centre paths per band, in px, written for the left side (the right side is
+ * the same, mirrored). As in the reference: a bundle comes in from the side
+ * edge running flat, turns down in the margin, then either turns in again to
+ * slide under the column cards, or runs on down into the next band.
+ * `x` is the vertical run's centre, `top` where the column cards start.
  */
-function bundles(v: Variant, W: number, H: number, e: number, k: number): Bundle[] {
-  const L = (x: number) => x // from the left edge
-  const R = (x: number) => W - x // from the right edge
-  const edge = 40 * k // where bundles hug the page edge
-  const inL = e + 170 * k // left bundles, in from the edge
-  const inR = e + 420 * k // right bundles, in from the edge
+function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k: number): Bundle[] {
+  const under = W * 0.4 // far enough in to be hidden by the cards
+  const flat = (y: number): Pt => [-OUT, y]
   switch (v) {
-    // enters top, S-bends out to the edge, runs down behind the columns
+    // in from the edge, down the margin, then in under the cards; a second bundle runs on into Friday
     case "morse":
       return [
-        [
-          [L(inL), -OUT],
-          [L(inL), 170 * k],
-          [L(edge), 170 * k],
-          [L(edge), H + OUT],
-        ],
-        [
-          [R(inR), -OUT],
-          [R(inR), 200 * k],
-          [R(edge), 200 * k],
-          [R(edge), H + OUT],
-        ],
+        [flat(110 * k), [x, 110 * k], [x, top + 90 * k], [under, top + 90 * k]],
+        [flat(top + (H - top) * 0.5), [x, top + (H - top) * 0.5], [x, H + OUT]],
       ]
-    // picks the Morse bundles up at the edge, S-bends back in, runs down behind the columns
+    // picks that bundle up at the top and turns it in under the cards; another comes in lower down
     case "friday":
       return [
         [
-          [L(edge), -OUT],
-          [L(edge), 330 * k],
-          [L(inL), 330 * k],
-          [L(inL), H + OUT],
+          [x, -OUT],
+          [x, top + 90 * k],
+          [under, top + 90 * k],
         ],
-        [
-          [R(edge), -OUT],
-          [R(edge), 260 * k],
-          [R(inR), 260 * k],
-          [R(inR), H + OUT],
-        ],
+        [flat(top + (H - top) * 0.55), [x, top + (H - top) * 0.55], [x, H + OUT]],
       ]
-    // enter from the sides, turn down, and carry on into the footer
+    // in from the edge beside the heading, then down into the footer
     case "faq":
-      return [
-        [
-          [L(-OUT), H * 0.55],
-          [L(inL), H * 0.55],
-          [L(inL), H + OUT],
-        ],
-        [
-          [R(-OUT), H * 0.22],
-          [R(inR * 0.55), H * 0.22],
-          [R(inR * 0.55), H + OUT],
-        ],
-      ]
-    // continue from the FAQ, bend out to the edges, run down behind the colour blocks
+      return [[flat(H * 0.42), [x, H * 0.42], [x, H + OUT]]]
+    // on down from the FAQ, behind the colour blocks
     case "footer":
       return [
         [
-          [L(inL), -OUT],
-          [L(inL), 260 * k],
-          [L(edge), 260 * k],
-          [L(edge), H + OUT],
-        ],
-        [
-          [R(inR * 0.55), -OUT],
-          [R(inR * 0.55), 200 * k],
-          [R(edge), 200 * k],
-          [R(edge), H + OUT],
+          [x, -OUT],
+          [x, H + OUT],
         ],
       ]
   }
+}
+
+// the right side sits a little higher or lower than the left, so the page doesn't read as a mirror
+const rightShift: Record<Variant, (H: number, k: number) => number> = {
+  morse: (_, k) => 40 * k,
+  friday: (_, k) => -60 * k,
+  faq: (H) => -0.18 * H,
+  footer: () => 0,
+}
+
+function bundles(v: Variant, W: number, H: number, e: number, k: number): Bundle[] {
+  const half = ((LINES - 1) / 2) * GAP * k
+  // in the gutter when it's wide enough, otherwise as near the edge as keeps every line on screen
+  const x = Math.max(half + 16 * k, e - half - 24)
+  const cell = Math.min(1440, W - (W >= 768 ? 96 : 40)) / (W >= 1024 ? 18 : W >= 768 ? 12 : 6)
+  const top = cell * 7 // the label strip (1 cell) and headline (6 cells) above the cards
+  const dy = rightShift[v](H, k)
+  const left = leftBundles(v, W, H, x, top, k)
+  const right = left.map((b) => b.map(([px, py]): Pt => [W - px, py < 0 || py > H ? py : py + dy]))
+  return [...left, ...right]
 }
 
 const sub = (a: Pt, b: Pt): Pt => [a[0] - b[0], a[1] - b[1]]
@@ -160,7 +146,7 @@ export function Contours({ variant, className }: { variant: Variant; className?:
     <svg
       ref={ref}
       aria-hidden
-      className={cn("pointer-events-none absolute inset-0 size-full text-paper/[0.1]", className)}
+      className={cn("pointer-events-none absolute inset-0 size-full text-paper/[0.1] max-md:hidden", className)}
     >
       <g fill="none" stroke="currentColor" strokeWidth={1}>
         {paths.map((d, i) => (
