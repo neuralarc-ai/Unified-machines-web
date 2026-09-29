@@ -140,6 +140,44 @@ const glyphPose: Record<string, { scale?: number; y?: string; rotate?: number }>
   whole: { rotate: 90 },
 }
 
+/** The diagram window: a live dither field for the active principle, its glyph and caption. */
+export function PrinciplesWindow({ active }: { active: string }) {
+  const diagram = principles.find((p) => p.key === active)!.diagram
+  return (
+    <WindowFrame title={diagram.file} bodyClassName="gap-0 p-0">
+      <div className="relative">
+        <DiagramCanvas mode={diagram.mode} />
+        <motion.div
+          aria-hidden
+          className="absolute top-1/2 left-1/2 size-[22%] -translate-1/2"
+          animate={{ scale: 1, y: 0, rotate: 0, ...glyphPose[active] }}
+          transition={{ type: "spring", stiffness: 180, damping: 16 }}
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              key={diagram.symbol}
+              className="size-full"
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+            >
+              <Glyph symbol={diagram.symbol} className="size-full" />
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </div>
+      <div className="flex justify-between gap-3 border-t-[1.5px] border-ink bg-chalk px-3 py-2 font-mono text-xs">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span key={active} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {diagram.caption}
+          </motion.span>
+        </AnimatePresence>
+        <span className="shrink-0 whitespace-nowrap">{diagram.code}</span>
+      </div>
+    </WindowFrame>
+  )
+}
+
 export function Principles() {
   const section = useRef<HTMLElement>(null)
   const [open, setOpen] = useState<string[]>([principles[0].key])
@@ -148,7 +186,6 @@ export function Principles() {
   const [touring, setTouring] = useState(true)
   const inView = useInView(section, { amount: 0.4 })
   const { stopped } = useMotionState()
-  const diagram = principles.find((p) => p.key === active)!.diagram
   const showProgress = touring && inView && !stopped
 
   const advance = () => {
@@ -171,37 +208,7 @@ export function Principles() {
 
       <div className="grid items-start gap-12 lg:grid-cols-[5fr_7fr]">
         <Reveal>
-          <WindowFrame title={diagram.file} bodyClassName="gap-0 p-0">
-            <div className="relative">
-              <DiagramCanvas mode={diagram.mode} />
-              <motion.div
-                aria-hidden
-                className="absolute top-1/2 left-1/2 size-[22%] -translate-1/2"
-                animate={{ scale: 1, y: 0, rotate: 0, ...glyphPose[active] }}
-                transition={{ type: "spring", stiffness: 180, damping: 16 }}
-              >
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.div
-                    key={diagram.symbol}
-                    className="size-full"
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.6 }}
-                  >
-                    <Glyph symbol={diagram.symbol} className="size-full" />
-                  </motion.div>
-                </AnimatePresence>
-              </motion.div>
-            </div>
-            <div className="flex justify-between gap-3 border-t-[1.5px] border-ink bg-chalk px-3 py-2 font-mono text-xs">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span key={active} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  {diagram.caption}
-                </motion.span>
-              </AnimatePresence>
-              <span className="shrink-0 whitespace-nowrap">{diagram.code}</span>
-            </div>
-          </WindowFrame>
+          <PrinciplesWindow active={active} />
         </Reveal>
 
         <Reveal delay={0.1} className="lg:pt-1">
