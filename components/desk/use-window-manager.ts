@@ -1,7 +1,8 @@
 import { useEffect, useReducer } from "react"
 import type { GameId } from "./games/registry"
 
-export type WindowId = "call" | "notes" | "cal" | "clock" | "readme" | GameId
+export type AppId = "morse-app" | "friday-app"
+export type WindowId = "call" | "notes" | "cal" | "clock" | "readme" | GameId | AppId
 
 type State = {
   /** Stacking order, back to front. */
@@ -10,6 +11,8 @@ type State = {
   maximized: WindowId | null
   /** Games start closed; opening one mounts it, so nothing runs until asked for. */
   games: GameId[]
+  /** Product windows, mounted when opened from their desktop icons. */
+  apps: AppId[]
 }
 
 type Action =
@@ -18,8 +21,10 @@ type Action =
   | { type: "toggleMax"; id: WindowId }
   | { type: "openGame"; id: GameId }
   | { type: "closeGame"; id: GameId }
+  | { type: "openApp"; id: AppId }
+  | { type: "closeApp"; id: AppId }
 
-const without = <T,>(list: T[], id: T) => list.filter((x) => x !== id)
+const without = <T>(list: T[], id: T) => list.filter((x) => x !== id)
 
 function reducer(s: State, a: Action): State {
   switch (a.type) {
@@ -37,19 +42,32 @@ function reducer(s: State, a: Action): State {
       return reducer({ ...s, games: [...without(s.games, a.id), a.id] }, { type: "focus", id: a.id })
     case "closeGame":
       return {
+        ...s,
         order: without(s.order, a.id),
         minimized: without(s.minimized, a.id),
         maximized: s.maximized === a.id ? null : s.maximized,
         games: without(s.games, a.id),
       }
+    case "openApp":
+      return reducer({ ...s, apps: [...without(s.apps, a.id), a.id] }, { type: "focus", id: a.id })
+    case "closeApp":
+      return {
+        ...s,
+        order: without(s.order, a.id),
+        minimized: without(s.minimized, a.id),
+        maximized: s.maximized === a.id ? null : s.maximized,
+        apps: without(s.apps, a.id),
+      }
   }
 }
 
+// a calm first screen: the tour and the meeting open, the rest waiting in the taskbar
 const initial: State = {
-  order: ["notes", "cal", "clock", "readme", "call"],
-  minimized: [],
+  order: ["notes", "cal", "clock", "call", "readme"],
+  minimized: ["notes", "cal", "clock"],
   maximized: null,
   games: [],
+  apps: [],
 }
 
 /**
@@ -79,6 +97,8 @@ export function useWindowManager(compact: WindowId[] = []) {
     toggleMax: (id: WindowId) => dispatch({ type: "toggleMax", id }),
     openGame: (id: GameId) => dispatch({ type: "openGame", id }),
     closeGame: (id: GameId) => dispatch({ type: "closeGame", id }),
+    openApp: (id: AppId) => dispatch({ type: "openApp", id }),
+    closeApp: (id: AppId) => dispatch({ type: "closeApp", id }),
     /** Taskbar behaviour: restore if minimised, minimise if in front, else bring forward. */
     toggleTask: (id: WindowId) =>
       dispatch({ type: state.minimized.includes(id) || front !== id ? "focus" : "minimize", id }),

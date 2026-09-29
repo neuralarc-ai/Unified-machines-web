@@ -17,6 +17,44 @@ export const desk = {
     title: "One job, done whole.",
     text: "This desktop is a meeting and everything around it, the job Morse is being built for. Press a symbol to read what it stands for.",
   },
+  /** The guided tour in readme.txt: each step opens the windows it talks about. */
+  tour: [
+    {
+      title: "Welcome to UM.OS.",
+      text: "Unified Machines builds AI products for the everyday work of companies. This desk is a tour: four steps, about twenty seconds.",
+      opens: [],
+    },
+    {
+      title: "Morse, for meetings.",
+      text: "One app for the call, the notes and the follow-up. Watch this meeting: the ask becomes an action item, and the follow-up books itself.",
+      opens: ["call", "notes", "cal"],
+    },
+    {
+      title: "Friday, for screen recordings.",
+      text: "Record your Mac and it polishes itself: every click becomes a smooth zoom, with glass styling and music. It all runs on your Mac.",
+      opens: ["friday-app"],
+    },
+    {
+      title: "Built on three symbols.",
+      text: "Human ambition, machine intelligence, and the progress they make together. Press a symbol on the left to read it, or open an app to explore.",
+      opens: [],
+    },
+  ] as { title: string; text: string; opens: string[] }[],
+  /** The product icons on the desk. */
+  apps: {
+    morse: {
+      file: "morse.app",
+      name: "Morse",
+      role: "For meetings",
+      text: "The call, the calendar and what everyone needs to remember afterwards, in one app. Being built now.",
+    },
+    friday: {
+      file: "friday.app",
+      name: "Friday",
+      role: "For screen recordings",
+      text: "Screen recordings that polish themselves: auto-zooms, glass looks, music and intros. For Mac.",
+    },
+  },
   call: {
     file: "morse · Weekly sync",
     task: "Weekly sync",
