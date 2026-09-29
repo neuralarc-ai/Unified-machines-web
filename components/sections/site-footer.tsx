@@ -1,5 +1,4 @@
-"use client"
-
+import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -7,22 +6,22 @@ import { ArrowUp02Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons"
 import { FrLogo, MorseMark } from "@/components/brand/symbols"
 import { Contours } from "@/components/brand/contours"
 import { PixelSteps } from "@/components/brand/pixel-steps"
-import { useMotionState } from "@/components/motion/motion-provider"
 import { Reveal } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
-import { FR_URL, MORSE_URL } from "@/lib/content"
+import { FR_URL, FRIDAY_URL, MORSE_URL } from "@/lib/content"
+import { MotionToggle } from "./motion-toggle"
 
 /**
  * The footer from the um-landing redesign (2026-09-28), in this site's type:
  * a dark ruled band with stepped colour blocks in the lower corners, a
- * bracketed meta line, "Build what lasts." with the Morse action, and two
- * link cards (Morse, Fahrenheit Research). Back to top and pause motion sit
- * under the cards; the copyright sits centred between the colour blocks, which
+ * bracketed meta line, "Build what lasts." with the Morse action, and three
+ * link cards (Morse, Friday, Fahrenheit Research). Back to top and pause
+ * motion sit under the cards; the copyright sits centred between the colour blocks, which
  * are the redesign's own. Its pixel type and highlight boxes were left behind
  * on purpose.
  */
 
-const META = ["Unified Machines", "AI products built to last", "Morse · being built"]
+const META = ["Unified Machines", "AI products built to last", "Morse · Friday"]
 
 function LinkCard({ href, name, role, children }: { href: string; name: string; role: string; children: ReactNode }) {
   return (
@@ -54,29 +53,14 @@ function LinkCard({ href, name, role, children }: { href: string; name: string; 
 const solidBtn =
   "inline-flex h-9 items-center gap-2 border border-paper/25 bg-ink px-3 font-mono text-xs transition-colors hover:border-paper"
 
-function MotionToggle() {
-  const { paused, setPaused, reduced } = useMotionState()
-  return (
-    <button
-      type="button"
-      aria-pressed={paused || reduced}
-      disabled={reduced}
-      onClick={() => setPaused(!paused)}
-      className={`${solidBtn} aria-pressed:border-paper aria-pressed:bg-paper aria-pressed:text-ink disabled:cursor-not-allowed disabled:opacity-60`}
-    >
-      {reduced ? "Reduced motion" : paused ? "Resume motion" : "Pause motion"}
-    </button>
-  )
-}
-
 export function SiteFooter() {
   return (
     <footer className="grid-ground-ink relative overflow-hidden bg-ink text-paper">
       <Contours variant="footer" />
-      {/* the redesign's blocks, exactly: same shapes, sizes and colours; smaller on phones so they stay clear of the text */}
+      {/* the redesign's blocks, exactly, from desktop up; fixed and smaller below that so they stay clear of the text */}
       <PixelSteps
         corner="bl"
-        className="h-20 w-[34%] md:h-[34%] md:w-[22%]"
+        className="h-20 w-[34%] md:h-32 md:w-[24%] lg:h-[34%] lg:w-[22%]"
         steps={[
           [100, 44],
           [60, 100],
@@ -86,7 +70,7 @@ export function SiteFooter() {
       />
       <PixelSteps
         corner="br"
-        className="h-24 w-[46%] md:h-[38%] md:w-[30%]"
+        className="h-24 w-[46%] md:h-40 md:w-[34%] lg:h-[38%] lg:w-[30%]"
         steps={[
           [100, 30],
           [80, 70],
@@ -96,16 +80,16 @@ export function SiteFooter() {
         to="#ff6fb0"
       />
 
-      <div className="container-page relative pt-20 pb-28 md:pb-16">
+      <div className="container-page relative pt-20 pb-28 md:pb-44 lg:pb-16">
         <div className="flex items-center justify-between gap-6 font-mono text-xs tracking-[0.02em] text-paper/50 uppercase">
           {META.map((m, i) => (
-            <span key={m} className={i ? "hidden md:inline" : undefined}>
+            <span key={m} className={i ? "hidden whitespace-nowrap lg:inline" : "whitespace-nowrap"}>
               [ {m} ]
             </span>
           ))}
         </div>
 
-        <Reveal className="mt-24 grid items-end gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-20">
+        <Reveal className="mt-24 grid items-end gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] lg:gap-16">
           <div>
             <p className="font-mono text-sm tracking-[0.02em] text-lime">#UNIFIEDMACHINES</p>
             <p className="mt-4 text-[clamp(56px,8vw,124px)] leading-[0.95] font-medium tracking-[-0.05em]">
@@ -120,18 +104,21 @@ export function SiteFooter() {
 
           <div>
             <p className="mb-4 font-mono text-xs tracking-[0.02em] text-paper/50 uppercase">
-              [ The first product, and our model partner ]
+              [ Our products, and our model partner ]
             </p>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-3">
               <LinkCard href={MORSE_URL} name="Morse" role="onmorse.com">
                 <MorseMark className="size-7" />
+              </LinkCard>
+              <LinkCard href={FRIDAY_URL} name="Friday" role="fridayapp.fun">
+                <Image src="/friday-icon.png" alt="" width={28} height={28} className="size-7" />
               </LinkCard>
               <LinkCard href={FR_URL} name="Fahrenheit Research" role="f-r.co">
                 <FrLogo className="h-5 w-auto" />
               </LinkCard>
             </div>
             <div className="mt-3 flex items-center gap-2">
-              <MotionToggle />
+              <MotionToggle className={solidBtn} />
               <Link href="#main" className={`group ${solidBtn}`}>
                 Back to top
                 <HugeiconsIcon
@@ -145,7 +132,7 @@ export function SiteFooter() {
         </Reveal>
 
         {/* centred between the blocks, as in the redesign */}
-        <p className="mt-32 text-center text-sm text-paper/50 md:mt-80">
+        <p className="mt-32 text-center text-sm text-paper/50 lg:mt-80">
           © {new Date().getFullYear()} Unified Machines. All rights reserved.
         </p>
       </div>

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Desk } from "@/components/desk/desk"
 import { PixelSteps } from "@/components/brand/pixel-steps"
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
+import { Reveal } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
 import { Button } from "@/components/ui/button"
 
@@ -50,26 +50,27 @@ export function Hero() {
           />
         </div>
 
-        <Stagger gap={0.12} className="container-page relative flex flex-col items-center text-center">
+        {/* entrance in CSS, not JS: visible on first paint; the headline slides but never starts hidden */}
+        <div className="container-page relative flex flex-col items-center text-center">
           <h1 id="hero-title" className="text-[clamp(46px,6.6vw,92px)] text-balance">
-            <StaggerItem as="span" className="block">
+            <span className="block motion-safe:animate-[enter-slide_0.8s_var(--ease-enter)_both]">
               AI products built to last.
-            </StaggerItem>
-            <StaggerItem as="span" className="block">
+            </span>
+            <span className="block motion-safe:animate-[enter-slide_0.8s_var(--ease-enter)_0.1s_both]">
               Intelligence at the core.
-            </StaggerItem>
+            </span>
           </h1>
-          <StaggerItem as="p" className="mt-6 max-w-[48ch] text-[clamp(18px,1.45vw,20px)] leading-[1.5] text-ink-soft">
-            AI products for companies, designed to stay useful for years, not quarters. Morse, for meetings, is the
-            first.
-          </StaggerItem>
-          <StaggerItem className="mt-8 flex flex-wrap justify-center gap-2.5">
+          <p className="mt-6 max-w-[48ch] text-[clamp(18px,1.45vw,20px)] leading-[1.5] text-ink-soft motion-safe:animate-[enter-rise_0.8s_var(--ease-enter)_0.2s_both]">
+            Software for the everyday work of companies, designed to stay useful for years, not quarters. Morse, for
+            meetings, and Friday, for screen recordings, are the first.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-2.5 motion-safe:animate-[enter-rise_0.8s_var(--ease-enter)_0.3s_both]">
             <SplitButton href="#consolidate">See our products</SplitButton>
             <Button size="cta" variant="outline" nativeButton={false} render={<Link href="#thinking" />}>
               How we think
             </Button>
-          </StaggerItem>
-        </Stagger>
+          </div>
+        </div>
       </div>
 
       {/* bottom padding leaves room for the shadow, which overflow-hidden would otherwise clip */}

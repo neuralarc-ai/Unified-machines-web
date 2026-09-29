@@ -24,19 +24,18 @@ export function SiteHeader() {
   const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 32 })
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: EASE }}
-      className="sticky top-0 z-30 bg-paper/86 backdrop-blur-md"
-    >
+    // visible on first paint; a CSS slide in, no hidden state waiting on JS
+    <header className="sticky top-0 z-30 bg-paper/86 backdrop-blur-md motion-safe:animate-[enter-drop_0.6s_var(--ease-enter)_both]">
       <div className="container-page flex h-16 items-center justify-between gap-6 md:h-19">
         <Link
           href="#main"
           aria-label="Unified Machines home"
           className="group/brand flex items-center gap-3.5 text-[22px] font-medium tracking-[-0.5px] whitespace-nowrap"
         >
-          <BrandMarks className="gap-1.5" glyphClassName="size-5.5 transition-transform duration-400 ease-[cubic-bezier(.2,.7,.2,1)] nth-2:group-hover/brand:rotate-90 nth-3:group-hover/brand:-translate-y-0.5" />
+          <BrandMarks
+            className="gap-1.5"
+            glyphClassName="size-5.5 transition-transform duration-400 ease-[cubic-bezier(.2,.7,.2,1)] nth-2:group-hover/brand:rotate-90 nth-3:group-hover/brand:-translate-y-0.5"
+          />
           <span>Unified Machines</span>
         </Link>
 
@@ -71,7 +70,9 @@ export function SiteHeader() {
           </SplitButton>
 
           <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon-lg" className="lg:hidden" aria-label="Open navigation" />}>
+            <SheetTrigger
+              render={<Button variant="ghost" size="icon-lg" className="lg:hidden" aria-label="Open navigation" />}
+            >
               <HugeiconsIcon icon={Menu02Icon} strokeWidth={1.5} className="size-6" />
             </SheetTrigger>
             <SheetContent side="top" className="gap-0 border-ink bg-paper px-5 pt-16 pb-6">
@@ -104,7 +105,11 @@ export function SiteHeader() {
           </Sheet>
         </div>
       </div>
-      <motion.div aria-hidden className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-lime" style={{ scaleX: progress }} />
-    </motion.header>
+      <motion.div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-lime"
+        style={{ scaleX: progress }}
+      />
+    </header>
   )
 }

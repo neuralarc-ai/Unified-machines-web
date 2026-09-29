@@ -5,7 +5,8 @@ export const FRIDAY_URL = "https://www.fridayapp.fun"
 export const navLinks = [
   { href: "#thinking", label: "Our thinking" },
   { href: "#principles", label: "How we build" },
-  { href: "#consolidate", label: "Products" },
+  { href: "#consolidate", label: "Morse" },
+  { href: "#friday", label: "Friday" },
   { href: "#partner", label: "Partner" },
 ] as const
 
@@ -108,7 +109,7 @@ export const principles: {
     key: "sovereign",
     n: "03",
     title: "As sovereign as possible",
-    body: "Progress should bring greater independence. We build toward as much sovereignty as possible, with meaningful choice and control guiding every decision about where your data lives and who gets to see it.",
+    body: "Progress should bring more independence, not less. We design toward control over where your data lives, who can see it and what runs on it, and we say plainly where a product isn't there yet.",
     diagram: { symbol: "heart", file: "own.dgm", caption: "Progress, on your own terms.", code: "UM / SOVEREIGN", mode: "line" },
   },
   {
@@ -120,15 +121,16 @@ export const principles: {
   },
 ]
 
+/** The seven tools Morse folds into one app (from onmorse.com). */
 export const tools = [
-  "Video", "Calendar", "Notes", "Chat", "Tasks", "Files",
-  "Transcripts", "CRM", "Forms", "Approvals", "Search", "Reports",
+  "Video call", "Notetaker", "Recordings", "Transcripts",
+  "In-call assistant", "Whiteboard", "Booking link",
 ]
 
 export const faqs = [
   {
     q: "What does Unified Machines build?",
-    a: "AI products for companies, designed to last. Morse, for the calendar and everything around meetings, is the first. More are coming across the different areas and domains a business runs on.",
+    a: "AI products for companies, designed to last. Morse, for the calendar and everything around meetings, and Friday, for screen recordings on the Mac, are the first two. More are coming across the domains a business runs on.",
   },
   {
     q: "What does “built to last” mean for an AI product?",
@@ -143,12 +145,16 @@ export const faqs = [
     a: "Morse is being built now. onmorse.com is its home, and public availability will be announced there.",
   },
   {
-    q: "What comes after Morse?",
-    a: "Products in other domains of business, currently in research. Each one follows the same path: research the day-to-day work, simplify it, build the smallest product that covers the whole job, under your control.",
+    q: "Is Friday available today?",
+    a: "Yes. Friday runs on macOS 15 or later, on Apple Silicon and Intel, and everything happens on your Mac. Details and downloads are at fridayapp.fun.",
+  },
+  {
+    q: "What comes next?",
+    a: "More products in other domains of business, in research now. Each follows the same path: research the day-to-day work, simplify it, and build the smallest product that covers the whole job. We announce each one when it is real.",
   },
   {
     q: "What does “sovereign” mean here?",
-    a: "As much control as possible over your data, your models and your dependencies. We hold every product to five aims: data residency, model choice, access, exit and audit, and we say plainly where one is not met yet.",
+    a: "It is the direction we build in: as much control as possible over your data and what runs on it. It is an aim, not a finished state, and where a product falls short of it today, we say so plainly.",
   },
   {
     q: "What do the three symbols mean?",

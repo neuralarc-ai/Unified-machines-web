@@ -18,8 +18,8 @@ export function Thinking() {
         <WindowFrame title="our-thinking.txt" bodyClassName="p-6 md:p-8">
           <p className={bodyLg}>
             Most software is built for the next quarter. The tools companies depend on every day deserve better:
-            products with intelligence in the foundation, designed to stay useful as models change, teams grow and the
-            work moves on. That is the foundation of Unified Machines.
+            intelligence at their foundation, and a design that stays useful as models change, teams grow and the work
+            moves on.
           </p>
         </WindowFrame>
       </Reveal>

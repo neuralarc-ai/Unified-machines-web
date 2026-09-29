@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils"
  * Consolidation, rebuilt on the um-landing redesign's structure (2026-09-28):
  * a dark ruled band, a statement headline, then three bordered columns: the
  * idea on a stepped colour block, the count with Morse docked beneath it, and
- * what consolidation means, with the twelve tools ticked off. The redesign's
+ * what consolidation means, with Morse's seven tools ticked off. The redesign's
  * highlight boxes and pixel type were left behind; the Morse window is drawn
  * in the current Morse app palette.
  */
@@ -137,17 +137,17 @@ export function Consolidate() {
         <div className="container-page relative">
           <div className="flex h-(--cell) items-center justify-between gap-6 px-4 md:px-8">
             <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
-            <p className={cn(tag, "hidden md:block")}>Meet · Schedule · Remember · Decide · Find</p>
+            <p className={cn(tag, "hidden shrink-0 lg:block")}>Meet · Schedule · Remember · Decide · Find</p>
           </div>
 
           <Reveal className="grid h-[calc(var(--cell)*6)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
             <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
-              Twelve tools.
+              Seven tools.
               <br />
               <span className="pl-[1.1em] text-lime">One app.</span>
             </h2>
             <p className="max-w-[30ch] text-lg leading-[1.45] text-paper/60 lg:mb-3">
-              Twelve logins. Twelve bills. Twelve places the answer might be.
+              Seven logins. Seven bills. Seven places the answer might be.
             </p>
           </Reveal>
         </div>
@@ -189,16 +189,16 @@ export function Consolidate() {
             <p className={tag}>2 · Morse</p>
             <div className="mt-12 md:mt-16">
               <p className="flex items-baseline gap-[0.12em] text-[clamp(96px,9.6vw,150px)] leading-[0.82] font-medium tracking-[-0.06em]">
-                12
+                7
                 <HugeiconsIcon
                   icon={ArrowRight02Icon}
                   strokeWidth={1.25}
                   className="size-[0.62em] self-center text-lime"
                 />
-                1
+                <span className="sr-only"> tools to </span>1
               </p>
               <p className="mt-5 text-xl leading-[1.35] tracking-[-0.02em] text-paper/75">
-                Tools down to one app.
+                Meeting tools, down to one app.
                 <br />
                 <span className="text-paper">Morse, for meetings, is the first.</span>
               </p>
@@ -208,7 +208,7 @@ export function Consolidate() {
             </div>
           </StaggerItem>
 
-          {/* 3 · what it means, the twelve ticked off */}
+          {/* 3 · what it means, Morse's seven ticked off */}
           <StaggerItem className={col}>
             <p className={tag}>3 · What it means</p>
             <p className="mt-12 text-[17px] leading-[1.55] text-paper/85 md:mt-16">
@@ -228,14 +228,14 @@ export function Consolidate() {
                   }}
                 >
                   <HugeiconsIcon icon={Tick02Icon} strokeWidth={2.25} className="size-4 shrink-0 text-lime" />
-                  <span className="text-paper/45 line-through decoration-paper/35">{t}</span>
+                  <span className="text-paper/55 line-through decoration-paper/35">{t}</span>
                 </StaggerItem>
               ))}
             </Stagger>
             <div className="mt-auto border-t border-paper/10 pt-6 max-lg:mt-10">
               <p className={tag}>What it does not mean</p>
               <p className="mt-2.5 text-[15px] leading-[1.5] text-paper/60">
-                A portal that puts the same twelve tools behind one login. It only counts when the steps disappear and
+                A portal that puts the same seven tools behind one login. It only counts when the steps disappear and
                 the data lives in one place you own.
               </p>
             </div>

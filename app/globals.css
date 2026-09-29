@@ -181,6 +181,27 @@
   }
 }
 
+/* first-paint entrances (hero and header): CSS, so nothing waits on JS to be seen */
+@theme {
+  --ease-enter: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes enter-slide {
+  from {
+    transform: translateY(18px);
+  }
+}
+@keyframes enter-rise {
+  from {
+    opacity: 0.001;
+    transform: translateY(12px);
+  }
+}
+@keyframes enter-drop {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
