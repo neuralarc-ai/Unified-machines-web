@@ -74,8 +74,8 @@ export function Hero() {
       </div>
 
       {/* bottom padding leaves room for the shadow, which overflow-hidden would otherwise clip */}
-      <Reveal className="container-page relative z-[1] pb-16" delay={0.3}>
-        <div className="rounded-(--radius) shadow-[0_2px_4px_rgb(16_16_16/0.04),0_12px_24px_-6px_rgb(16_16_16/0.10),0_40px_80px_-24px_rgb(16_16_16/0.22)]">
+      <Reveal className="container-page relative z-[1] pb-16 md:pb-28" delay={0.3}>
+        <div className="rounded-(--radius) shadow-[0_1px_2px_rgb(16_16_16/0.05),0_10px_24px_-10px_rgb(16_16_16/0.14),0_36px_64px_-32px_rgb(16_16_16/0.24)]">
           <Desk />
         </div>
       </Reveal>

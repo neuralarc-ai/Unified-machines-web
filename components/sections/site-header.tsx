@@ -25,7 +25,7 @@ export function SiteHeader() {
 
   return (
     // visible on first paint; a CSS slide in, no hidden state waiting on JS
-    <header className="sticky top-0 z-30 bg-paper/86 backdrop-blur-md motion-safe:animate-[enter-drop_0.6s_var(--ease-enter)_both]">
+    <header className="grid-ground sticky top-0 z-30 border-b border-ink/8 motion-safe:animate-[enter-drop_0.6s_var(--ease-enter)_both]">
       <div className="container-page flex h-16 items-center justify-between gap-6 md:h-19">
         <Link
           href="#main"

@@ -135,12 +135,12 @@ export function Consolidate() {
       */}
       <div>
         <div className="container-page relative">
-          <div className="flex h-(--cell) items-center justify-between gap-6 px-4 md:px-8">
-            <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
-            <p className={cn(tag, "hidden shrink-0 lg:block")}>Meet · Schedule · Remember · Decide · Find</p>
-          </div>
-
-          <Reveal className="grid h-[calc(var(--cell)*6)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
+          {/* the label sits right above its own headline; the space above it separates this band from the one before */}
+          <Reveal className="grid h-[calc(var(--cell)*7)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
+            <div className="flex items-center justify-between gap-6 pb-4 md:pb-8 lg:col-span-2">
+              <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
+              <p className={cn(tag, "hidden shrink-0 lg:block")}>Meet · Schedule · Remember · Decide · Find</p>
+            </div>
             <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
               Seven tools.
               <br />

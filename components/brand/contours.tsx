@@ -55,14 +55,15 @@ const OUT = 160 // how far bundles start beyond the band's edges
  * slide under the column cards, or runs on down into the next band.
  * `x` is the vertical run's centre, `top` where the column cards start.
  */
-function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k: number): Bundle[] {
-  const under = W * 0.4 // far enough in to be hidden by the cards
+function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k: number, half: number): Bundle[] {
+  const under = W * 0.5 // well behind the cards, so no line ends in the open
+  const turn = top + half + 48 * k // low enough that the whole bundle turns in under the card tops
   const flat = (y: number): Pt => [-OUT, y]
   switch (v) {
     // in from the edge, down the margin, then in under the cards; a second bundle runs on into Friday
     case "morse":
       return [
-        [flat(110 * k), [x, 110 * k], [x, top + 90 * k], [under, top + 90 * k]],
+        [flat(110 * k), [x, 110 * k], [x, turn], [under, turn]],
         [flat(top + (H - top) * 0.5), [x, top + (H - top) * 0.5], [x, H + OUT]],
       ]
     // picks that bundle up at the top and turns it in under the cards; another comes in lower down
@@ -70,8 +71,8 @@ function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k
       return [
         [
           [x, -OUT],
-          [x, top + 90 * k],
-          [under, top + 90 * k],
+          [x, turn],
+          [under, turn],
         ],
         [flat(top + (H - top) * 0.55), [x, top + (H - top) * 0.55], [x, H + OUT]],
       ]
@@ -87,7 +88,7 @@ function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k
 // the right side sits a little higher or lower than the left, so the page doesn't read as a mirror
 const rightShift: Record<Variant, (H: number, k: number) => number> = {
   morse: (_, k) => 40 * k,
-  friday: (_, k) => -60 * k,
+  friday: (_, k) => 70 * k,
   faq: (H) => 0.32 * H, // the right loop comes in lower beside the questions...
   footer: (H) => -0.12 * H, // ...and turns back out a little sooner
 }
@@ -99,7 +100,7 @@ function bundles(v: Variant, W: number, H: number, e: number, k: number): Bundle
   const cell = Math.min(1440, W - (W >= 768 ? 96 : 40)) / (W >= 1024 ? 18 : W >= 768 ? 12 : 6)
   const top = cell * 7 // the label strip (1 cell) and headline (6 cells) above the cards
   const dy = rightShift[v](H, k)
-  const left = leftBundles(v, W, H, x, top, k)
+  const left = leftBundles(v, W, H, x, top, k, half)
   const right = left.map((b) => b.map(([px, py]): Pt => [W - px, py < 0 || py > H ? py : py + dy]))
   return [...left, ...right]
 }
