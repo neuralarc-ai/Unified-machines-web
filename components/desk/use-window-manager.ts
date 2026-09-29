@@ -1,8 +1,12 @@
-import { useEffect, useReducer } from "react"
+import { useReducer } from "react"
 import type { GameId } from "./games/registry"
 
-export type AppId = "morse-app" | "friday-app"
+export type AppId = "morse-app" | "friday-app" | "files" | "trash"
 export type WindowId = "call" | "notes" | "cal" | "clock" | "readme" | GameId | AppId
+
+export const APP_IDS: AppId[] = ["morse-app", "friday-app", "files", "trash"]
+const STORY: WindowId[] = ["call", "notes", "cal", "clock"]
+const isApp = (id: WindowId): id is AppId => APP_IDS.includes(id as AppId)
 
 type State = {
   /** Stacking order, back to front. */
@@ -11,7 +15,7 @@ type State = {
   maximized: WindowId | null
   /** Games start closed; opening one mounts it, so nothing runs until asked for. */
   games: GameId[]
-  /** Product windows, mounted when opened from their desktop icons. */
+  /** App windows (products, files, trash), mounted when opened. */
   apps: AppId[]
 }
 
@@ -23,8 +27,20 @@ type Action =
   | { type: "closeGame"; id: GameId }
   | { type: "openApp"; id: AppId }
   | { type: "closeApp"; id: AppId }
+  /** Show exactly these windows beside the tour: the rest of the story minimises, other apps close. */
+  | { type: "arrange"; ids: WindowId[] }
+  | { type: "reset" }
 
-const without = <T>(list: T[], id: T) => list.filter((x) => x !== id)
+const without = <T,>(list: T[], id: T) => list.filter((x) => x !== id)
+
+// a calm first screen: only the tour; the meeting waits in the taskbar until the tour gets to it
+const initial: State = {
+  order: ["notes", "cal", "clock", "call", "readme"],
+  minimized: ["call", "notes", "cal", "clock"],
+  maximized: null,
+  games: [],
+  apps: [],
+}
 
 function reducer(s: State, a: Action): State {
   switch (a.type) {
@@ -58,33 +74,25 @@ function reducer(s: State, a: Action): State {
         maximized: s.maximized === a.id ? null : s.maximized,
         apps: without(s.apps, a.id),
       }
+    case "arrange": {
+      let next: State = {
+        ...s,
+        maximized: null,
+        minimized: [...s.minimized.filter((id) => !STORY.includes(id)), ...STORY.filter((id) => !a.ids.includes(id))],
+        apps: a.ids.filter(isApp),
+        order: s.order.filter((id) => !isApp(id) || a.ids.includes(id)),
+      }
+      for (const id of [...a.ids, "readme" as WindowId]) next = reducer(next, { type: "focus", id })
+      return next
+    }
+    case "reset":
+      return initial
   }
 }
 
-// a calm first screen: the tour and the meeting open, the rest waiting in the taskbar
-const initial: State = {
-  order: ["notes", "cal", "clock", "call", "readme"],
-  minimized: ["notes", "cal", "clock"],
-  maximized: null,
-  games: [],
-  apps: [],
-}
-
-/**
- * Window stacking, minimise, maximise and open games for UM.OS. `compact`
- * windows start minimised below the desk breakpoint, where windows stack in a
- * column: the taskbar still lists them, so they are one tap away.
- */
-export function useWindowManager(compact: WindowId[] = []) {
+/** Window stacking, minimise, maximise, and opening games and apps for UM.OS. */
+export function useWindowManager() {
   const [state, dispatch] = useReducer(reducer, initial)
-
-  // decided once, in the browser: the server can't know the screen
-  useEffect(() => {
-    if (matchMedia("(min-width: 1024px)").matches) return
-    const t = setTimeout(() => compact.forEach((id) => dispatch({ type: "minimize", id })))
-    return () => clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- first screen only
-  }, [])
   const front = state.order.findLast((id) => !state.minimized.includes(id))
 
   return {
@@ -99,6 +107,8 @@ export function useWindowManager(compact: WindowId[] = []) {
     closeGame: (id: GameId) => dispatch({ type: "closeGame", id }),
     openApp: (id: AppId) => dispatch({ type: "openApp", id }),
     closeApp: (id: AppId) => dispatch({ type: "closeApp", id }),
+    arrange: (ids: WindowId[]) => dispatch({ type: "arrange", ids }),
+    reset: () => dispatch({ type: "reset" }),
     /** Taskbar behaviour: restore if minimised, minimise if in front, else bring forward. */
     toggleTask: (id: WindowId) =>
       dispatch({ type: state.minimized.includes(id) || front !== id ? "focus" : "minimize", id }),

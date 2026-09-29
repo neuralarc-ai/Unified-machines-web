@@ -82,7 +82,7 @@ export function DeskWindow({ id, title, x, y, width, wm, floating, bounds, meta,
         dragging && "shadow-hard-xl",
         floating &&
           (maximized
-            ? "absolute! top-11 left-4 h-[calc(100%-6.5rem)] w-[calc(100%-2rem)]"
+            ? "absolute! top-3 left-4 h-[calc(100%-1.5rem)] w-[calc(100%-2rem)]"
             : "absolute! top-(--y) left-(--x) w-(--w)")
       )}
     >

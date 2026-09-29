@@ -28,6 +28,8 @@ const WINDOWS: { id: WindowId; label: string }[] = [
 const APPS: { id: AppId; label: string }[] = [
   { id: "morse-app", label: desk.apps.morse.file },
   { id: "friday-app", label: desk.apps.friday.file },
+  { id: "files", label: "files/" },
+  { id: "trash", label: desk.trash.file },
 ]
 
 const menuItem = "gap-2.5 rounded-none px-2.5 py-2 text-[17px] focus:bg-pink focus:text-ink"

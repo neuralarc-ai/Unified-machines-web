@@ -35,11 +35,26 @@ export const desk = {
       opens: ["friday-app"],
     },
     {
-      title: "Built on three symbols.",
-      text: "Human ambition, machine intelligence, and the progress they make together. Press a symbol on the left to read it, or open an app to explore.",
-      opens: [],
+      title: "Now it's your desk.",
+      text: "Open files/ to jump around the page, press a symbol to read it, or look in the trash for the tools Morse replaced. Double-click a title bar to fill the desk.",
+      opens: ["files"],
     },
   ] as { title: string; text: string; opens: string[] }[],
+  /** files/: the page's sections, as folders. */
+  files: [
+    { name: "thinking/", note: "Why we build", href: "#thinking" },
+    { name: "principles/", note: "How we build", href: "#principles" },
+    { name: "morse/", note: "Meetings, one app", href: "#consolidate" },
+    { name: "friday/", note: "Screen recordings", href: "#friday" },
+    { name: "partner/", note: "Fahrenheit Research", href: "#partner" },
+    { name: "faq/", note: "Questions, answered", href: "#faq" },
+  ],
+  /** trash: the meeting tools Morse folds into one app. */
+  trash: {
+    file: "trash",
+    heading: "7 items · replaced by Morse",
+    empty: "Emptied. Morse holds all seven now.",
+  },
   /** The product icons on the desk. */
   apps: {
     morse: {
