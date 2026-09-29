@@ -26,11 +26,12 @@ export function SiteHeader() {
   return (
     // visible on first paint; a CSS slide in, no hidden state waiting on JS
     <header className="grid-ground sticky top-0 z-30 border-b border-ink/8 motion-safe:animate-[enter-drop_0.6s_var(--ease-enter)_both]">
-      <div className="container-page flex h-16 items-center justify-between gap-6 md:h-19">
+      {/* three columns, the outer two equal, so the nav sits on the page's true centre */}
+      <div className="container-page grid h-16 grid-cols-[1fr_auto] items-center gap-6 md:h-19 lg:grid-cols-[1fr_auto_1fr]">
         <Link
           href="#main"
           aria-label="Unified Machines home"
-          className="group/brand flex items-center gap-3.5 text-[22px] font-medium tracking-[-0.5px] whitespace-nowrap"
+          className="group/brand flex items-center justify-self-start gap-3.5 text-[22px] font-medium tracking-[-0.5px] whitespace-nowrap"
         >
           <BrandMarks
             className="gap-1.5"
@@ -41,7 +42,7 @@ export function SiteHeader() {
 
         <NavSignals active={active} />
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-end gap-3">
           <SplitButton href={MORSE_URL} external size="sm" className="hidden md:inline-flex">
             Visit Morse
           </SplitButton>
