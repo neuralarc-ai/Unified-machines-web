@@ -49,7 +49,9 @@ export function Friday() {
         {/* the label sits right above its own headline; the space above it separates this band from the one before */}
         <Reveal className="grid h-[calc(var(--cell)*7)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
           <div className="flex items-center justify-between gap-6 pb-4 md:pb-8 lg:col-span-2">
-            <p className={cn(tag, "uppercase")}>[ Friday ] · Screen recordings for Mac</p>
+            <p className={cn(tag, "uppercase")}>
+              [ Friday ]<span className="max-sm:hidden"> · Screen recordings for Mac</span>
+            </p>
             <p className={cn(tag, "hidden shrink-0 lg:block")}>Record · Polish · Ship</p>
           </div>
           <h2 id="friday-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
@@ -66,11 +68,11 @@ export function Friday() {
       <div className="container-page relative">
         <Stagger gap={0.12} className="grid gap-px bg-[#222222] lg:grid-cols-3">
           {/* 1 · the idea */}
-          <StaggerItem className={cn(col, "justify-between gap-40 overflow-hidden")}>
+          <StaggerItem className={cn(col, "justify-between gap-28 overflow-hidden lg:gap-40")}>
             <p className={tag}>1 · The idea</p>
             <PixelSteps
               corner="tr"
-              className="h-[34%] w-[56%] max-lg:h-40"
+              className="h-[34%] w-[56%] max-lg:h-32"
               steps={[
                 [100, 58],
                 [52, 100],
@@ -94,7 +96,7 @@ export function Friday() {
           </StaggerItem>
 
           {/* 2 · Friday: the figure, with the editor docked below it */}
-          <StaggerItem className={cn(col, "overflow-hidden pb-0 md:pb-0")}>
+          <StaggerItem className={cn(col, "overflow-hidden lg:pb-0")}>
             <p className={tag}>2 · Friday</p>
             <div className="mt-10 md:mt-12">
               <p className="text-[clamp(96px,9.6vw,150px)] leading-[0.82] font-medium tracking-[-0.06em]">
@@ -106,7 +108,7 @@ export function Friday() {
                 <span className="text-paper">The rest is a real editor.</span>
               </p>
             </div>
-            <div className="mt-12 -mr-6 ml-6 md:-mr-8 lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-[84%]">
+            <div className="mt-10 lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-[84%]">
               <FridayWindow />
             </div>
           </StaggerItem>
@@ -119,7 +121,12 @@ export function Friday() {
               and one click of AI Edit picks the look, music and intro. Then export MP4, ProRes or GIF, up to 4K at
               60fps.
             </p>
-            <Stagger as="ul" gap={0.05} delay={0.3} className="mt-8 mb-10 grid grid-cols-2 gap-x-6 gap-y-2.5">
+            <Stagger
+              as="ul"
+              gap={0.05}
+              delay={0.3}
+              className="mt-8 mb-10 grid grid-cols-1 gap-x-6 gap-y-2.5 min-[440px]:grid-cols-2"
+            >
               {FEATURES.map((t) => (
                 <StaggerItem
                   key={t}

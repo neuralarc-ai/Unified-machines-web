@@ -217,7 +217,9 @@ export function Principles() {
 
       <div className="grid items-center gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
         <Reveal>
-          <PrinciplesWindow active={p.key} />
+          <div className="mx-auto w-full max-w-md lg:max-w-none">
+            <PrinciplesWindow active={p.key} />
+          </div>
         </Reveal>
         <div id="principle-panel" role="tabpanel" aria-labelledby={`principle-tab-${p.key}`} aria-live="polite">
           <AnimatePresence mode="wait" initial={false}>

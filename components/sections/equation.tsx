@@ -37,7 +37,9 @@ export function Equation() {
                 className="aspect-square h-auto w-22 flex-col gap-2.5 rounded-none border-[1.5px] border-ink bg-paper p-0 shadow-hard transition-[translate,box-shadow,background-color] hover:-translate-0.5 hover:bg-paper hover:shadow-hard-lg aria-pressed:translate-0.5 aria-pressed:bg-pink aria-pressed:shadow-[2px_2px_0_var(--ink)] md:w-[clamp(96px,12vw,150px)]"
               >
                 <Glyph symbol={e.key} className="size-[44%]" />
-                <Badge variant="tag">{e.label}</Badge>
+                <Badge variant="tag" className="max-md:px-1 max-md:text-[11px]">
+                  {e.label}
+                </Badge>
               </ToggleGroupItem>
               {OPERATORS[i] && <span className="font-mono text-xl md:text-[31.5px]">{OPERATORS[i]}</span>}
             </Fragment>
