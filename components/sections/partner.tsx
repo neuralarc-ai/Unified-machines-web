@@ -49,15 +49,15 @@ export function Partner() {
               </SplitButton>
             </div>
           </div>
-          <div className="grid min-h-60 place-items-center border-paper/10 bg-[#171717] max-lg:border-t lg:border-l">
-            <FrLogo className="w-[42%] text-paper transition-colors duration-500 group-hover:text-lime" />
+          <div className="grid min-h-36 place-items-center border-paper/10 bg-[#171717] max-lg:border-t lg:min-h-60 lg:border-l">
+            <FrLogo className="w-24 text-paper lg:w-[42%] transition-colors duration-500 group-hover:text-lime" />
           </div>
         </StaggerItem>
 
         {FACTS.map((f) => (
           <StaggerItem
             key={f.n}
-            className="flex min-h-52 flex-col justify-between gap-8 border-[1.5px] border-ink bg-chalk p-6 shadow-hard-sm"
+            className="flex flex-col justify-between gap-4 border-[1.5px] lg:min-h-52 lg:gap-8 border-ink bg-chalk p-6 shadow-hard-sm"
           >
             <div>
               <p className="font-mono text-xs text-muted-foreground">{f.n}</p>

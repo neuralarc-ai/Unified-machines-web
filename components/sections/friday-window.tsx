@@ -35,7 +35,7 @@ export function FridayWindow() {
   const glass = "border px-2 py-0.5 text-[10.5px]"
   return (
     <div
-      className="overflow-hidden border-t border-l text-[11px] shadow-[0_-24px_60px_-20px_rgb(0_0_0/0.7)]"
+      className="overflow-hidden border text-[11px] lg:border-r-0 lg:border-b-0 shadow-[0_-24px_60px_-20px_rgb(0_0_0/0.7)]"
       style={{ background: F.app, color: F.ink, borderColor: "rgb(255 255 255 / 0.07)" }}
     >
       <div

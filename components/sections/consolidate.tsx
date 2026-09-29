@@ -52,7 +52,7 @@ const tag = "font-mono text-xs tracking-[0.02em] text-paper/55"
 function MorseWindow() {
   return (
     <div
-      className="overflow-hidden rounded-tl-[14px] border-t border-l text-[12px] shadow-[0_-24px_60px_-20px_rgb(0_0_0/0.7)]"
+      className="overflow-hidden border text-[12px] lg:border-r-0 lg:border-b-0 shadow-[0_-24px_60px_-20px_rgb(0_0_0/0.7)]"
       style={{ background: M.bg, color: M.ink, borderColor: M.rule }}
     >
       <div
@@ -138,7 +138,9 @@ export function Consolidate() {
           {/* the label sits right above its own headline; the space above it separates this band from the one before */}
           <Reveal className="grid h-[calc(var(--cell)*7)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
             <div className="flex items-center justify-between gap-6 pb-4 md:pb-8 lg:col-span-2">
-              <p className={cn(tag, "uppercase")}>[ Morse ] · One job, one app</p>
+              <p className={cn(tag, "uppercase")}>
+                [ Morse ]<span className="max-sm:hidden"> · One job, one app</span>
+              </p>
               <p className={cn(tag, "hidden shrink-0 lg:block")}>Meet · Schedule · Remember · Decide · Find</p>
             </div>
             <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
@@ -157,11 +159,11 @@ export function Consolidate() {
         {/* dividers in the grid lines' own colour (8% paper on ink), opaque so nothing stacks under them */}
         <Stagger gap={0.12} className="grid gap-px bg-[#222222] lg:grid-cols-3">
           {/* 1 · the idea */}
-          <StaggerItem className={cn(col, "justify-between gap-40 overflow-hidden")}>
+          <StaggerItem className={cn(col, "justify-between gap-28 overflow-hidden lg:gap-40")}>
             <p className={tag}>1 · The idea</p>
             <PixelSteps
               corner="tr"
-              className="h-[34%] w-[56%] max-lg:h-40"
+              className="h-[34%] w-[56%] max-lg:h-32"
               steps={[
                 [100, 58],
                 [52, 100],
@@ -185,7 +187,7 @@ export function Consolidate() {
           </StaggerItem>
 
           {/* 2 · Morse: the count, with the app docked below it */}
-          <StaggerItem className={cn(col, "overflow-hidden pb-0 md:pb-0")}>
+          <StaggerItem className={cn(col, "overflow-hidden lg:pb-0")}>
             <p className={tag}>2 · Morse</p>
             <div className="mt-12 md:mt-16">
               <p className="flex items-baseline gap-[0.12em] text-[clamp(96px,9.6vw,150px)] leading-[0.82] font-medium tracking-[-0.06em]">
@@ -203,7 +205,7 @@ export function Consolidate() {
                 <span className="text-paper">Morse, for meetings, is the first.</span>
               </p>
             </div>
-            <div className="mt-12 -mr-6 ml-6 md:-mr-8 lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-[88%]">
+            <div className="mt-10 lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-[88%]">
               <MorseWindow />
             </div>
           </StaggerItem>
@@ -216,7 +218,12 @@ export function Consolidate() {
               memory. Each product we build takes a cluster of tools your teams juggle today and turns it into one
               surface with intelligence inside.
             </p>
-            <Stagger as="ul" gap={0.05} delay={0.3} className="mt-8 mb-10 grid grid-cols-2 gap-x-6 gap-y-2.5">
+            <Stagger
+              as="ul"
+              gap={0.05}
+              delay={0.3}
+              className="mt-8 mb-10 grid grid-cols-1 gap-x-6 gap-y-2.5 min-[440px]:grid-cols-2"
+            >
               {tools.map((t) => (
                 <StaggerItem
                   key={t}

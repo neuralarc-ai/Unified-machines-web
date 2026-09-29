@@ -654,7 +654,7 @@ function PhoneDesk() {
                   openers={openers}
                 />
               </section>
-              <ul className="grid grid-cols-4 gap-x-2 gap-y-4 pb-2">
+              <ul className="grid grid-cols-4 gap-x-2 gap-y-4 pb-2 sm:grid-cols-6">
                 {PHONE_APPS.map((a) => (
                   <li key={a.id}>
                     <button onClick={() => open(a.id)} className="flex w-full flex-col items-center gap-1.5">
