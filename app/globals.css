@@ -150,24 +150,17 @@
 }
 
 /*
- * Film grain (2026-09-29, replacing the ruled grid): a small seamless PNG of
- * faint light and dark specks laid over the element's own colour. A plain
- * image, not an SVG filter or a blend mode, so every browser draws it the
- * same, with no tiling seams or grey cast; if it doesn't load, the plain
- * colour shows. Still sets the cell vars, which blocks use to size themselves
- * in whole cells. Use on a full-width element.
+ * Section grounds: plain paper and plain ink (the film grain was removed
+ * 2026-09-29). Still set the cell vars, which blocks use to size themselves in
+ * whole cells. Use on a full-width element.
  */
 @utility grid-ground {
   @apply cells;
   background-color: var(--paper);
-  background-image: url("/grain-paper.png");
-  background-size: 256px 256px;
 }
 @utility grid-ground-ink {
   @apply cells;
   background-color: var(--ink);
-  background-image: url("/grain-ink.png");
-  background-size: 256px 256px;
 }
 
 /* content width: 1440px at most (was 1280), 20px / 48px gutters below that */
