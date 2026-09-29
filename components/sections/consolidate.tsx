@@ -128,24 +128,7 @@ export function Consolidate() {
       aria-labelledby="cons-title"
       className="grid-ground-ink bg-ink text-paper relative overflow-hidden"
     >
-      {/* contour lines around stepped shapes in the top corners, behind everything */}
-      <Contours
-        corner="tl"
-        steps={[
-          [0.12, 0.22],
-          [0.06, 0.62],
-        ]}
-        className="text-paper/[0.09] max-md:hidden"
-      />
-      <Contours
-        corner="tr"
-        steps={[
-          [0.2, 0.16],
-          [0.11, 0.46],
-          [0.05, 0.86],
-        ]}
-        className="text-paper/[0.09] max-md:hidden"
-      />
+      <Contours variant="morse" />
       {/*
         One grid runs under the whole band. The strip and headline are whole cells tall, so the grid's own lines
         frame them; no borders are drawn on top, which would double those lines.

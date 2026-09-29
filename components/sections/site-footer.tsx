@@ -5,6 +5,7 @@ import type { ReactNode } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowUp02Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons"
 import { FrLogo, MorseMark } from "@/components/brand/symbols"
+import { Contours } from "@/components/brand/contours"
 import { PixelSteps } from "@/components/brand/pixel-steps"
 import { useMotionState } from "@/components/motion/motion-provider"
 import { Reveal } from "@/components/motion/reveal"
@@ -71,6 +72,7 @@ function MotionToggle() {
 export function SiteFooter() {
   return (
     <footer className="grid-ground-ink relative overflow-hidden bg-ink text-paper">
+      <Contours variant="footer" />
       {/* the redesign's blocks, exactly: same shapes, sizes and colours; smaller on phones so they stay clear of the text */}
       <PixelSteps
         corner="bl"

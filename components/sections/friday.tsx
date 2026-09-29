@@ -188,23 +188,7 @@ export function Friday() {
       aria-labelledby="friday-title"
       className="grid-ground-ink mb-18 bg-ink text-paper md:mb-30 relative overflow-hidden"
     >
-      {/* contour lines around stepped shapes in the top corners, behind everything */}
-      <Contours
-        corner="tl"
-        steps={[
-          [0.2, 0.14],
-          [0.1, 0.44],
-        ]}
-        className="text-paper/[0.09] max-md:hidden"
-      />
-      <Contours
-        corner="tr"
-        steps={[
-          [0.1, 0.3],
-          [0.05, 0.72],
-        ]}
-        className="text-paper/[0.09] max-md:hidden"
-      />
+      <Contours variant="friday" />
       <div className="container-page relative">
         <div className="flex h-(--cell) items-center justify-between gap-6 px-4 md:px-8">
           <p className={cn(tag, "uppercase")}>[ Friday ] · Screen recordings for Mac</p>
