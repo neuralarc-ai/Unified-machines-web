@@ -25,7 +25,7 @@ export function SiteHeader() {
 
   return (
     // visible on first paint; a CSS slide in, no hidden state waiting on JS
-    <header className="grid-ground sticky top-0 z-30 border-b border-ink/8 motion-safe:animate-[enter-drop_0.6s_var(--ease-enter)_both]">
+    <header className="grid-ground overscroll-cap sticky top-0 z-30 border-b border-ink/8 motion-safe:animate-[enter-drop_0.6s_var(--ease-enter)_both]">
       {/* three columns, the outer two equal, so the nav sits on the page's true centre */}
       <div className="container-page grid h-16 grid-cols-[1fr_auto] items-center gap-6 md:h-19 lg:grid-cols-[1fr_auto_1fr]">
         <Link
