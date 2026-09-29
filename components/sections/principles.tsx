@@ -5,17 +5,15 @@ import { AnimatePresence, motion, useInView } from "framer-motion"
 import { Glyph } from "@/components/brand/symbols"
 import { useMotionState } from "@/components/motion/motion-provider"
 import { Reveal } from "@/components/motion/reveal"
-import { PanelAccordionItem } from "@/components/site/panel-accordion"
-import { SectionHead } from "@/components/site/section-head"
+import { bodyLg, SectionHead } from "@/components/site/section-head"
 import { WindowFrame } from "@/components/site/window-frame"
-import { Accordion } from "@/components/ui/accordion"
 import { useInterval } from "@/hooks/use-interval"
 import { fitCanvas, INK, paintDither } from "@/lib/dither"
 import { principles, type DiagramMode } from "@/lib/content"
+import { cn } from "@/lib/utils"
 
 const PIXEL = 6
 const DISSOLVE_MS = 450
-const ADVANCE_S = 6
 
 type Field = (fx: number, fy: number, r: number) => number
 
@@ -140,106 +138,108 @@ const glyphPose: Record<string, { scale?: number; y?: string; rotate?: number }>
   whole: { rotate: 90 },
 }
 
-export function Principles() {
-  const section = useRef<HTMLElement>(null)
-  const [open, setOpen] = useState<string[]>([principles[0].key])
-  const [active, setActive] = useState(principles[0].key)
-  // tours the principles on its own until the visitor picks one
-  const [touring, setTouring] = useState(true)
-  const inView = useInView(section, { amount: 0.4 })
-  const { stopped } = useMotionState()
+/** The diagram window: a live dither field for the active principle, its glyph and caption. */
+export function PrinciplesWindow({ active }: { active: string }) {
   const diagram = principles.find((p) => p.key === active)!.diagram
-  const showProgress = touring && inView && !stopped
-
-  const advance = () => {
-    const next = principles[(principles.findIndex((p) => p.key === active) + 1) % principles.length].key
-    setOpen([next])
-    setActive(next)
-  }
-
   return (
-    <section
-      ref={section}
-      id="principles"
-      aria-labelledby="principles-title"
-      className="container-page pt-10 pb-18 md:pb-30"
-    >
+    <WindowFrame title={diagram.file} bodyClassName="gap-0 p-0">
+      <div className="relative">
+        <DiagramCanvas mode={diagram.mode} />
+        <motion.div
+          aria-hidden
+          className="absolute top-1/2 left-1/2 size-[22%] -translate-1/2"
+          animate={{ scale: 1, y: 0, rotate: 0, ...glyphPose[active] }}
+          transition={{ type: "spring", stiffness: 180, damping: 16 }}
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              key={diagram.symbol}
+              className="size-full"
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+            >
+              <Glyph symbol={diagram.symbol} className="size-full" />
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </div>
+      <div className="flex justify-between gap-3 border-t-[1.5px] border-ink bg-chalk px-3 py-2 font-mono text-xs">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span key={active} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {diagram.caption}
+          </motion.span>
+        </AnimatePresence>
+        <span className="shrink-0 whitespace-nowrap">{diagram.code}</span>
+      </div>
+    </WindowFrame>
+  )
+}
+
+/**
+ * How we build (option B, chosen 2026-09-29): the four principles as one
+ * strip of tabs; the chosen one is told in full beside the diagram window.
+ */
+export function Principles() {
+  const [i, setI] = useState(0)
+  const p = principles[i]
+  const next = principles[(i + 1) % principles.length]
+  return (
+    <section id="principles" aria-labelledby="principles-title" className="container-page pt-10 pb-18 md:pb-30">
       <SectionHead id="principles-title" label="How we build">
         A few strong beliefs.
         <br />A different kind of company.
       </SectionHead>
 
-      <div className="grid items-start gap-12 lg:grid-cols-[5fr_7fr]">
-        <Reveal>
-          <WindowFrame title={diagram.file} bodyClassName="gap-0 p-0">
-            <div className="relative">
-              <DiagramCanvas mode={diagram.mode} />
-              <motion.div
-                aria-hidden
-                className="absolute top-1/2 left-1/2 size-[22%] -translate-1/2"
-                animate={{ scale: 1, y: 0, rotate: 0, ...glyphPose[active] }}
-                transition={{ type: "spring", stiffness: 180, damping: 16 }}
-              >
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.div
-                    key={diagram.symbol}
-                    className="size-full"
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.6 }}
-                  >
-                    <Glyph symbol={diagram.symbol} className="size-full" />
-                  </motion.div>
-                </AnimatePresence>
-              </motion.div>
-            </div>
-            <div className="flex justify-between gap-3 border-t-[1.5px] border-ink bg-chalk px-3 py-2 font-mono text-xs">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span key={active} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  {diagram.caption}
-                </motion.span>
-              </AnimatePresence>
-              <span className="shrink-0 whitespace-nowrap">{diagram.code}</span>
-            </div>
-          </WindowFrame>
-        </Reveal>
-
-        <Reveal delay={0.1} className="lg:pt-1">
-          <Accordion
-            value={open}
-            onValueChange={(v) => {
-              // any choice by the visitor ends the tour for good
-              setTouring(false)
-              setOpen(v as string[])
-              if (v[0]) setActive(v[0] as string)
-            }}
+      <Reveal
+        role="tablist"
+        aria-label="Principles"
+        className="mb-10 grid border-[1.5px] border-ink bg-chalk shadow-hard-sm sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {principles.map((q, k) => (
+          <button
+            key={q.key}
+            id={`principle-tab-${q.key}`}
+            role="tab"
+            aria-selected={k === i}
+            aria-controls="principle-panel"
+            onClick={() => setI(k)}
+            className={cn(
+              "flex items-baseline gap-3 border-ink px-5 py-4 text-left transition-colors not-last:border-b sm:nth-[odd]:border-r lg:border-b-0 lg:not-last:border-r",
+              k === i ? "bg-ink text-paper" : "hover:bg-lime-soft"
+            )}
           >
-            {principles.map((p) => (
-              <PanelAccordionItem
-                key={p.key}
-                value={p.key}
-                number={p.n}
-                title={p.title}
-                indicator={
-                  showProgress &&
-                  p.key === active && (
-                    <motion.span
-                      key={active}
-                      aria-hidden
-                      className="absolute inset-y-0 -left-px w-0.5 origin-top bg-lime-deep"
-                      initial={{ scaleY: 0 }}
-                      animate={{ scaleY: 1 }}
-                      transition={{ duration: ADVANCE_S, ease: "linear" }}
-                      onAnimationComplete={advance}
-                    />
-                  )
-                }
-              >
-                {p.body}
-              </PanelAccordionItem>
-            ))}
-          </Accordion>
+            <span className={cn("font-mono text-xs", k === i ? "text-lime" : "text-muted-foreground")}>{q.n}</span>
+            <span className="text-lg font-medium tracking-[-0.02em]">{q.title}</span>
+          </button>
+        ))}
+      </Reveal>
+
+      <div className="grid items-center gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
+        <Reveal>
+          <PrinciplesWindow active={p.key} />
         </Reveal>
+        <div id="principle-panel" role="tabpanel" aria-labelledby={`principle-tab-${p.key}`} aria-live="polite">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={p.key}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              <p className="font-mono text-xs text-muted-foreground">{p.n} / 04</p>
+              <h3 className="mt-4 text-[clamp(38px,3.6vw,56px)]">{p.title}</h3>
+              <p className={cn(bodyLg, "mt-6 max-w-[46ch] text-ink-soft")}>{p.body}</p>
+            </motion.div>
+          </AnimatePresence>
+          <button
+            onClick={() => setI((i + 1) % principles.length)}
+            className="mt-10 inline-flex h-11 items-center gap-3 border-[1.5px] border-ink bg-chalk px-4 font-mono text-sm shadow-hard-sm transition-[translate,box-shadow] hover:-translate-px hover:shadow-hard"
+          >
+            Next: {next.title} →
+          </button>
+        </div>
       </div>
     </section>
   )

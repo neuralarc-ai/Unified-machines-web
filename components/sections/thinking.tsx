@@ -1,54 +1,34 @@
-import { glyphCells } from "@/components/brand/symbols"
-import { Frame, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal"
-import { bodyLg, display, MonoLabel } from "@/components/site/section-head"
-import { cn } from "@/lib/utils"
+import { Reveal, WordReveal } from "@/components/motion/reveal"
+import { bodyLg, display } from "@/components/site/section-head"
+import { WindowFrame } from "@/components/site/window-frame"
 
-// The three brand symbols as 5×5 bit grids, then streamed as a ribbon of bits.
-const GRIDS = [glyphCells.human, glyphCells.machine, glyphCells.heart]
-const stream = GRIDS.map((g) => g.join("")).join("").repeat(2)
-const BITS = [
-  ...GRIDS[0].map((_, r) => GRIDS.map((g) => g[r]).join("  ")),
-  "",
-  "human  machine heart",
-  "",
-  ...Array.from({ length: 12 }, (_, i) => stream.slice(i * 3, i * 3 + 19)),
-].join("\n")
-
-const column = "border-l border-ink pl-5"
-
+/**
+ * Our thinking (option 4, chosen 2026-09-28): the statement, then its note
+ * opened as a UM.OS file, carrying the desk's language down the page. The
+ * name has its own section right after, so it no longer gets a window here.
+ */
 export function Thinking() {
   return (
-    <>
-      <section id="thinking" aria-labelledby="statement-title">
-        <Frame className="container-page py-18 md:pt-30 md:pb-27.5">
-          <WordReveal id="statement-title" className={display}>
-            We build for the everyday, then build it to last.
-          </WordReveal>
-        </Frame>
-      </section>
+    <section id="thinking" aria-labelledby="statement-title" className="container-page pt-4 pb-20 md:pt-2 md:pb-30">
+      <WordReveal id="statement-title" className={display}>
+        We build for the everyday, then build it to last.
+      </WordReveal>
 
-      <Stagger className="container-page grid gap-8 pb-18 md:grid-cols-2 md:gap-12 md:pb-27.5 lg:grid-cols-[1.1fr_1fr_.55fr]">
-        <StaggerItem className={column}>
-          <MonoLabel className="mb-5.5">Our thinking</MonoLabel>
+      <Reveal className="mx-auto mt-14 max-w-[720px] md:mt-20">
+        <WindowFrame title="our-thinking.txt" bodyClassName="p-6 md:p-8">
           <p className={bodyLg}>
             Most software is built for the next quarter. The tools companies depend on every day deserve better:
-            products with intelligence in the foundation, designed to stay useful as models change, teams grow and
-            the work moves on. That is the foundation of Unified Machines.
+            intelligence at their foundation, and a design that stays useful as models change, teams grow and the work
+            moves on.
           </p>
-        </StaggerItem>
-        <StaggerItem className={column}>
-          <MonoLabel className="mb-5.5">The name</MonoLabel>
-          <p className={cn(bodyLg, "mb-3.5")}>
-            Unified is the point. Human ambition and machine intelligence, working toward one outcome: products people
-            are glad to use for years. Less friction. More freedom. Something useful enough to become second nature.
-          </p>
-          <p className={cn(bodyLg, "font-medium")}>Everyday problems. Uncommon possibilities.</p>
-        </StaggerItem>
-        <StaggerItem aria-hidden className={cn(column, "hidden lg:block")}>
-          <MonoLabel className="mb-5.5">[SYM.BIN]</MonoLabel>
-          <pre className="font-mono text-[12px] leading-[1.35] text-ink-soft">{BITS}</pre>
-        </StaggerItem>
-      </Stagger>
-    </>
+        </WindowFrame>
+      </Reveal>
+
+      <Reveal className="mt-10 flex justify-center md:mt-12">
+        <p className="border-[1.5px] border-ink bg-lime px-4 py-2 font-mono text-sm shadow-hard-sm">
+          Everyday problems. Uncommon possibilities.
+        </p>
+      </Reveal>
+    </section>
   )
 }

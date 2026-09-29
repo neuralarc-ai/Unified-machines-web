@@ -1,130 +1,247 @@
-"use client"
-
-import { useEffect, useRef, useState } from "react"
-import { animate, useInView } from "framer-motion"
-import { BrandMarks } from "@/components/brand/symbols"
-import { useMotionState } from "@/components/motion/motion-provider"
-import { Stagger, StaggerItem } from "@/components/motion/reveal"
-import { bodyLg, MonoLabel, SectionHead } from "@/components/site/section-head"
-import { Badge } from "@/components/ui/badge"
-import { Slider } from "@/components/ui/slider"
-import { tools } from "@/lib/content"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowRight02Icon, Tick02Icon } from "@hugeicons/core-free-icons"
+import { MorseMark } from "@/components/brand/symbols"
+import { Contours } from "@/components/brand/contours"
+import { PixelSteps } from "@/components/brand/pixel-steps"
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
+import { SplitButton } from "@/components/site/split-button"
+import { MORSE_URL, tools } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
-// a slightly messy desk: every 3rd/5th chip is knocked askew
-const tilt = (n: number) => (n % 5 === 0 ? 2.5 : n % 3 === 0 ? -2 : n % 3 === 1 ? 1.5 : 0)
+/**
+ * Consolidation, rebuilt on the um-landing redesign's structure (2026-09-28):
+ * a dark ruled band, a statement headline, then three bordered columns: the
+ * idea on a stepped colour block, the count with Morse docked beneath it, and
+ * what consolidation means, with Morse's seven tools ticked off. The redesign's
+ * highlight boxes and pixel type were left behind; the Morse window is drawn
+ * in the current Morse app palette.
+ */
 
-const sliderStyles = [
-  "absolute inset-0 z-10 cursor-ew-resize max-md:hidden [&>div]:h-full",
-  "**:data-[slot=slider-track]:bg-transparent **:data-[slot=slider-range]:bg-transparent",
-  "**:data-[slot=slider-thumb]:flex **:data-[slot=slider-thumb]:size-10 **:data-[slot=slider-thumb]:items-center **:data-[slot=slider-thumb]:justify-center **:data-[slot=slider-thumb]:rounded-none **:data-[slot=slider-thumb]:border-[1.5px] **:data-[slot=slider-thumb]:border-ink **:data-[slot=slider-thumb]:bg-paper **:data-[slot=slider-thumb]:font-mono **:data-[slot=slider-thumb]:text-xs **:data-[slot=slider-thumb]:ring-lime **:data-[slot=slider-thumb]:before:content-['◂_▸']",
-].join(" ")
+// Morse app, dark theme (morse-app-design, fluid.css)
+const M = {
+  bg: "#141413",
+  surface: "#1d1d1c",
+  raised: "#2c2b2a",
+  ink: "#efefea",
+  muted: "#9f9e9c",
+  rule: "#363534",
+  coral: "#fe886a",
+  coralSoft: "#3f231c",
+  lime: "#e5f700",
+  limeInk: "#08191c",
+}
 
-const side = "flex flex-col justify-between gap-6 p-4 md:absolute md:inset-0 md:px-8 md:py-7"
+const PEOPLE = [
+  { name: "Priya", src: "/avatars/ember.webp" },
+  { name: "Jamie", src: "/avatars/fjord.webp" },
+  { name: "Dan", src: "/avatars/lagoon.webp" },
+]
 
-export function Consolidate() {
-  const box = useRef<HTMLDivElement>(null)
-  const inView = useInView(box, { once: true, amount: 0.5 })
-  const { reduced } = useMotionState()
-  const [cut, setCut] = useState(100)
+// the idea, in two tones: the words that carry it read bright
+const IDEA = [
+  { t: "One surface", on: true },
+  { t: "with intelligence inside, and the data in", on: false },
+  { t: "one place", on: true },
+  { t: "your organisation owns.", on: false },
+]
 
-  // first view: sweep the divider from the right edge to the middle
-  useEffect(() => {
-    if (!inView) return
-    const controls = animate(100, 50, {
-      duration: reduced ? 0 : 1.4,
-      ease: [0.33, 1, 0.68, 1],
-      onUpdate: setCut,
-    })
-    return () => controls.stop()
-  }, [inView, reduced])
+const col = "relative flex flex-col bg-[#151515] p-6 md:p-8 lg:min-h-[620px]"
+const tag = "font-mono text-xs tracking-[0.02em] text-paper/55"
 
+/** One meeting in Morse: the call, its notes and the follow-up, in one window. */
+function MorseWindow() {
   return (
-    <section id="consolidate" aria-labelledby="cons-title" className="container-page pb-18 md:pb-30">
-      <SectionHead id="cons-title" label="Consolidation">
-        Twelve tools. One app.
-        <br />
-        Drag to see the difference.
-      </SectionHead>
-
+    <div
+      className="overflow-hidden rounded-tl-[14px] border-t border-l text-[12px] shadow-[0_-24px_60px_-20px_rgb(0_0_0/0.7)]"
+      style={{ background: M.bg, color: M.ink, borderColor: M.rule }}
+    >
       <div
-        ref={box}
-        className="relative overflow-hidden border-[1.5px] border-ink bg-paper-2 select-none md:h-[clamp(340px,40vw,460px)]"
+        className="flex h-10 items-center justify-between border-b px-3.5"
+        style={{ background: M.surface, borderColor: M.rule }}
       >
-        <div aria-label="Today: twelve scattered tools" className={cn(side, "dot-grid bg-paper-2")}>
-          <Badge variant="tag">Today</Badge>
-          <Stagger as="ul" gap={0.04} aria-hidden className="flex max-w-160 flex-wrap gap-2.5 md:max-w-[46%]">
-            {tools.map((tool, i) => (
-              <StaggerItem
-                key={tool}
-                as="li"
-                className="border border-ink bg-paper px-2.5 py-1.5 text-[14.5px] md:px-3.5 md:py-2 md:text-[17px]"
-                variants={{
-                  hidden: { opacity: 0, y: -18, rotate: 0 },
-                  show: { opacity: 1, y: 0, rotate: tilt(i + 1), transition: { type: "spring", stiffness: 380, damping: 18 } },
-                }}
-              >
-                {tool}
-              </StaggerItem>
-            ))}
-          </Stagger>
-          <p className="max-w-115 text-[clamp(18px,1.46vw,21.5px)] leading-[1.4] md:max-w-[46%]">
-            Twelve logins. Twelve bills. Twelve places the answer might be.
-          </p>
-        </div>
-
-        <div
-          aria-label="With Unified Machines: one product"
-          className={cn(side, "items-end bg-lime pt-6 text-right max-md:[clip-path:none]!")}
-          style={{ clipPath: `inset(0 0 0 ${cut}%)` }}
-        >
-          <Badge variant="tag" className="self-start text-lime">
-            With Unified Machines
-          </Badge>
-          <div aria-hidden className="flex flex-col items-end gap-3">
-            <BrandMarks glyphClassName="size-7" />
-            <span className="text-[clamp(38px,4.5vw,63px)] leading-none font-medium tracking-[-0.04em]">One product.</span>
-            <span className="font-mono text-xs">Meet · Schedule · Remember · Decide · Find</span>
-          </div>
-          <p className="max-w-105 text-[clamp(18px,1.46vw,21.5px)] leading-[1.4]">
-            One surface with intelligence inside, and the data in one place your organisation owns.
-          </p>
-        </div>
-
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 -ml-px hidden w-0.5 bg-ink md:block"
-          style={{ left: `${cut}%` }}
-        />
-        <span id="cons-slider-label" className="sr-only">
-          Reveal the consolidated view
+        <span className="flex items-center gap-2 font-medium">
+          <MorseMark className="size-4" />
+          Weekly sync
         </span>
-        <Slider
-          aria-labelledby="cons-slider-label"
-          value={[cut]}
-          onValueChange={(v) => setCut(typeof v === "number" ? v : v[0])}
-          thumbAlignment="center"
-          className={sliderStyles}
-        />
+        <span className="flex items-center gap-1.5" style={{ color: M.coral }}>
+          <i
+            className="size-1.5 animate-pulse rounded-full motion-reduce:animate-none"
+            style={{ background: M.coral }}
+          />
+          Recording
+        </span>
       </div>
 
-      <Stagger className="mt-12 grid gap-12 lg:grid-cols-2">
-        <StaggerItem className="border-l border-ink pl-5">
-          <MonoLabel className="mb-5.5">What consolidation means here</MonoLabel>
-          <p className={bodyLg}>
-            A functional app covers a whole job. Meetings are one job, so Morse holds the call, the calendar and the
-            memory. Each product we build takes a cluster of tools your teams juggle today and turns it into one
-            surface with intelligence inside.
-          </p>
-        </StaggerItem>
-        <StaggerItem className="border-l border-ink pl-5">
-          <MonoLabel className="mb-5.5">What it does not mean</MonoLabel>
-          <p className={bodyLg}>
-            A portal that embeds the same twelve tools behind one login. Consolidation only counts when the steps
-            disappear, the switching stops and the data lives in one place you own.
-          </p>
-        </StaggerItem>
-      </Stagger>
+      <div className="flex flex-col gap-2.5 p-3">
+        <div className="grid grid-cols-3 gap-2">
+          {PEOPLE.map((p) => (
+            <div key={p.name} className="relative aspect-[4/3] overflow-hidden rounded-[10px]">
+              {/* abstract gradient tiles stand in for cameras; no photos of people */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.src} alt="" className="size-full object-cover" />
+              <span className="absolute bottom-1.5 left-1.5 rounded-[5px] bg-black/55 px-1.5 py-0.5 text-[10.5px] leading-none">
+                {p.name}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-[1.4fr_1fr]">
+          <div className="rounded-[10px] p-2.5" style={{ background: M.surface }}>
+            <p className="text-[10px] tracking-[0.08em] uppercase" style={{ color: M.muted }}>
+              Notes
+            </p>
+            <p className="mt-1.5 flex min-w-0 items-center gap-1.5 whitespace-nowrap">
+              <span
+                className="grid size-3.5 shrink-0 place-items-center rounded-[4px]"
+                style={{ background: M.lime, color: M.limeInk }}
+              >
+                <HugeiconsIcon icon={Tick02Icon} strokeWidth={3} className="size-2.5" />
+              </span>
+              Launch brief · Fri
+            </p>
+          </div>
+          <div className="rounded-[10px] p-2.5" style={{ background: M.surface }}>
+            <p className="text-[10px] tracking-[0.08em] uppercase" style={{ color: M.muted }}>
+              Follow-up
+            </p>
+            <p className="mt-1.5 flex items-center justify-between gap-2">
+              Thu 14:00
+              <span
+                className="rounded-full px-2 py-0.5 text-[10.5px]"
+                style={{ background: M.coralSoft, color: M.coral }}
+              >
+                Booked
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function Consolidate() {
+  return (
+    <section
+      id="consolidate"
+      aria-labelledby="cons-title"
+      className="grid-ground-ink bg-ink text-paper relative overflow-hidden"
+    >
+      <Contours variant="morse" />
+      {/*
+        One grid runs under the whole band. The strip and headline are whole cells tall, so the grid's own lines
+        frame them; no borders are drawn on top, which would double those lines.
+      */}
+      <div>
+        <div className="container-page relative">
+          {/* the label sits right above its own headline; the space above it separates this band from the one before */}
+          <Reveal className="grid h-[calc(var(--cell)*7)] content-end items-end gap-6 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
+            <div className="flex items-center justify-between gap-6 pb-4 md:pb-8 lg:col-span-2">
+              <p className={cn(tag, "uppercase")}>[ Morse ] · One job, one app</p>
+              <p className={cn(tag, "hidden shrink-0 lg:block")}>Meet · Schedule · Remember · Decide · Find</p>
+            </div>
+            <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
+              Seven tools.
+              <br />
+              <span className="pl-[1.1em] text-lime">One app.</span>
+            </h2>
+            <p className="max-w-[30ch] text-lg leading-[1.45] text-paper/60 lg:mb-3">
+              Seven logins. Seven bills. Seven places the answer might be.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="container-page relative">
+        {/* dividers in the grid lines' own colour (8% paper on ink), opaque so nothing stacks under them */}
+        <Stagger gap={0.12} className="grid gap-px bg-[#222222] lg:grid-cols-3">
+          {/* 1 · the idea */}
+          <StaggerItem className={cn(col, "justify-between gap-40 overflow-hidden")}>
+            <p className={tag}>1 · The idea</p>
+            <PixelSteps
+              corner="tr"
+              className="h-[34%] w-[56%] max-lg:h-40"
+              steps={[
+                [100, 58],
+                [52, 100],
+              ]}
+              from="#ff6fb0"
+              to="#caeb6b"
+            />
+            <div className="relative">
+              <p className="text-[clamp(28px,2.35vw,36px)] leading-[1.14] tracking-[-0.035em]">
+                {IDEA.map((w, i) => (
+                  <span key={i} className={w.on ? "text-paper" : "text-paper/40"}>
+                    {w.t}
+                    {i < IDEA.length - 1 && " "}
+                  </span>
+                ))}
+              </p>
+              <SplitButton href={MORSE_URL} external className="mt-9 border-paper [--btn-shadow:var(--paper)]">
+                Visit Morse
+              </SplitButton>
+            </div>
+          </StaggerItem>
+
+          {/* 2 · Morse: the count, with the app docked below it */}
+          <StaggerItem className={cn(col, "overflow-hidden pb-0 md:pb-0")}>
+            <p className={tag}>2 · Morse</p>
+            <div className="mt-12 md:mt-16">
+              <p className="flex items-baseline gap-[0.12em] text-[clamp(96px,9.6vw,150px)] leading-[0.82] font-medium tracking-[-0.06em]">
+                7
+                <HugeiconsIcon
+                  icon={ArrowRight02Icon}
+                  strokeWidth={1.25}
+                  className="size-[0.62em] self-center text-lime"
+                />
+                <span className="sr-only"> tools to </span>1
+              </p>
+              <p className="mt-5 text-xl leading-[1.35] tracking-[-0.02em] text-paper/75">
+                Meeting tools, down to one app.
+                <br />
+                <span className="text-paper">Morse, for meetings, is the first.</span>
+              </p>
+            </div>
+            <div className="mt-12 -mr-6 ml-6 md:-mr-8 lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-[88%]">
+              <MorseWindow />
+            </div>
+          </StaggerItem>
+
+          {/* 3 · what it means, Morse's seven ticked off */}
+          <StaggerItem className={col}>
+            <p className={tag}>3 · What it means</p>
+            <p className="mt-12 text-[17px] leading-[1.55] text-paper/85 md:mt-16">
+              A functional app covers a whole job. Meetings are one job, so Morse holds the call, the calendar and the
+              memory. Each product we build takes a cluster of tools your teams juggle today and turns it into one
+              surface with intelligence inside.
+            </p>
+            <Stagger as="ul" gap={0.05} delay={0.3} className="mt-8 mb-10 grid grid-cols-2 gap-x-6 gap-y-2.5">
+              {tools.map((t) => (
+                <StaggerItem
+                  key={t}
+                  as="li"
+                  className="flex items-center gap-2.5 text-[15px]"
+                  variants={{
+                    hidden: { opacity: 0, x: -6 },
+                    show: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+                  }}
+                >
+                  <HugeiconsIcon icon={Tick02Icon} strokeWidth={2.25} className="size-4 shrink-0 text-lime" />
+                  <span className="text-paper/55 line-through decoration-paper/35">{t}</span>
+                </StaggerItem>
+              ))}
+            </Stagger>
+            <div className="mt-auto border-t border-paper/10 pt-6 max-lg:mt-10">
+              <p className={tag}>What it does not mean</p>
+              <p className="mt-2.5 text-[15px] leading-[1.5] text-paper/60">
+                A portal that puts the same seven tools behind one login. It only counts when the steps disappear and
+                the data lives in one place you own.
+              </p>
+            </div>
+          </StaggerItem>
+        </Stagger>
+      </div>
     </section>
   )
 }

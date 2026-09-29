@@ -18,7 +18,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: cn(control, "bg-primary text-primary-foreground hover:bg-ink-soft"),
-        accent: cn(control, "bg-lime text-ink hover:bg-lime-deep"),
+        accent: cn(control, "bg-pink text-ink hover:bg-pink-deep"),
         outline: cn(control, "bg-background text-foreground hover:bg-muted aria-expanded:bg-muted"),
         secondary: cn(control, "bg-secondary text-secondary-foreground hover:bg-secondary/85 aria-expanded:bg-secondary"),
         ghost: cn(quiet, "hover:text-foreground aria-expanded:bg-muted"),

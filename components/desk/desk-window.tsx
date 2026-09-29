@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState, type CSSProperties, type ReactNode, type RefObject } from "react"
-import { motion, useDragControls, useMotionValue } from "framer-motion"
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react"
+import { motion, useMotionValue } from "framer-motion"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon, MinusSignIcon, SquareIcon } from "@hugeicons/core-free-icons"
 import { Button } from "@/components/ui/button"
@@ -42,13 +42,50 @@ function WindowControl({ label, icon, onClick }: { label: string; icon: typeof C
 
 /** An UM.OS window: drags by its title bar, minimises, maximises, comes to the front. */
 export function DeskWindow({ id, title, x, y, width, wm, floating, bounds, meta, onClose, children }: DeskWindowProps) {
-  const controls = useDragControls()
+  const self = useRef<HTMLElement>(null)
   const dx = useMotionValue(0)
   const dy = useMotionValue(0)
   const [dragging, setDragging] = useState(false)
   const minimized = wm.isMin(id)
   const maximized = floating && wm.maximized === id
   const draggable = floating && !maximized
+
+  /*
+   * Dragging by the title bar, done by hand rather than by framer-motion, so it
+   * holds up when the page is zoomed for big screens (globals.css): pointer
+   * and box positions come in on-screen pixels, the window moves in CSS
+   * pixels, so every delta is divided by the page zoom. The window stays
+   * inside the desk.
+   */
+  const startDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const win = self.current
+    const desk = bounds.current
+    if (!draggable || !win || !desk || e.button !== 0) return
+    const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1
+    const r = win.getBoundingClientRect()
+    const b = desk.getBoundingClientRect()
+    const x0 = e.clientX
+    const y0 = e.clientY
+    const sx = dx.get()
+    const sy = dy.get()
+    const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
+    const bar = e.currentTarget
+    bar.setPointerCapture(e.pointerId)
+    setDragging(true)
+    const move = (ev: PointerEvent) => {
+      dx.set(sx + clamp(ev.clientX - x0, b.left - r.left, b.right - r.right) / zoom)
+      dy.set(sy + clamp(ev.clientY - y0, b.top - r.top, b.bottom - r.bottom) / zoom)
+    }
+    const end = () => {
+      setDragging(false)
+      bar.removeEventListener("pointermove", move)
+      bar.removeEventListener("pointerup", end)
+      bar.removeEventListener("pointercancel", end)
+    }
+    bar.addEventListener("pointermove", move)
+    bar.addEventListener("pointerup", end)
+    bar.addEventListener("pointercancel", end)
+  }
 
   // maximising takes the whole desk, so forget where it was dragged to
   useEffect(() => {
@@ -59,17 +96,10 @@ export function DeskWindow({ id, title, x, y, width, wm, floating, bounds, meta,
 
   return (
     <motion.section
+      ref={self}
       aria-label={title}
       inert={minimized}
-      layout={floating}
-      drag={draggable}
-      dragControls={controls}
-      dragListener={false}
-      dragMomentum={false}
-      dragElastic={0.06}
-      dragConstraints={bounds}
-      onDragStart={() => setDragging(true)}
-      onDragEnd={() => setDragging(false)}
+      layout={floating && !dragging}
       onPointerDown={() => wm.focus(id)}
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: minimized ? 0 : 1, scale: minimized ? 0.9 : 1 }}
@@ -82,12 +112,12 @@ export function DeskWindow({ id, title, x, y, width, wm, floating, bounds, meta,
         dragging && "shadow-hard-xl",
         floating &&
           (maximized
-            ? "absolute! top-11 left-4 h-[calc(100%-6.5rem)] w-[calc(100%-2rem)]"
+            ? "absolute! top-3 left-4 h-[calc(100%-1.5rem)] w-[calc(100%-2rem)]"
             : "absolute! top-(--y) left-(--x) w-(--w)")
       )}
     >
       <div
-        onPointerDown={(e) => draggable && controls.start(e)}
+        onPointerDown={startDrag}
         onDoubleClick={() => floating && wm.toggleMax(id)}
         className={cn(
           "flex h-7.5 shrink-0 items-center justify-between gap-2.5 bg-ink px-2.5 font-mono text-[14.5px] leading-none font-medium text-paper select-none",

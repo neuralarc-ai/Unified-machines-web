@@ -16,10 +16,10 @@ const ease = "ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none"
 const lit = "group-hover/split:translate-x-0 group-focus-visible/split:translate-x-0"
 
 /**
- * UM's primary action, ported from um-landing: a lime square with a pixel
+ * UM's primary action, ported from um-landing: a pink square with a pixel
  * arrow beside an uppercase label, on the brutalist Button. On hover or
  * keyboard focus the arrow slides out as a second slides in, the label fills
- * lime, and its letters roll up one after another (15ms apart).
+ * pink, and its letters roll up one after another (15ms apart).
  */
 export function SplitButton({
   href,
@@ -54,7 +54,7 @@ export function SplitButton({
       <span
         aria-hidden
         className={cn(
-          "relative grid h-full shrink-0 place-items-center overflow-hidden border-r border-ink bg-lime text-ink",
+          "relative grid h-full shrink-0 place-items-center overflow-hidden border-r border-ink bg-pink text-ink",
           sm ? "w-9" : "w-11"
         )}
       >
@@ -64,7 +64,7 @@ export function SplitButton({
 
       <span
         className={cn(
-          "flex h-full items-center transition-colors duration-300 group-hover/split:bg-lime group-focus-visible/split:bg-lime",
+          "flex h-full items-center transition-colors duration-300 group-hover/split:bg-pink group-focus-visible/split:bg-pink",
           sm ? "px-3" : "px-4",
           ease
         )}

@@ -15,7 +15,7 @@ import { useNow } from "@/hooks/use-now"
 import { desk, type SymbolKey } from "@/lib/content"
 import { cn } from "@/lib/utils"
 import { GameIcon, GAMES } from "./games/registry"
-import type { WindowId, WindowManager } from "./use-window-manager"
+import type { AppId, WindowId, WindowManager } from "./use-window-manager"
 
 const WINDOWS: { id: WindowId; label: string }[] = [
   { id: "call", label: desk.call.task },
@@ -25,7 +25,14 @@ const WINDOWS: { id: WindowId; label: string }[] = [
   { id: "readme", label: desk.readme.file },
 ]
 
-const menuItem = "gap-2.5 rounded-none px-2.5 py-2 text-[17px] focus:bg-lime focus:text-ink"
+const APPS: { id: AppId; label: string }[] = [
+  { id: "morse-app", label: desk.apps.morse.file },
+  { id: "friday-app", label: desk.apps.friday.file },
+  { id: "files", label: "files/" },
+  { id: "trash", label: desk.trash.file },
+]
+
+const menuItem = "gap-2.5 rounded-none px-2.5 py-2 text-[17px] focus:bg-pink focus:text-ink"
 
 function TrayClock() {
   const now = useNow(10_000)
@@ -33,20 +40,36 @@ function TrayClock() {
 }
 
 export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol: (key: SymbolKey) => void }) {
-  const tasks = [...WINDOWS, ...GAMES.filter((g) => wm.games.includes(g.id)).map((g) => ({ id: g.id, label: g.file }))]
+  const apps = APPS.filter((a) => wm.apps.includes(a.id))
+  const tasks = [
+    ...WINDOWS,
+    ...apps,
+    ...GAMES.filter((g) => wm.games.includes(g.id)).map((g) => ({ id: g.id, label: g.file })),
+  ]
 
   return (
     <div className="z-40 -mx-3 mt-3 flex h-11 items-center gap-2.5 border-t border-border bg-card px-2 lg:absolute lg:inset-x-0 lg:bottom-0 lg:mx-0 lg:mt-0">
       <DropdownMenu>
         <DropdownMenuTrigger
-          render={
-            <Button variant="accent" className="h-7.5 gap-2 rounded-none px-2.5 font-mono text-[14.5px]" />
-          }
+          render={<Button variant="accent" className="h-7.5 gap-2 rounded-none px-2.5 font-mono text-[14.5px]" />}
         >
           <BrandMarks glyphClassName="size-[11px]" />
           UM
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="top" sideOffset={6} className="w-60 rounded-none border border-ink bg-card p-1.5 shadow-hard ring-0">
+        <DropdownMenuContent
+          side="top"
+          sideOffset={6}
+          className="w-60 rounded-none border border-ink bg-card p-1.5 shadow-hard ring-0"
+        >
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="px-2.5 font-mono text-[14.5px] font-medium uppercase">Apps</DropdownMenuLabel>
+            {APPS.map((a) => (
+              <DropdownMenuItem key={a.id} className={menuItem} onClick={() => wm.openApp(a.id)}>
+                {a.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
           <DropdownMenuGroup>
             {desk.icons.map((icon) => (
               <DropdownMenuItem key={icon.key} className={menuItem} onClick={() => onPickSymbol(icon.key)}>
@@ -57,7 +80,9 @@ export function Taskbar({ wm, onPickSymbol }: { wm: WindowManager; onPickSymbol:
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-2.5 font-mono text-[14.5px] font-medium uppercase">Games</DropdownMenuLabel>
+            <DropdownMenuLabel className="px-2.5 font-mono text-[14.5px] font-medium uppercase">
+              Games
+            </DropdownMenuLabel>
             {GAMES.map((game) => (
               <DropdownMenuItem key={game.id} className={menuItem} onClick={() => wm.openGame(game.id)}>
                 <GameIcon cells={game.icon} className="size-4" />

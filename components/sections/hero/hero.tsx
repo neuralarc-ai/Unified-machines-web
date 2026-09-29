@@ -1,46 +1,83 @@
 import Link from "next/link"
-import { Frame, Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
-import { Badge } from "@/components/ui/badge"
+import { Desk } from "@/components/desk/desk"
+import { PixelSteps } from "@/components/brand/pixel-steps"
+import { Reveal } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
 import { Button } from "@/components/ui/button"
-import { Desk } from "@/components/desk/desk"
+
+/**
+ * Centred hero (option B, chosen 2026-09-28): headline, a two-line sub-copy
+ * and both actions on one axis over the ruled grid from um-landing. Stepped
+ * colour blocks rise at either edge and run down behind the desk; the grid
+ * ends on the same line, about halfway down the desk, fading out rather than
+ * stopping. The desk floats over both on a soft shadow.
+ */
+
+// where the grid and blocks end: this far below the copy, so about the desk's middle
+const reach = "-bottom-80"
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="pt-10">
-      <Frame className="container-page pt-8 pb-6 md:pt-14 md:pb-10">
-        <Stagger gap={0.12}>
-          <StaggerItem className="mb-6.5 flex items-center gap-3 font-mono text-xs">
-            <Badge variant="tag">UM.OS 1.0</Badge>
-            <span>Unified Machines</span>
-          </StaggerItem>
-          <h1 id="hero-title" className="max-w-[1100px] text-[clamp(49.5px,7.2vw,103.5px)]">
-            <StaggerItem as="span" className="block">
+    <section aria-labelledby="hero-title" className="relative overflow-hidden">
+      <div className="relative pt-16 pb-16 md:pt-24 md:pb-20">
+        <div
+          aria-hidden
+          className={`grid-ground absolute inset-x-0 top-0 ${reach} [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]`}
+        />
+        {/* mirrored pair, set low so they end with the grid; each steps in toward the desk */}
+        <div aria-hidden className={`absolute inset-x-0 h-[74%] max-md:hidden ${reach}`}>
+          <PixelSteps
+            corner="bl"
+            className="h-full w-[22%]"
+            steps={[
+              [100, 34],
+              [72, 68],
+              [40, 100],
+            ]}
+            from="#caeb6b"
+            to="#99ebfa"
+          />
+          <PixelSteps
+            corner="br"
+            className="h-full w-[22%]"
+            steps={[
+              [100, 34],
+              [72, 68],
+              [40, 100],
+            ]}
+            from="#f5c36b"
+            to="#ff6fb0"
+          />
+        </div>
+
+        {/* entrance in CSS, not JS: visible on first paint; the headline slides but never starts hidden */}
+        <div className="container-page relative flex flex-col items-center text-center">
+          <h1 id="hero-title" className="text-[clamp(46px,6.6vw,92px)] text-balance">
+            <span className="block motion-safe:animate-[enter-slide_0.8s_var(--ease-enter)_both]">
               AI products built to last.
-            </StaggerItem>
-            <StaggerItem as="span" className="block">
+            </span>
+            <span className="block motion-safe:animate-[enter-slide_0.8s_var(--ease-enter)_0.1s_both]">
               Intelligence at the core.
-            </StaggerItem>
+            </span>
           </h1>
-          <StaggerItem
-            as="p"
-            className="mt-6.5 max-w-160 text-[clamp(19px,1.69vw,22.5px)] leading-normal text-ink-soft"
-          >
-            Unified Machines builds innovative AI products for companies, designed to stay useful for years rather
-            than quarters. Morse, for meetings and everything around them, is the first. More are coming across the
-            domains businesses run on.
-          </StaggerItem>
-          <StaggerItem className="mt-7.5 flex flex-wrap gap-2.5">
-            <SplitButton href="#products">See our products</SplitButton>
+          <p className="mt-6 max-w-[48ch] text-[clamp(18px,1.45vw,20px)] leading-[1.5] text-ink-soft motion-safe:animate-[enter-rise_0.8s_var(--ease-enter)_0.2s_both]">
+            Software for the everyday work of companies, designed to stay useful for years, not quarters. Morse, for
+            meetings, and Friday, for screen recordings, are the first.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-2.5 motion-safe:animate-[enter-rise_0.8s_var(--ease-enter)_0.3s_both]">
+            <SplitButton href="#consolidate">See our products</SplitButton>
             <Button size="cta" variant="outline" nativeButton={false} render={<Link href="#thinking" />}>
               How we think
             </Button>
-          </StaggerItem>
-        </Stagger>
-      </Frame>
+          </div>
+        </div>
+      </div>
 
-      <Reveal className="container-page mt-3" delay={0.3}>
-        <Desk />
+      {/* bottom padding leaves room for the shadow, which overflow-hidden would otherwise clip */}
+      <Reveal className="container-page relative z-[1] pb-16 md:pb-28" delay={0.3}>
+        <div className="rounded-(--radius) shadow-[0_1px_2px_rgb(16_16_16/0.05),0_10px_24px_-10px_rgb(16_16_16/0.14),0_36px_64px_-32px_rgb(16_16_16/0.24)]">
+          <Desk />
+        </div>
       </Reveal>
     </section>
   )
