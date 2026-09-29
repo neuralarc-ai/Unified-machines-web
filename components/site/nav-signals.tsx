@@ -15,6 +15,8 @@ const id = (href: string) => href.slice(1)
 const MARKS: Record<string, React.ReactNode> = {
   thinking: <Glyph symbol="human" className="size-3.5" />,
   principles: <Glyph symbol="machine" className="size-3.5" />,
+  // the heart is what the two make together: the products
+  consolidate: <Glyph symbol="heart" className="size-3.5" />,
 }
 
 export function NavSignals({ active }: { active: string | null }) {

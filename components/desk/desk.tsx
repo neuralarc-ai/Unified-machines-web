@@ -55,6 +55,8 @@ const L = "max(120px,9%)" // clear of the left icon column
 const RIGHT = `max(45%, calc(${L} + clamp(320px,33%,440px) + 24px))` // clear of the tour
 const LAYOUT: Record<string, { x: string; y: string; width: string }> = {
   readme: { x: L, y: "52%", width: "clamp(320px,33%,440px)" },
+  // before the tour starts, the card sits centred near the top; it glides to the lower left once it does
+  welcome: { x: "calc(50% - clamp(360px,36%,480px) / 2)", y: "10%", width: "clamp(360px,36%,480px)" },
   call: { x: L, y: "4%", width: "clamp(340px,38%,500px)" },
   notes: { x: "52%", y: "4%", width: "clamp(280px,28%,380px)" },
   cal: { x: RIGHT, y: "42%", width: "clamp(360px,40%,560px)" },
@@ -489,7 +491,14 @@ function DesktopDesk() {
           <DeskClock />
         </DeskWindow>
 
-        <DeskWindow id="readme" title={desk.readme.file} {...LAYOUT.readme} wm={wm} floating bounds={box}>
+        <DeskWindow
+          id="readme"
+          title={desk.readme.file}
+          {...(step === 0 && !picked ? LAYOUT.welcome : LAYOUT.readme)}
+          wm={wm}
+          floating
+          bounds={box}
+        >
           <Tour step={step} setStep={setStep} picked={picked} clearPick={() => setPicked(null)} />
         </DeskWindow>
 
