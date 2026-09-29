@@ -4,7 +4,7 @@ import { MorseMark } from "@/components/brand/symbols"
 import { PixelSteps } from "@/components/brand/pixel-steps"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { SplitButton } from "@/components/site/split-button"
-import { tools } from "@/lib/content"
+import { MORSE_URL, tools } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
 /**
@@ -122,28 +122,33 @@ function MorseWindow() {
 
 export function Consolidate() {
   return (
-    <section id="consolidate" aria-labelledby="cons-title" className="grid-ground-ink mb-18 bg-ink text-paper md:mb-30">
-      <div className="container-page border-x border-paper/10">
-        <div className="flex items-center justify-between gap-6 border-b border-paper/10 px-6 py-6 md:px-8">
-          <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
-          <p className={cn(tag, "hidden md:block")}>Meet · Schedule · Remember · Decide · Find</p>
+    <section id="consolidate" aria-labelledby="cons-title" className="mb-18 bg-ink text-paper md:mb-30">
+      {/* the ruled part is sized in whole grid cells, so every line lands on a border */}
+      <div className="grid-ground-ink">
+        <div className="container-page border-x border-paper/10">
+          <div className="flex h-(--cell) items-center justify-between gap-6 border-b border-paper/10 px-4 md:px-8">
+            <p className={cn(tag, "uppercase")}>[ Consolidation ] · One job, one app</p>
+            <p className={cn(tag, "hidden md:block")}>Meet · Schedule · Remember · Decide · Find</p>
+          </div>
+
+          <Reveal className="grid h-[calc(var(--cell)*6)] content-end items-end gap-6 border-b border-paper/10 px-4 pb-10 md:px-8 md:pb-16 lg:grid-cols-[1fr_auto] lg:gap-8">
+            <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
+              Twelve tools.
+              <br />
+              <span className="pl-[1.1em] text-lime">One app.</span>
+            </h2>
+            <p className="max-w-[30ch] text-lg leading-[1.45] text-paper/60 lg:mb-3">
+              Twelve logins. Twelve bills. Twelve places the answer might be.
+            </p>
+          </Reveal>
         </div>
+      </div>
 
-        <Reveal className="grid items-end gap-8 border-b border-paper/10 px-6 pt-16 pb-14 md:px-8 md:pt-24 md:pb-20 lg:grid-cols-[1fr_auto]">
-          <h2 id="cons-title" className="text-[clamp(52px,8.4vw,124px)] leading-[0.92] tracking-[-0.05em]">
-            Twelve tools.
-            <br />
-            <span className="pl-[1.1em] text-lime">One app.</span>
-          </h2>
-          <p className="max-w-[30ch] text-lg leading-[1.45] text-paper/60 lg:mb-3">
-            Twelve logins. Twelve bills. Twelve places the answer might be.
-          </p>
-        </Reveal>
-
+      <div className="container-page border-x border-paper/10">
         <Stagger gap={0.12} className="grid gap-px bg-paper/10 lg:grid-cols-3">
-          {/* 001 · the idea */}
+          {/* 1 · the idea */}
           <StaggerItem className={cn(col, "justify-between gap-40 overflow-hidden")}>
-            <p className={tag}>001 · The idea</p>
+            <p className={tag}>1 · The idea</p>
             <PixelSteps
               corner="tr"
               className="h-[34%] w-[56%] max-lg:h-40"
@@ -163,15 +168,15 @@ export function Consolidate() {
                   </span>
                 ))}
               </p>
-              <SplitButton href="#products" className="mt-9 border-paper [--btn-shadow:var(--paper)]">
-                See our products
+              <SplitButton href={MORSE_URL} external className="mt-9 border-paper [--btn-shadow:var(--paper)]">
+                Visit Morse
               </SplitButton>
             </div>
           </StaggerItem>
 
-          {/* 002 · the count, with Morse docked below it */}
+          {/* 2 · Morse: the count, with the app docked below it */}
           <StaggerItem className={cn(col, "overflow-hidden pb-0 md:pb-0")}>
-            <p className={tag}>002 · The count</p>
+            <p className={tag}>2 · Morse</p>
             <div className="mt-12 md:mt-16">
               <p className="flex items-baseline gap-[0.12em] text-[clamp(96px,9.6vw,150px)] leading-[0.82] font-medium tracking-[-0.06em]">
                 12
@@ -182,16 +187,20 @@ export function Consolidate() {
                 />
                 1
               </p>
-              <p className="mt-5 text-xl tracking-[-0.02em] text-paper/75">Tools down to one app.</p>
+              <p className="mt-5 text-xl leading-[1.35] tracking-[-0.02em] text-paper/75">
+                Tools down to one app.
+                <br />
+                <span className="text-paper">Morse, for meetings, is the first.</span>
+              </p>
             </div>
             <div className="mt-12 -mr-6 ml-6 md:-mr-8 lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-[88%]">
               <MorseWindow />
             </div>
           </StaggerItem>
 
-          {/* 003 · what it means, the twelve ticked off */}
+          {/* 3 · what it means, the twelve ticked off */}
           <StaggerItem className={col}>
-            <p className={tag}>003 · What it means</p>
+            <p className={tag}>3 · What it means</p>
             <p className="mt-12 text-[17px] leading-[1.55] text-paper/85 md:mt-16">
               A functional app covers a whole job. Meetings are one job, so Morse holds the call, the calendar and the
               memory. Each product we build takes a cluster of tools your teams juggle today and turns it into one

@@ -4,8 +4,7 @@ export const FR_URL = "https://f-r.co"
 export const navLinks = [
   { href: "#thinking", label: "Our thinking" },
   { href: "#principles", label: "How we build" },
-  { href: "#problems", label: "What we fix" },
-  { href: "#products", label: "Products" },
+  { href: "#consolidate", label: "Products" },
   { href: "#partner", label: "Partner" },
 ] as const
 
@@ -120,69 +119,9 @@ export const principles: {
   },
 ]
 
-export const problems = [
-  {
-    problem: "The meeting that needs a calendar link, a video app and a notetaker bot.",
-    outcome: "One place for the conversation and everything around it.",
-  },
-  {
-    problem: "The document that exists in four versions across three tools.",
-    outcome: "A single source that stays current on its own.",
-  },
-  {
-    problem: "The report someone rebuilds by hand every Monday.",
-    outcome: "Intelligence that assembles it before anyone asks.",
-  },
-  {
-    problem: "The approval that waits in an inbox for two days.",
-    outcome: "Routing that knows who decides, and nudges them.",
-  },
-  {
-    problem: "The question only one person in the company can answer.",
-    outcome: "A shared memory the whole team can ask.",
-  },
-]
-
 export const tools = [
   "Video", "Calendar", "Notes", "Chat", "Tasks", "Files",
   "Transcripts", "CRM", "Forms", "Approvals", "Search", "Reports",
-]
-
-/**
- * Morse, in its own words (checked against morse-landing's content): one
- * meeting played through the three things it does in it.
- */
-export const morse = {
-  meeting: "Weekly product sync",
-  startSeconds: 12 * 60 + 4,
-  scenes: [
-    {
-      id: "notes",
-      label: "Notes",
-      speaker: "Priya",
-      said: "Can we get the launch brief ready for Friday?",
-      result: { lead: "Action item", text: "Launch brief · Jamie · Fri" },
-    },
-    {
-      id: "teleprompter",
-      label: "Teleprompter",
-      speaker: "Daniel",
-      said: "What did we agree with Acme on pricing?",
-      result: { lead: "From Acme renewal notes", text: "This year’s rate, fixed until March, with two extra seats." },
-    },
-    {
-      id: "follow-up",
-      label: "Follow-up",
-      speaker: "Priya",
-      said: "Let’s pick this up Thursday at two.",
-      result: { lead: "Book a follow-up?", text: "Thu, 2:00 – 2:30 pm", done: "Booked. Invites sent." },
-    },
-  ],
-}
-
-export const roadmap = [
-  { name: "Morse", status: "Being built", live: true },
-  { name: "More products, across other domains", status: "In research", live: false },
 ]
 
 export const faqs = [

@@ -130,23 +130,47 @@
   background-position: 4px 4px;
 }
 
-/* faint 80px ruled grid, from um-landing: on paper, and on ink */
+/*
+ * The page grid. `--cell` divides the content width (container-page) into
+ * 6, 12 or 18 square cells, so ruled lines land exactly on the content edges
+ * at every width, and a block `var(--cell)` multiples tall ends on a line.
+ * Lengths come from cqw against <body>, which is an inline-size container.
+ */
+@utility cells {
+  --cols: 6;
+  --cell: calc((100cqw - 40px) / var(--cols));
+  @variant md {
+    --cols: 12;
+    --cell: calc(min(90rem, 100cqw - 96px) / var(--cols));
+  }
+  @variant lg {
+    --cols: 18;
+    --cell: calc(min(90rem, 100cqw - 96px) / var(--cols));
+  }
+}
+
+/* faint ruled grid from um-landing, on paper and on ink; use on a full-width element */
 @utility grid-ground {
+  @apply cells;
   background-image:
     linear-gradient(to right, rgb(16 16 16 / 0.07) 1px, transparent 1px),
     linear-gradient(to bottom, rgb(16 16 16 / 0.07) 1px, transparent 1px);
-  background-size: 80px 80px;
+  background-size: var(--cell) var(--cell);
+  background-position: calc(50cqw - var(--cols) * var(--cell) / 2) 0;
 }
 @utility grid-ground-ink {
+  @apply cells;
   background-image:
-    linear-gradient(to right, rgb(241 240 238 / 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(241 240 238 / 0.07) 1px, transparent 1px);
-  background-size: 80px 80px;
+    linear-gradient(to right, rgb(241 240 238 / 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(241 240 238 / 0.08) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  background-position: calc(50cqw - var(--cols) * var(--cell) / 2) 0;
 }
 
+/* content width: 1440px at most (was 1280), 20px / 48px gutters below that */
 @utility container-page {
   width: calc(100% - 40px);
-  max-width: 1280px;
+  max-width: 90rem;
   margin-inline: auto;
   @variant md {
     width: calc(100% - 96px);
@@ -162,6 +186,8 @@
   }
   body {
     @apply overflow-x-hidden bg-background text-base text-foreground;
+    /* lets the page grid measure itself in cqw */
+    container-type: inline-size;
   }
   h1,
   h2,

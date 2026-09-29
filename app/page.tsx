@@ -4,8 +4,6 @@ import { Faq } from "@/components/sections/faq"
 import { Hero } from "@/components/sections/hero/hero"
 import { Partner } from "@/components/sections/partner"
 import { Principles } from "@/components/sections/principles"
-import { Problems } from "@/components/sections/problems"
-import { Products } from "@/components/sections/products"
 import { SiteFooter } from "@/components/sections/site-footer"
 import { SiteHeader } from "@/components/sections/site-header"
 import { Thinking } from "@/components/sections/thinking"
@@ -25,9 +23,7 @@ export default function Home() {
         <Thinking />
         <Equation />
         <Principles />
-        <Problems />
         <Consolidate />
-        <Products />
         <Partner />
         <Faq />
       </main>

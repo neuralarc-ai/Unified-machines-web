@@ -24,14 +24,15 @@ export function Hero() {
           aria-hidden
           className={`grid-ground absolute inset-x-0 top-0 ${reach} [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]`}
         />
-        {/* the blocks keep their first size (62% and 74% of the copy block), set low so they end with the grid */}
+        {/* mirrored pair, set low so they end with the grid; each steps in toward the desk */}
         <div aria-hidden className={`absolute inset-x-0 h-[74%] max-md:hidden ${reach}`}>
           <PixelSteps
             corner="bl"
-            className="h-[84%] w-[18%]"
+            className="h-full w-[22%]"
             steps={[
-              [100, 46],
-              [56, 100],
+              [100, 34],
+              [72, 68],
+              [40, 100],
             ]}
             from="#caeb6b"
             to="#99ebfa"
@@ -63,7 +64,7 @@ export function Hero() {
             first.
           </StaggerItem>
           <StaggerItem className="mt-8 flex flex-wrap justify-center gap-2.5">
-            <SplitButton href="#products">See our products</SplitButton>
+            <SplitButton href="#consolidate">See our products</SplitButton>
             <Button size="cta" variant="outline" nativeButton={false} render={<Link href="#thinking" />}>
               How we think
             </Button>

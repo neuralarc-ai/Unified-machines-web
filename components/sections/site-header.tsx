@@ -30,7 +30,7 @@ export function SiteHeader() {
       transition={{ duration: 0.6, ease: EASE }}
       className="sticky top-0 z-30 bg-paper/86 backdrop-blur-md"
     >
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-5 md:h-19 md:px-12">
+      <div className="container-page flex h-16 items-center justify-between gap-6 md:h-19">
         <Link
           href="#main"
           aria-label="Unified Machines home"
