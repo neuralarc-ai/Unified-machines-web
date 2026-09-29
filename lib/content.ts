@@ -5,9 +5,6 @@ export const FRIDAY_URL = "https://www.fridayapp.fun"
 export const navLinks = [
   { href: "#thinking", label: "Our thinking" },
   { href: "#principles", label: "How we build" },
-  { href: "#consolidate", label: "Morse" },
-  { href: "#friday", label: "Friday" },
-  { href: "#partner", label: "Partner" },
 ] as const
 
 export type SymbolKey = "human" | "machine" | "heart"

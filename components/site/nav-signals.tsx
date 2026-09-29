@@ -1,14 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import { FrLogo, Glyph, MorseMark } from "@/components/brand/symbols"
+import { Glyph } from "@/components/brand/symbols"
 import { navLinks } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
 /**
  * The header's centre nav, "Signals" (chosen 2026-09-29): each link carries
- * its own mark (the human and machine symbols, Morse, Friday, Fahrenheit
- * Research); the section in view turns dark with its mark lit pink.
+ * its own brand symbol; the section in view turns dark with its mark lit pink.
  */
 
 const id = (href: string) => href.slice(1)
@@ -16,9 +15,6 @@ const id = (href: string) => href.slice(1)
 const MARKS: Record<string, React.ReactNode> = {
   thinking: <Glyph symbol="human" className="size-3.5" />,
   principles: <Glyph symbol="machine" className="size-3.5" />,
-  consolidate: <MorseMark className="size-3.5" />,
-  friday: <span className="grid size-3.5 place-items-center font-mono text-[11px] leading-none font-bold">F</span>,
-  partner: <FrLogo className="h-2.5 w-auto" />,
 }
 
 export function NavSignals({ active }: { active: string | null }) {
