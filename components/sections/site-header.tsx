@@ -18,7 +18,8 @@ export const underlineLink =
 
 const SECTION_IDS = navLinks.map((l) => l.href.slice(1))
 
-export function SiteHeader() {
+/** `center` swaps the middle nav for a design under review (see nav-centers.tsx). */
+export function SiteHeader({ center }: { center?: (active: string | null) => React.ReactNode } = {}) {
   const active = useActiveSection(SECTION_IDS)
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 32 })
@@ -39,30 +40,34 @@ export function SiteHeader() {
           <span>Unified Machines</span>
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden gap-7 text-sm lg:flex">
-          {navLinks.map((l) => {
-            const current = active === l.href.slice(1)
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                aria-current={current ? "location" : undefined}
-                className={cn(underlineLink, "transition-colors", active && !current && "text-ink/60 hover:text-ink")}
-              >
-                {l.label}
-                {/* the marker slides from link to link as the page scrolls */}
-                {current && (
-                  <motion.span
-                    layoutId="nav-active"
-                    aria-hidden
-                    className="absolute inset-x-0 -bottom-1 h-0.5 bg-ink"
-                    transition={{ type: "spring", stiffness: 420, damping: 36 }}
-                  />
-                )}
-              </Link>
-            )
-          })}
-        </nav>
+        {center ? (
+          center(active)
+        ) : (
+          <nav aria-label="Main navigation" className="hidden gap-7 text-sm lg:flex">
+            {navLinks.map((l) => {
+              const current = active === l.href.slice(1)
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  aria-current={current ? "location" : undefined}
+                  className={cn(underlineLink, "transition-colors", active && !current && "text-ink/60 hover:text-ink")}
+                >
+                  {l.label}
+                  {/* the marker slides from link to link as the page scrolls */}
+                  {current && (
+                    <motion.span
+                      layoutId="nav-active"
+                      aria-hidden
+                      className="absolute inset-x-0 -bottom-1 h-0.5 bg-ink"
+                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                    />
+                  )}
+                </Link>
+              )
+            })}
+          </nav>
+        )}
 
         <div className="flex items-center gap-3">
           <SplitButton href={MORSE_URL} external size="sm" className="hidden md:inline-flex">
@@ -107,7 +112,7 @@ export function SiteHeader() {
       </div>
       <motion.div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-lime"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-pink"
         style={{ scaleX: progress }}
       />
     </header>
