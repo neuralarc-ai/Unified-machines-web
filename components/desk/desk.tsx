@@ -28,7 +28,7 @@ const deskIconLabel =
   "rounded-[3px] px-1.25 py-px font-mono text-[14.5px] leading-[1.3] font-medium group-aria-pressed/icon:bg-secondary"
 const iconHover = "size-10 transition-transform duration-300 group-hover/icon:-translate-y-0.5"
 const smallBtn =
-  "inline-flex h-8 items-center gap-1.5 border-[1.5px] border-ink px-2.5 font-mono text-[13px] transition-[translate,box-shadow,background-color] disabled:opacity-35"
+  "inline-flex h-8 items-center gap-1.5 border-[1.5px] border-ink px-2.5 font-mono text-[13px] whitespace-nowrap transition-[translate,box-shadow,background-color] disabled:opacity-35"
 
 /** Every window's name, for the menu bar and the phone's title bars. */
 const WINDOW_TITLES: Record<string, string> = {

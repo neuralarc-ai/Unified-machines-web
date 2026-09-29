@@ -29,7 +29,7 @@ function LinkCard({ href, name, role, children }: { href: string; name: string; 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group -ml-px flex min-h-40 flex-col justify-between border border-paper/15 bg-[#161616] p-5 transition-colors first:ml-0 duration-200 hover:border-paper hover:bg-paper hover:text-ink focus-visible:border-paper"
+      className="group -ml-px flex min-h-20 flex-col justify-between max-[479px]:-mt-px max-[479px]:ml-0 min-[480px]:min-h-40 border border-paper/15 bg-[#161616] p-5 transition-colors first:ml-0 duration-200 hover:border-paper hover:bg-paper hover:text-ink focus-visible:border-paper"
     >
       <span className="flex items-start justify-between">
         {children}
@@ -106,7 +106,7 @@ export function SiteFooter() {
             <p className="mb-4 font-mono text-xs tracking-[0.02em] text-paper/50 uppercase">
               [ Our products, and our model partner ]
             </p>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-3">
               <LinkCard href={MORSE_URL} name="Morse" role="onmorse.com">
                 <MorseMark className="size-7" />
               </LinkCard>

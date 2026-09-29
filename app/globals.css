@@ -202,6 +202,32 @@
   }
 }
 
+/*
+ * Big screens (2026-09-29): the page is laid out for up to ~1920px wide; past
+ * 2000px it scales up as a whole, in steps, so a 27-32" monitor shows it at
+ * the size a laptop does rather than as a narrow strip.
+ */
+@media (min-width: 2000px) {
+  html {
+    zoom: 1.25;
+  }
+}
+@media (min-width: 2400px) {
+  html {
+    zoom: 1.4;
+  }
+}
+@media (min-width: 2880px) {
+  html {
+    zoom: 1.6;
+  }
+}
+@media (min-width: 3400px) {
+  html {
+    zoom: 2;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
