@@ -17,6 +17,8 @@ type State = {
   games: GameId[]
   /** App windows (products, files, trash), mounted when opened. */
   apps: AppId[]
+  /** Bumped each time the tour arranges the desk: windows drop their drag offsets and go to their planned spots. */
+  layout: number
 }
 
 type Action =
@@ -40,6 +42,7 @@ const initial: State = {
   maximized: null,
   games: [],
   apps: [],
+  layout: 0,
 }
 
 function reducer(s: State, a: Action): State {
@@ -77,6 +80,7 @@ function reducer(s: State, a: Action): State {
     case "arrange": {
       let next: State = {
         ...s,
+        layout: s.layout + 1,
         maximized: null,
         minimized: [...s.minimized.filter((id) => !STORY.includes(id)), ...STORY.filter((id) => !a.ids.includes(id))],
         apps: a.ids.filter(isApp),
@@ -86,7 +90,7 @@ function reducer(s: State, a: Action): State {
       return next
     }
     case "reset":
-      return initial
+      return { ...initial, layout: s.layout + 1 }
   }
 }
 

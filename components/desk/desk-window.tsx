@@ -87,12 +87,12 @@ export function DeskWindow({ id, title, x, y, width, wm, floating, bounds, meta,
     bar.addEventListener("pointercancel", end)
   }
 
-  // maximising takes the whole desk, so forget where it was dragged to
+  // maximising takes the whole desk, and the tour arranging the desk puts every
+  // window at its planned spot: either way, forget where it was dragged to
   useEffect(() => {
-    if (!maximized) return
     dx.set(0)
     dy.set(0)
-  }, [maximized, dx, dy])
+  }, [maximized, wm.layout, dx, dy])
 
   return (
     <motion.section

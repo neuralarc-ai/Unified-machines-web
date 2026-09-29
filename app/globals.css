@@ -163,6 +163,17 @@
   background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27220%27%20height%3D%27220%27%3E%3Cfilter%20id%3D%27l%27%20x%3D%270%27%20y%3D%270%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.9%27%20numOctaves%3D%272%27%20stitchTiles%3D%27stitch%27%20seed%3D%277%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200.9%200%200%200%20-0.504%27%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%27d%27%20x%3D%270%27%20y%3D%270%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.9%27%20numOctaves%3D%272%27%20stitchTiles%3D%27stitch%27%20seed%3D%277%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20-0.9%200%200%200%200.396%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%23l)%27%2F%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%23d)%27%2F%3E%3C%2Fsvg%3E");
   background-size: 220px 220px;
 }
+/* paper above the sticky header, so the top overscroll bounce matches the page */
+@utility overscroll-cap {
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 100%;
+    height: 100vh;
+    background-color: var(--paper);
+  }
+}
 @utility grid-ground-ink {
   @apply cells;
   background-color: var(--ink);
@@ -227,7 +238,9 @@
   *::after {
     border-radius: 0 !important;
   }
+  /* the root is ink so Safari's bounce past the footer stays dark; the header paints paper above itself for the top bounce */
   html {
+    background-color: var(--ink);
     @apply scroll-pt-24 font-sans motion-safe:scroll-smooth;
   }
   body {
