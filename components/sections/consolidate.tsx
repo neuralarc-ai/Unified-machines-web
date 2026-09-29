@@ -122,7 +122,7 @@ function MorseWindow() {
 
 export function Consolidate() {
   return (
-    <section id="consolidate" aria-labelledby="cons-title" className="grid-ground-ink mb-18 bg-ink text-paper md:mb-30">
+    <section id="consolidate" aria-labelledby="cons-title" className="grid-ground-ink bg-ink text-paper">
       {/*
         One grid runs under the whole band. The strip and headline are whole cells tall, so the grid's own lines
         frame them; no borders are drawn on top, which would double those lines.
