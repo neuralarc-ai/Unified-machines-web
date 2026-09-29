@@ -4,7 +4,7 @@ export const FR_URL = "https://f-r.co"
 export const navLinks = [
   { href: "#thinking", label: "Our thinking" },
   { href: "#principles", label: "How we build" },
-  { href: "#process", label: "Enterprises" },
+  { href: "#problems", label: "What we fix" },
   { href: "#products", label: "Products" },
   { href: "#partner", label: "Partner" },
 ] as const
@@ -120,24 +120,6 @@ export const principles: {
   },
 ]
 
-export const phases = [
-  {
-    label: "Research",
-    title: "We start inside the work.",
-    body: "Before a line of code, we sit with the people who do the job. We map the handoffs, the workarounds and the spreadsheet nobody admits to, and we write down what a good day would look like.",
-  },
-  {
-    label: "Simplify",
-    title: "We take things away.",
-    body: "Most enterprise software grows by addition. We do the opposite: fewer screens, fewer steps, fewer logins. What remains is the smallest product that covers the whole job, with intelligence handling the parts that never needed a person.",
-  },
-  {
-    label: "Build",
-    title: "We ship something that stays.",
-    body: "A meaningful solution is one your team reaches for without being told to, this year and the year after. We build it with AI in the foundation, keep it under your control, and design it to outlive the model it launched on.",
-  },
-]
-
 export const problems = [
   {
     problem: "The meeting that needs a calendar link, a video app and a notetaker bot.",
@@ -166,23 +148,13 @@ export const tools = [
   "Transcripts", "CRM", "Forms", "Approvals", "Search", "Reports",
 ]
 
-export const commitments = [
-  { title: "Data residency.", body: "Your records live where you decide." },
-  { title: "Model choice.", body: "Which intelligence runs is yours to choose, homegrown models included." },
-  { title: "Access.", body: "Who sees what is set by your rules, at the level you set them." },
-  { title: "Exit.", body: "Take everything with you, any time, in a form you can use." },
-  { title: "Audit.", body: "What the machine did and why, always on the record." },
-]
-
 /**
- * Morse, in its own words (checked against morse-landing's content): the
- * seven jobs it replaces, and one meeting played through the three things it
- * does in it.
+ * Morse, in its own words (checked against morse-landing's content): one
+ * meeting played through the three things it does in it.
  */
 export const morse = {
   meeting: "Weekly product sync",
   startSeconds: 12 * 60 + 4,
-  jobs: ["Video call", "Notetaker", "Recordings", "Transcripts", "In-call assistant", "Whiteboard", "Booking link"],
   scenes: [
     {
       id: "notes",

@@ -1,12 +1,10 @@
 import { Consolidate } from "@/components/sections/consolidate"
-import { Control } from "@/components/sections/control"
 import { Equation } from "@/components/sections/equation"
 import { Faq } from "@/components/sections/faq"
 import { Hero } from "@/components/sections/hero/hero"
 import { Partner } from "@/components/sections/partner"
 import { Principles } from "@/components/sections/principles"
 import { Problems } from "@/components/sections/problems"
-import { Process } from "@/components/sections/process"
 import { Products } from "@/components/sections/products"
 import { SiteFooter } from "@/components/sections/site-footer"
 import { SiteHeader } from "@/components/sections/site-header"
@@ -27,10 +25,8 @@ export default function Home() {
         <Thinking />
         <Equation />
         <Principles />
-        <Process />
         <Problems />
         <Consolidate />
-        <Control />
         <Products />
         <Partner />
         <Faq />
