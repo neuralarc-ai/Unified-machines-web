@@ -27,7 +27,8 @@ type Variant = "morse" | "friday" | "faq" | "footer"
  * next band (Morse → Friday, FAQ → footer) the edge stays solid, so the join
  * doesn't dip.
  */
-const FADE = { side: "180px", end: "160px" }
+// a soft fade: short, and from 35% rather than from nothing
+const FADE = { side: "110px", end: "100px", from: "rgb(0 0 0 / 0.35)" }
 const fadeEnds: Record<Variant, { top: boolean; bottom: boolean }> = {
   morse: { top: true, bottom: false },
   friday: { top: false, bottom: true },
@@ -36,8 +37,9 @@ const fadeEnds: Record<Variant, { top: boolean; bottom: boolean }> = {
 }
 function mask(v: Variant) {
   const { top, bottom } = fadeEnds[v]
-  const sides = `linear-gradient(to right, transparent, #000 ${FADE.side}, #000 calc(100% - ${FADE.side}), transparent)`
-  const ends = `linear-gradient(to bottom, ${top ? `transparent, #000 ${FADE.end}` : "#000, #000"}, ${bottom ? `#000 calc(100% - ${FADE.end}), transparent` : "#000, #000"})`
+  const { side, end, from } = FADE
+  const sides = `linear-gradient(to right, ${from}, #000 ${side}, #000 calc(100% - ${side}), ${from})`
+  const ends = `linear-gradient(to bottom, ${top ? `${from}, #000 ${end}` : "#000, #000"}, ${bottom ? `#000 calc(100% - ${end}), ${from}` : "#000, #000"})`
   return { maskImage: `${sides}, ${ends}`, maskComposite: "intersect", WebkitMaskComposite: "source-in" } as const
 }
 
@@ -73,17 +75,12 @@ function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k
         ],
         [flat(top + (H - top) * 0.55), [x, top + (H - top) * 0.55], [x, H + OUT]],
       ]
-    // in from the edge beside the heading, then down into the footer
+    // the closing loop, part 1: in from the edge beside the heading, then down into the footer
     case "faq":
-      return [[flat(H * 0.42), [x, H * 0.42], [x, H + OUT]]]
-    // on down from the FAQ, behind the colour blocks
+      return [[flat(H * 0.3), [x, H * 0.3], [x, H + OUT]]]
+    // part 2: on down from the FAQ, then back out to the same edge, clear of the colour blocks
     case "footer":
-      return [
-        [
-          [x, -OUT],
-          [x, H + OUT],
-        ],
-      ]
+      return [[[x, -OUT], [x, H * 0.3], flat(H * 0.3)]]
   }
 }
 
@@ -91,8 +88,8 @@ function leftBundles(v: Variant, W: number, H: number, x: number, top: number, k
 const rightShift: Record<Variant, (H: number, k: number) => number> = {
   morse: (_, k) => 40 * k,
   friday: (_, k) => -60 * k,
-  faq: (H) => -0.18 * H,
-  footer: () => 0,
+  faq: (H) => 0.32 * H, // the right loop comes in lower beside the questions...
+  footer: (H) => -0.12 * H, // ...and turns back out a little sooner
 }
 
 function bundles(v: Variant, W: number, H: number, e: number, k: number): Bundle[] {
