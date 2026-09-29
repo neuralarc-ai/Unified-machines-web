@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 /**
  * The contour system (2026-09-29): bundles of 8 ultra-thin parallel lines,
- * 20px apart, that come in from the side edge, run flat, take large smooth
+ * 26px apart, that come in from the side edge, run flat, take large smooth
  * 90° turns down the margin and slide under the content. Each bundle is one
  * centre path with rounded corners; every line is its exact parallel offset
  * (arcs of radius R ± offset), so the spacing never pinches in a curve. Every
@@ -21,9 +21,29 @@ type Pt = [number, number]
 type Bundle = Pt[]
 type Variant = "morse" | "friday" | "faq" | "footer"
 
+/*
+ * Lines fade in from the side edges they enter by, and at a band's top or
+ * bottom where the system starts or stops; where a bundle carries on into the
+ * next band (Morse → Friday, FAQ → footer) the edge stays solid, so the join
+ * doesn't dip.
+ */
+const FADE = { side: "180px", end: "160px" }
+const fadeEnds: Record<Variant, { top: boolean; bottom: boolean }> = {
+  morse: { top: true, bottom: false },
+  friday: { top: false, bottom: true },
+  faq: { top: true, bottom: false },
+  footer: { top: false, bottom: true },
+}
+function mask(v: Variant) {
+  const { top, bottom } = fadeEnds[v]
+  const sides = `linear-gradient(to right, transparent, #000 ${FADE.side}, #000 calc(100% - ${FADE.side}), transparent)`
+  const ends = `linear-gradient(to bottom, ${top ? `transparent, #000 ${FADE.end}` : "#000, #000"}, ${bottom ? `#000 calc(100% - ${FADE.end}), transparent` : "#000, #000"})`
+  return { maskImage: `${sides}, ${ends}`, maskComposite: "intersect", WebkitMaskComposite: "source-in" } as const
+}
+
 const LINES = 8
-const GAP = 20
-const RADIUS = 130 // centre-line corner radius: inner line 60, outer 200
+const GAP = 26
+const RADIUS = 150 // centre-line corner radius: inner line 59, outer 241
 const OUT = 160 // how far bundles start beyond the band's edges
 
 /**
@@ -146,6 +166,7 @@ export function Contours({ variant, className }: { variant: Variant; className?:
     <svg
       ref={ref}
       aria-hidden
+      style={mask(variant)}
       className={cn("pointer-events-none absolute inset-0 size-full text-paper/[0.1] max-md:hidden", className)}
     >
       <g fill="none" stroke="currentColor" strokeWidth={1}>
